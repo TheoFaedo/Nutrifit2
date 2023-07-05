@@ -12,6 +12,16 @@ use app\models\User;
 
 class UserTest extends TestCase {
 
+    protected $userSaved;
+
+
+    protected function tearDown(): void {
+        if($this->userSaved != null){
+            $this->userSaved->delete();
+        }
+    }
+
+
     /**
      * @dataProvider dataProviderExist
      */
@@ -19,11 +29,11 @@ class UserTest extends TestCase {
     {
         DBConnection::creerConnectionTest();
 
-        $userSaved = new User();
-        $userSaved->idUser = 9999999;
-        $userSaved->pseudo = 'test';
-        $userSaved->mail = 'test';
-        $userSaved->save();
+        $this->userSaved = new User();
+        $this->userSaved->idUser = 9999999;
+        $this->userSaved->pseudo = 'test';
+        $this->userSaved->mail = 'test';
+        $this->userSaved->save();
 
         $user = new User();
         $user->idUser = $param['idUser'];
@@ -32,7 +42,7 @@ class UserTest extends TestCase {
 
         $this->assertTrue($user->exist());
 
-        $userSaved->delete();
+        $this->userSaved->delete();
 
         $this->assertFalse($user->exist());
     }
@@ -40,14 +50,14 @@ class UserTest extends TestCase {
     public function testAuthentication(){
         DBConnection::creerConnectionTest();
 
-        $user = new User();
-        $user->idUser = 9999999;
-        $user->pseudo = 'test';
-        $user->mail = 'test';
-        $user->pwdhash = password_hash('test', PASSWORD_DEFAULT);
-        $user->save();
+        $this->userSaved = new User();
+        $this->userSaved->idUser = 9999999;
+        $this->userSaved->pseudo = 'test';
+        $this->userSaved->mail = 'test';
+        $this->userSaved->pwdhash = password_hash('test', PASSWORD_DEFAULT);
+        $this->userSaved->save();
 
-        $this->assertTrue(User::authenticate($pseudo, $password) == $user);
+        $this->assertEquals(User::authenticate('test', 'test')->idUser, $this->userSaved->idUser);
     }
 
 
@@ -60,13 +70,13 @@ class UserTest extends TestCase {
     public static function dataProviderExist()
     {
         return [
-            [['idUser' => null, 'pseudo' => null, 'mail' => 'test3']],
-            [['idUser' => null, 'pseudo' => 'test3', 'mail' => null]],
-            [['idUser' => null, 'pseudo' => 'test3', 'mail' => 'test3']],      
+            [['idUser' => null, 'pseudo' => null, 'mail' => 'test']],
+            [['idUser' => null, 'pseudo' => 'test', 'mail' => null]],
+            [['idUser' => null, 'pseudo' => 'test', 'mail' => 'test']],      
             [['idUser' => 9999999, 'pseudo' => null, 'mail' => null]],
-            [['idUser' => 9999999, 'pseudo' => null, 'mail' => 'test3']],
-            [['idUser' => 9999999, 'pseudo' => 'test3', 'mail' => null]],
-            [['idUser' => 9999999, 'pseudo' => 'test3', 'mail' => 'test3']] 
+            [['idUser' => 9999999, 'pseudo' => null, 'mail' => 'test']],
+            [['idUser' => 9999999, 'pseudo' => 'test', 'mail' => null]],
+            [['idUser' => 9999999, 'pseudo' => 'test', 'mail' => 'test']] 
         ];
     }
 

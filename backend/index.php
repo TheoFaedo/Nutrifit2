@@ -1,82 +1,31 @@
 <?php
 
-require 'vendor/autoload.php';
-
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use DI\Container;
+use Slim\Factory\AppFactory;
 
 use app\models\User;
 
 use app\helpers\DBConnection;
 
-start_session();
+session_start();
 
-$c = new \Slim\Container(['settings'=>['displayErrorDetails'=>true]]);
-$app = new \Slim\App($c);
+require __DIR__ . '/vendor/autoload.php';
 
-$app->get('/connect[/]', function( $rq, $rs, $args ) {
-    DBConnection::creerConnection();
+$container = new Container();
 
-    $user = new User();
-    $user->pseudo = "testjghjg";
-    $user->idUser = 12;
-    $user->mail = "zskjhgjgffgsdf";
+DBConnection::creerConnection();
 
-    return $user->exist()."";
-});
+$settings = require __DIR__ . '/src/settings/settings.php';
+$settings($container);
 
-$app->post('/register[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
+AppFactory::setContainer($container);
+$app = AppFactory::create();
 
-$app->get('/consumables[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
+$middleware = require __DIR__ . '/src/settings/middleware.php';
+$middleware($app);
 
-$app->get('/consumables/{id_user}[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->get('/consumable/{id_consumable}[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->get('/dailyconsumption[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->get('/nutrionalgoal[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->post('/consume/{id_consumable}[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->put('/changenutrionalgoal/{id_user}[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->post('/addconsumable[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->put('/changeconsumable/{id_consumable}[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->get('/consuptionondate/{date}[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->delete('/removeconsumable/{id_consumable}[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
-$app->delete('/removeconsumption/{id_consumption}[/]', function( $rq, $rs, $args ) {
-    return "must be written";
-});
-
+$routes = require __DIR__ . '/src/settings/routes.php';
+$routes($app);
 
 //RUN
 $app->run();

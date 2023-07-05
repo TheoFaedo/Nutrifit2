@@ -27,7 +27,14 @@ class User extends \Illuminate\Database\Eloquent\Model{
      * @return User object if authentication concrated, null otherwise
      */
     public static function authenticate($pseudo, $password){
+        $user = User::where('pseudo', '=', $pseudo)->first();
+        if(!$user) return null;
         
+        if(password_verify($password, $user->pwdhash)){
+            return $user;
+        }
+
+        return null;
     }
 
 }

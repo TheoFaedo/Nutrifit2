@@ -13,6 +13,6 @@ class Controller {
     }
 
     public function perform($rq, $rs, $args){
-        return $rs->getBody()->write("Server Error");
+        return $rs->withJson(['error' => "Internal Server Error"], 500);
     }
 }
