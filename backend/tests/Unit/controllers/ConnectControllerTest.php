@@ -39,8 +39,6 @@ class ConnectControllerTest extends TestCase
 
     public function test()
     {
-        echo "------- BASE PATH ---------- " . $this->app->getBasePath();
-
         $this->userSaved = new User();
         $this->userSaved->pseudo = "test";
         $this->userSaved->mail = "test";

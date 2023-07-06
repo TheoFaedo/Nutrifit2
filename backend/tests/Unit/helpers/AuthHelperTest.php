@@ -12,8 +12,12 @@ use app\helpers\AuthHelper;
 
 use app\models\User;
 
+use tests\Traits\AppTestTrait;
+
 class AuthHelperTest extends TestCase
 {
+
+    use AppTestTrait;
     
     protected $userSaved;
 

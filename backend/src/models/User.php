@@ -37,4 +37,12 @@ class User extends \Illuminate\Database\Eloquent\Model{
         return null;
     }
 
+    /** 
+     * @param $information : information of user to register
+     * @return boolean true if registered, false otherwise
+    */
+    public static function register($information){
+        return true;
+    } 
+
 }
