@@ -14,6 +14,8 @@ use App\Helpers\DBConnection;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+session_start();
+
 DBConnection::creerConnection();
 
 // Instantiate PHP-DI ContainerBuilder

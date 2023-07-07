@@ -9,20 +9,26 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
+//Controllers
+use App\Controllers\ConnectController;
+
 return function (App $app) {
-    $app->options('/{routes:.*}', function (Request $request, Response $response) {
+
+    $c = $app->getContainer();
+
+    $app->options('/{routes:.*}', function (Request $request, Response $response, $args) {
         // CORS Pre-Flight OPTIONS Request Handler
         return $response;
     });
 
-    $app->get('/', function (Request $request, Response $response) {
+    $app->get('/', function (Request $request, Response $response, $args) {
         $response->getBody()->write('Hello world!');
         return $response;
     });
 
-    $app->post('/posttest', function (Request $request, Response $response) {
-        $response->getBody()->write($request->getParsedBody()['mail']);
+    $app->get('/connect', function (Request $request, Response $response, $args) {
+        $controller = new ConnectController();
 
-        return $response;
+        return $controller->__invoke($request, $response, $args);
     });
 };
