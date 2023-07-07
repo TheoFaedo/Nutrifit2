@@ -19,21 +19,30 @@ class RegisterController extends Controller{
      */
     public function __invoke(Request $rq, Response $rs, $args){
 
-        $input = $rq->getParsedBody();
+        if(AuthHelper::authentified()){
+            $input = $rq->getParsedBody();
 
-        $user = User::register($input);
+            $user = User::register($input);
 
-        if(is_array($user)){
-            $res = $user;
+            if(is_array($user)){
+                $res = $user;
+                
+                $rs->getBody()->write(json_encode(["errors" => $res], TRUE));
+                $rs= $rs->withStatus(400);
+                return $rs->withHeader('Content-Type', 'application/json');
+            }else{
+                $res = ['success' => true];
+                
+                $rs->getBody()->write(json_encode($res));
+                $rs = $rs->withStatus(200);
+                return $rs->withHeader('Content-Type', 'application/json');
+            }
             
-            $rs->getBody()->write(json_encode(["errors" => $res], TRUE));
-            $rs= $rs->withStatus(400);
-            return $rs->withHeader('Content-Type', 'application/json');
         }else{
-            $res = ['success' => true];
+            $res = ['error' => "Not authenticated"];
             
             $rs->getBody()->write(json_encode($res));
-            $rs = $rs->withStatus(200);
+            $rs = $rs->withStatus(401);
             return $rs->withHeader('Content-Type', 'application/json');
         }
     }

@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 require __DIR__ . '/../../vendor/autoload.php';
 
 class ConnectController extends Controller{
-    
+
     /**
      * Authenticate the user
      * @return Result json with sucess value, json with error message if error
@@ -33,7 +33,7 @@ class ConnectController extends Controller{
         $pseudo = $params['pseudo'];
         $password = $params['password'];
 
-        if(AuthHelper::authenticate($pseudo, $password)){
+        if(AuthHelper::authentify($pseudo, $password)){
             $res = ['success' => true];
 
             $rs->getBody()->write(json_encode($res));

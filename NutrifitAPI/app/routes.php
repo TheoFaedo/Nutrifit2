@@ -12,6 +12,8 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 //Controllers
 use App\Controllers\ConnectController;
 use App\Controllers\RegisterController;
+use App\Controllers\PublicConsumablesController;
+use App\Controllers\ConsumablesOfAuthorController;
 
 return function (App $app) {
 
@@ -27,15 +29,33 @@ return function (App $app) {
         return $response;
     });
 
-    $app->get('/connect', function (Request $request, Response $response, $args) {
+    $app->get('/connect[/]', function (Request $request, Response $response, $args) {
         $controller = new ConnectController();
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->post('/register', function (Request $request, Response $response, $args) {
+    $app->post('/register[/]', function (Request $request, Response $response, $args) {
         $controller = new RegisterController();
 
         return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->group('/consumables', function (Group $group) {
+
+        // Get all consumables who are public
+        $group->get('/', function ($request, $response, array $args) {
+            $controller = new PublicConsumablesController();
+
+            return $controller->__invoke($request, $response, $args);
+        });
+
+        // Get all consumables created by the specified user
+        $group->get('/{author_id:[0-9]+}[/]', function ($request, $response, array $args) {
+
+            $controller = new ConsumablesOfAuthorController();
+
+            return $controller->__invoke($request, $response, $args);
+        });
     });
 };
