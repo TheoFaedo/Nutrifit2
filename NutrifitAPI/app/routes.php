@@ -11,6 +11,7 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 //Controllers
 use App\Controllers\ConnectController;
+use App\Controllers\DisconnectController;
 use App\Controllers\RegisterController;
 use App\Controllers\PublicConsumablesController;
 use App\Controllers\ConsumablesOfAuthorController;
@@ -31,6 +32,12 @@ return function (App $app) {
 
     $app->get('/connect[/]', function (Request $request, Response $response, $args) {
         $controller = new ConnectController();
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->get('/disconnect[/]', function (Request $request, Response $response, $args) {
+        $controller = new DisconnectController();
 
         return $controller->__invoke($request, $response, $args);
     });
