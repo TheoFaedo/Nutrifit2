@@ -11,6 +11,7 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 //Controllers
 use App\Controllers\ConnectController;
+use App\Controllers\RegisterController;
 
 return function (App $app) {
 
@@ -28,6 +29,12 @@ return function (App $app) {
 
     $app->get('/connect', function (Request $request, Response $response, $args) {
         $controller = new ConnectController();
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->post('/register', function (Request $request, Response $response, $args) {
+        $controller = new RegisterController();
 
         return $controller->__invoke($request, $response, $args);
     });

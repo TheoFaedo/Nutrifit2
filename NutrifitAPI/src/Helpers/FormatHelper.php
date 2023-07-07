@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use app\models\User;
+use App\Models\User;
 
 class FormatHelper{
 

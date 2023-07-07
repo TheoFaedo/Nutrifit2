@@ -4,7 +4,7 @@ namespace App\Models;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-use app\helpers\FormatHelper;
+use App\Helpers\FormatHelper;
 
 class User extends \Illuminate\Database\Eloquent\Model{
 
