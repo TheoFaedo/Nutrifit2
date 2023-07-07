@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 //Models
-use App\Models\Consumables;
+use App\Models\Consumable;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -26,7 +26,7 @@ class PublicConsumablesController extends Controller{
         
 
         if(AuthHelper::authentified()){
-            $publicConsumables = Consumables::where('public', 1);
+            $publicConsumables = Consumable::where('public', 1);
 
             if(isset($params['q'])){
                 if(strlen($params['q']) >= 3){
