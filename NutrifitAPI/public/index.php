@@ -10,7 +10,11 @@ use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
+use App\Helpers\DBConnection;
+
 require __DIR__ . '/../vendor/autoload.php';
+
+DBConnection::creerConnection();
 
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();

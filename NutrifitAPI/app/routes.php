@@ -21,12 +21,8 @@ return function (App $app) {
     });
 
     $app->post('/posttest', function (Request $request, Response $response) {
-        $response->getBody()->write($request->getParsedBody());
-        return $response;
-    });
+        $response->getBody()->write($request->getParsedBody()['mail']);
 
-    $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
-        $group->get('/{id}', ViewUserAction::class);
+        return $response;
     });
 };
