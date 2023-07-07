@@ -15,6 +15,7 @@ use App\Controllers\DisconnectController;
 use App\Controllers\RegisterController;
 use App\Controllers\PublicConsumablesController;
 use App\Controllers\ConsumablesOfAuthorController;
+use App\Controllers\ConsumableByIdController;
 
 return function (App $app) {
 
@@ -64,5 +65,11 @@ return function (App $app) {
 
             return $controller->__invoke($request, $response, $args);
         });
+    });
+
+    $app->get('/consumable/{id:[0-9]+}[/]', function (Request $request, Response $response, $args) {
+        $controller = new ConsumableByIdController();
+
+        return $controller->__invoke($request, $response, $args);
     });
 };
