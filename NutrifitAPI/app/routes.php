@@ -20,6 +20,7 @@ use App\Controllers\DailyConsumptionController;
 use App\Controllers\NutritionalGoalController;
 use App\Controllers\ConsumeController;
 use App\Controllers\ChangeNutritionalGoalController;
+use App\Controllers\AddConsumableController;
 
 return function (App $app) {
 
@@ -97,6 +98,12 @@ return function (App $app) {
 
     $app->put('/changenutritionalgoal[/]', function (Request $request, Response $response, $args) {
         $controller = new ChangeNutritionalGoalController();
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->post('/addconsumable[/]', function (Request $request, Response $response, $args) {
+        $controller = new AddConsumableController();
 
         return $controller->__invoke($request, $response, $args);
     });
