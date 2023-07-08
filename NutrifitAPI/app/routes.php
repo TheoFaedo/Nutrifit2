@@ -18,6 +18,7 @@ use App\Controllers\ConsumablesOfAuthorController;
 use App\Controllers\ConsumableByIdController;
 use App\Controllers\DailyConsumptionController;
 use App\Controllers\NutritionalGoalController;
+use App\Controllers\ConsumeController;
 
 return function (App $app) {
 
@@ -83,6 +84,12 @@ return function (App $app) {
 
     $app->get('/nutritionalgoal[/]', function (Request $request, Response $response, $args) {
         $controller = new NutritionalGoalController();
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->post('/consume[/]', function (Request $request, Response $response, $args) {
+        $controller = new ConsumeController();
 
         return $controller->__invoke($request, $response, $args);
     });
