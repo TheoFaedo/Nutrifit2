@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-class DailyConsumptionController extends Controller{
+class ConsumptionAtDateController extends Controller{
 
     /**
      * Authenticate the user
@@ -22,13 +22,15 @@ class DailyConsumptionController extends Controller{
     public function __invoke(Request $rq, Response $rs, $args){
         $res = [];
 
+        $params = $rq->getQueryParams();
+
         if(AuthHelper::authentified()){
             $idUser = AuthHelper::getIdUserAuthentified();
 
             $date = date('Y-m-d');
-            $consumptionToday = Consumption::whereDate('consumed_on', '=', $date)->where('idUser', $idUser)->get();
+            $consumptionAtDay = Consumption::whereDate('consumed_on', '=', $params['date'])->where('idUser', $idUser)->get();
             
-            foreach($consumptionToday as $consumption){
+            foreach($consumptionAtDay as $consumption){
                 $res[$consumption->idConsumption] = $consumption;
             }
 

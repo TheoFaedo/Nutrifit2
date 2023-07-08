@@ -22,6 +22,7 @@ use App\Controllers\ConsumeController;
 use App\Controllers\ChangeNutritionalGoalController;
 use App\Controllers\AddConsumableController;
 use App\Controllers\ChangeConsumableController;
+use App\Controllers\ConsumptionAtDateController;
 
 return function (App $app) {
 
@@ -111,6 +112,12 @@ return function (App $app) {
 
     $app->put('/changeconsumable/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) {
         $controller = new ChangeConsumableController();
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->get('/consumptionatdate[/]', function (Request $request, Response $response, $args) {
+        $controller = new ConsumptionAtDateController();
 
         return $controller->__invoke($request, $response, $args);
     });
