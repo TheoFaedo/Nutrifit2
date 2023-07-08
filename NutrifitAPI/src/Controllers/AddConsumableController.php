@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 //Models
-use App\Models\Consumption;
 use App\Models\Consumable;
 use App\Models\RecipeComposition;
 
