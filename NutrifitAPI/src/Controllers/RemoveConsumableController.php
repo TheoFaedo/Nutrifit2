@@ -6,14 +6,14 @@ use App\Helpers\AuthHelper;
 
 use App\Controllers\Controller;
 
-use App\Models\Consumption;
+use App\Models\Consumable;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-class RemoveConsumptionController extends Controller{
+class RemoveConsumableController extends Controller{
 
     /**
      * Authenticate the user
@@ -25,15 +25,16 @@ class RemoveConsumptionController extends Controller{
         if(AuthHelper::authentified()){
             $idUser = AuthHelper::getIdUserAuthentified();
 
-            $consumption = Consumption::where('idConsumption', $args['id_cons'])->where('idUser', $idUser)->first();
+            $consumable = Consumable::where('idConsumable', $args['id_cons'])->where('author', $idUser)->first();
 
-            if($consumption !== null){
-                $consumption->delete();
+            if($consumable !== null){
+                $consumable->deleteAllRecipeIngredients();
+                $consumable->delete();
 
                 $res['success'] = true;
                 $rs= $rs->withStatus(200);
             }else{
-                $res['error'] = "Consumption not found or user not authorized";
+                $res['error'] = "Consumable not found or user not authorized";
                 $rs= $rs->withStatus(401);
             }
         }else{
@@ -46,4 +47,5 @@ class RemoveConsumptionController extends Controller{
         return $rs->withHeader('Content-Type', 'application/json');
     }
 
+    
 }

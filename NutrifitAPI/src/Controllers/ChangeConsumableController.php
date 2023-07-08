@@ -34,9 +34,8 @@ class ChangeConsumableController extends Controller{
 
                 $user = AuthHelper::getIdUserAuthentified();
 
-                self::deleteAllRecipeIngredients($args['id_cons']);
-
                 $consumable = Consumable::where('idConsumable', $args['id_cons'])->first();
+                $consumable->deleteAllRecipeIngredients();
 
                 if($consumable->author == $user){
                     $consumable->name = $params['name'];
@@ -132,20 +131,6 @@ class ChangeConsumableController extends Controller{
         $rs= $rs->withStatus(400);
         $rs->getBody()->write(json_encode($res));
         return $rs->withHeader('Content-Type', 'application/json');
-    }
-
-    /**
-     * Deletes all recipe ingredients for a given ID.
-     *
-     * @param int $id The ID of the recipe.
-     * @throws \Exception If there is an error deleting the recipe ingredients.
-     * @return void
-     */
-    private static function deleteAllRecipeIngredients($id){
-        $recipeIngredients = RecipeComposition::where('idRecipe', $id)->get();
-        foreach ($recipeIngredients as $recipeIngredient) {
-            $recipeIngredient->delete();
-        }
     }
 
 }

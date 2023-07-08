@@ -24,6 +24,7 @@ use App\Controllers\AddConsumableController;
 use App\Controllers\ChangeConsumableController;
 use App\Controllers\ConsumptionAtDateController;
 use App\Controllers\RemoveConsumptionController;
+use App\Controllers\RemoveConsumableController;
 
 return function (App $app) {
 
@@ -125,6 +126,12 @@ return function (App $app) {
 
     $app->delete('/removeconsumption/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) {
         $controller = new RemoveConsumptionController();
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->delete('/removeconsumable/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) {
+        $controller = new RemoveConsumableController();
 
         return $controller->__invoke($request, $response, $args);
     });
