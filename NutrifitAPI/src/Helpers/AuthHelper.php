@@ -30,6 +30,19 @@ class AuthHelper{
         return -1;
     }
 
+ 
+    /**
+     * Get the authenticated user.
+     *
+     * @return User|false The authenticated user or false if not authenticated.
+     */
+    public static function getUserAuthentified(){
+        if(AuthHelper::authentified()){
+            return User::find(AuthHelper::getIdUserAuthentified());
+        }
+        return false;
+    }
+
     /**
      * Checks if a user is connected.
      * @return bool True if a user is connected, false otherwise.
