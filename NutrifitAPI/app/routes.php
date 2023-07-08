@@ -23,6 +23,7 @@ use App\Controllers\ChangeNutritionalGoalController;
 use App\Controllers\AddConsumableController;
 use App\Controllers\ChangeConsumableController;
 use App\Controllers\ConsumptionAtDateController;
+use App\Controllers\RemoveConsumptionController;
 
 return function (App $app) {
 
@@ -118,6 +119,12 @@ return function (App $app) {
 
     $app->get('/consumptionatdate[/]', function (Request $request, Response $response, $args) {
         $controller = new ConsumptionAtDateController();
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->delete('/removeconsumption/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) {
+        $controller = new RemoveConsumptionController();
 
         return $controller->__invoke($request, $response, $args);
     });
