@@ -23,9 +23,9 @@ class PublicConsumablesController extends Controller{
     public function __invoke(Request $rq, Response $rs, $args){
         $params = $rq->getQueryParams();
 
-        
+        $authhelper = new AuthHelper();
 
-        if(AuthHelper::authentified()){
+        if($authhelper->authentified()){
             $publicConsumables = Consumable::where('public', 1);
 
             if(isset($params['q'])){

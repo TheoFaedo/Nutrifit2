@@ -22,8 +22,10 @@ class RemoveConsumableController extends Controller{
     public function __invoke(Request $rq, Response $rs, $args){
         $res = [];
 
-        if(AuthHelper::authentified()){
-            $idUser = AuthHelper::getIdUserAuthentified();
+        $authhelper = new AuthHelper();
+
+        if($authhelper->authentified()){
+            $idUser = $authhelper->getIdUserAuthentified();
 
             $consumable = Consumable::where('idConsumable', $args['id_cons'])->where('author', $idUser)->first();
 

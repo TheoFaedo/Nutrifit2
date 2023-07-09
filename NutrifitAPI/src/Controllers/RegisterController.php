@@ -18,8 +18,9 @@ class RegisterController extends Controller{
      * @return Result json with sucess value, json with error message if error
      */
     public function __invoke(Request $rq, Response $rs, $args){
+        $authhelper = new AuthHelper();
 
-        if(AuthHelper::authentified()){
+        if($authhelper->authentified()){
             $input = $rq->getParsedBody();
 
             $user = User::register($input);

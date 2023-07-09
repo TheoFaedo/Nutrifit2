@@ -26,13 +26,15 @@ class ChangeConsumableController extends Controller{
 
         $res = [];
 
-        if(AuthHelper::authentified()){
+        $authhelper = new AuthHelper();
+
+        if($authhelper->authentified()){
             if(isset($params['name']) && isset($params['energy']) 
             && isset($params['fats']) && isset($params['carbohydrates']) 
             && isset($params['proteins']) && isset($params['quantity_label'])
             && isset($params['public']) && isset($params['type'])){
 
-                $user = AuthHelper::getIdUserAuthentified();
+                $user = $authhelper->getIdUserAuthentified();
 
                 $consumable = Consumable::where('idConsumable', $args['id_cons'])->first();
                 $consumable->deleteAllRecipeIngredients();

@@ -24,8 +24,10 @@ class NutritionalGoalController extends Controller{
 
         $res = [];
 
-        if(AuthHelper::authentified()){
-            $user = User::find(AuthHelper::getIdUserAuthentified());
+        $authhelper = new AuthHelper();
+
+        if($authhelper->authentified()){
+            $user = User::find($authhelper->getIdUserAuthentified());
 
             $res['idUser'] = $user->idUser;
             $res['energy_goal'] = $user->energy_goal;

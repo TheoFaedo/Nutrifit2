@@ -24,8 +24,10 @@ class ConsumptionAtDateController extends Controller{
 
         $params = $rq->getQueryParams();
 
-        if(AuthHelper::authentified()){
-            $idUser = AuthHelper::getIdUserAuthentified();
+        $authhelper = new AuthHelper();
+
+        if($authhelper->authentified()){
+            $idUser = $authhelper->getIdUserAuthentified();
 
             $date = date('Y-m-d');
             $consumptionAtDay = Consumption::whereDate('consumed_on', '=', $params['date'])->where('idUser', $idUser)->get();

@@ -25,9 +25,11 @@ class ConsumeController extends Controller{
 
         $res = [];
 
-        if(AuthHelper::authentified()){
+        $authhelper = new AuthHelper();
+
+        if($authhelper->authentified()){
             if(isset($params['idConsumable']) && isset($params['proportion'])){
-                $user = AuthHelper::getIdUserAuthentified();
+                $user = $authhelper->getIdUserAuthentified();
 
                 $consumption = new Consumption();
                 $consumption->idUser = $user;

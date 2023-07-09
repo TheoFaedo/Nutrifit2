@@ -22,6 +22,8 @@ class ConnectController extends Controller{
 
         $res = [];
 
+        $authhelper = new AuthHelper();
+        
         if(!isset($params['pseudo']) || !isset($params['password'])){
             $res = ['error' => "need identifiers"];
             
@@ -33,7 +35,7 @@ class ConnectController extends Controller{
         $pseudo = $params['pseudo'];
         $password = $params['password'];
 
-        if(AuthHelper::authentify($pseudo, $password)){
+        if($authhelper->authentify($pseudo, $password)){
             $res = ['success' => true];
 
             $rs->getBody()->write(json_encode($res));

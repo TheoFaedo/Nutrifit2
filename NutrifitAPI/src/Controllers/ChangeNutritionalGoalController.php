@@ -25,10 +25,12 @@ class ChangeNutritionalGoalController extends Controller{
 
         $res = [];
 
-        if(AuthHelper::authentified()){
+        $authhelper = new AuthHelper();
+
+        if($authhelper->authentified()){
             if(isset($params['energy_goal']) && isset($params['proteins_goal']) 
             && isset($params['carbohydrates_goal']) && isset($params['fats_goal'])){
-                $user = AuthHelper::getUserAuthentified();
+                $user = $authhelper->getUserAuthentified();
 
                 $user->energy_goal = $params['energy_goal'];
                 $user->proteins_goal = $params['proteins_goal'];

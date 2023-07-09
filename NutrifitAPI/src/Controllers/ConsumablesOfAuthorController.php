@@ -21,7 +21,10 @@ class ConsumablesOfAuthorController extends Controller{
      * @return Result json with sucess value, json with error message if error
      */
     public function __invoke(Request $rq, Response $rs, $args){
-        if(AuthHelper::authentified()){
+
+        $authhelper = new AuthHelper();
+
+        if($authhelper->authentified()){
             $consumables = Consumables::where('author', $args['author_id'])->get();
 
             $res['consumables'] = $consumables;

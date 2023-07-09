@@ -18,7 +18,9 @@ class DisconnectController extends Controller{
      * @return Result json with sucess value, json with error message if error
      */
     public function __invoke(Request $rq, Response $rs, $args){
-        if(!AuthHelper::authentified()){
+        $authhelper = new AuthHelper();
+
+        if(!$authhelper->authentified()){
             $res['error'] = "Not authenticated";
 
             $rs->getBody()->write(json_encode($res));
@@ -26,7 +28,7 @@ class DisconnectController extends Controller{
             return $rs->withHeader('Content-Type', 'application/json');
         }
 
-        AuthHelper::logout();
+        $authhelper->logout();
 
         $res['success'] = true;
         $rs->getBody()->write(json_encode($res));

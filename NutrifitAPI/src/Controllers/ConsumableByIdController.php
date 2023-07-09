@@ -21,10 +21,13 @@ class ConsumableByIdController extends Controller{
      * @return Result json with sucess value, json with error message if error
      */
     public function __invoke(Request $rq, Response $rs, $args){
-        if(AuthHelper::authentified()){
+
+        $authhelper = new AuthHelper();
+
+        if($authhelper->authentified()){
             $consumable = Consumable::where('idConsumable', $args['id'])->first();
 
-            $idUser = AuthHelper::getIdUserAuthentified();
+            $idUser = $authhelper->getIdUserAuthentified();
 
             if($idUser !== $consumable->author){
                 $res['error'] = "Not authorized";

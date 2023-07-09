@@ -49,17 +49,17 @@ class User extends \Illuminate\Database\Eloquent\Model{
     /**
      * @param $pseudo : pseudo to authenticate
      * @param $password : password of the user to authenticate
-     * @return User object if authentication concrated, null otherwise
+     * @return User|false object if authentication concrated, false otherwise
      */
     public static function authentify($pseudo, $password){
         $user = User::where('pseudo', '=', $pseudo)->first();
-        if(!$user) return null;
+        if(!$user) return false;
         
         if(password_verify($password, $user->pwdhash)){
             return $user;
         }
 
-        return null;
+        return false;
     }
 
     /** 
