@@ -40,7 +40,7 @@ class AuthHelperTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testGetIdUserAuthentified()
+    public function testGetIdUserAuthentifiedIfAuthentified()
     {
         $sessionMock = $this->createMock(Session::class);
         $sessionMock->expects($this->once())
@@ -59,7 +59,26 @@ class AuthHelperTest extends TestCase
         $this->assertSame(1, $result);
     }
 
-    public function testGetUserAuthentified(){
+    public function testGetIdUserAuthentifiedIfNotAuthentified()
+    {
+        $sessionMock = $this->createMock(Session::class);
+        $sessionMock->expects($this->any())
+            ->method('has')
+            ->with('user')
+            ->willReturn(false);
+        $sessionMock->expects($this->any())
+            ->method('getItem')
+            ->with('user')
+            ->willReturn(['idUser' => 1]);
+
+        $authHelper = new AuthHelper($sessionMock);
+
+        $result = $authHelper->getIdUserAuthentified();
+
+        $this->assertSame(-1, $result);
+    }
+
+    public function testGetUserAuthentifiedIfAuthentified(){
 
         $userMock = $this->createMock(User::class);
 
@@ -86,7 +105,30 @@ class AuthHelperTest extends TestCase
         $this->assertEquals($userMock, $result);
     }
 
-    public function testAuthentified()
+    public function testGetUserAuthentifiedIfNotAuthentified(){
+
+        $userMock = $this->createMock(User::class);
+
+        $sessionMock = $this->createMock(Session::class);
+        $sessionMock->expects($this->any())
+        ->method('has')
+        ->with('user')
+        ->willReturn(false);
+
+        $staticExecutoMock = $this->createMock(StaticExecutor::class);
+        $staticExecutoMock->expects($this->any())
+        ->method('execute')
+        ->with('App\Models\User', 'find', 1)
+        ->willReturn($userMock);
+
+        $authHelper = new AuthHelper($sessionMock, $staticExecutoMock);
+
+        $result = $authHelper->getUserAuthentified();
+
+        $this->assertFalse($result);
+    }
+
+    public function testAuthentifiedIfAuthentified()
     {
         $sessionMock = $this->createMock(Session::class);
         $sessionMock->expects($this->once())
@@ -101,15 +143,34 @@ class AuthHelperTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testLogout()
+    public function testAuthentifiedIfNotAuthentified()
     {
         $sessionMock = $this->createMock(Session::class);
         $sessionMock->expects($this->once())
+            ->method('has')
+            ->with('user')
+            ->willReturn(false);
+
+        $authHelper = new AuthHelper($sessionMock);
+
+        $result = $authHelper->authentified();
+
+        $this->assertFalse($result);
+    }
+
+    public function testLogoutIfAuthentified()
+    {
+        $sessionMock = $this->createMock(Session::class);
+        $sessionMock->expects($this->any())
             ->method('unset')
             ->with('user')
             ->willReturnSelf();
-        $sessionMock->expects($this->once())
+        $sessionMock->expects($this->any())
             ->method('end');
+        $sessionMock->expects($this->any())
+            ->method('has')
+            ->with('user')
+            ->willReturn(true);
 
         $authHelper = new AuthHelper($sessionMock);
 
@@ -117,4 +178,24 @@ class AuthHelperTest extends TestCase
 
         $this->assertTrue($result);
     }
-}
+
+    public function testLogoutIfNotAuthentified()
+    {
+        $sessionMock = $this->createMock(Session::class);
+        $sessionMock->expects($this->any())
+            ->method('unset')
+            ->with('user')
+            ->willReturnSelf();
+        $sessionMock->expects($this->any())
+            ->method('end');
+        $sessionMock->expects($this->any())
+            ->method('has')
+            ->with('user')
+            ->willReturn(false);
+
+        $authHelper = new AuthHelper($sessionMock);
+
+        $result = $authHelper->logout();
+
+        $this->assertFalse($result);
+    }}

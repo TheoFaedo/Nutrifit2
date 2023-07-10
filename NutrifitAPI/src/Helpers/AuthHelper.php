@@ -71,7 +71,10 @@ class AuthHelper{
      * @return bool Returns true if the user is successfully logged out.
      */
     public function logout(){
-        $this->session->unset('user')->end();
-        return true;
+        if($this->authentified()){
+            $this->session->unset('user')->end();
+            return true;
+        }
+        return false;
     }
 }

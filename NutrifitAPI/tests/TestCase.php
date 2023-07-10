@@ -16,6 +16,9 @@ use Slim\Psr7\Headers;
 use Slim\Psr7\Request as SlimRequest;
 use Slim\Psr7\Uri;
 
+use App\Application\Session;
+use App\Application\StaticExecutor;
+
 class TestCase extends PHPUnit_TestCase
 {
     use ProphecyTrait;
@@ -45,6 +48,9 @@ class TestCase extends PHPUnit_TestCase
 
         // Build PHP-DI Container instance
         $container = $containerBuilder->build();
+
+        $container->set('session', $this->createMock(Session::class));
+        $container->set('staticexecutor', $this->createMock(StaticExecutor::class));
 
         // Instantiate the app
         AppFactory::setContainer($container);

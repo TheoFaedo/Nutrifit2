@@ -13,6 +13,10 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 class ConnectController extends Controller{
 
+    public function __construct(\DI\Container $container){
+        parent::__construct($container);
+    }
+
     /**
      * Authenticate the user
      * @return Result json with sucess value, json with error message if error
@@ -22,7 +26,9 @@ class ConnectController extends Controller{
 
         $res = [];
 
-        $authhelper = new AuthHelper();
+        
+
+        $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
         
         if(!isset($params['pseudo']) || !isset($params['password'])){
             $res = ['error' => "need identifiers"];

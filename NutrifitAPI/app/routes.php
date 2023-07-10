@@ -9,6 +9,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
+use App\Application\Session;
+use App\Application\StaticExecutor;
+
 //Controllers
 use App\Controllers\ConnectController;
 use App\Controllers\DisconnectController;
@@ -28,7 +31,7 @@ use App\Controllers\RemoveConsumableController;
 
 return function (App $app) {
 
-    $c = $app->getContainer();
+    $container = $app->getContainer();
 
     $app->options('/{routes:.*}', function (Request $request, Response $response, $args) {
         // CORS Pre-Flight OPTIONS Request Handler
@@ -40,8 +43,8 @@ return function (App $app) {
         return $response;
     });
 
-    $app->get('/connect[/]', function (Request $request, Response $response, $args) {
-        $controller = new ConnectController();
+    $app->get('/connect[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ConnectController($container);
 
         return $controller->__invoke($request, $response, $args);
     });

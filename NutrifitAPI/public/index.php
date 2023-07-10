@@ -10,13 +10,19 @@ use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
+use App\Application\Session;
+use App\Application\StaticExecutor;
+
 use App\Helpers\DBConnection;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-session_start();
-
 DBConnection::creerConnection();
+
+$session = new Session();
+$session->start();
+
+$staticexecutor = new StaticExecutor();
 
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
@@ -40,6 +46,9 @@ $repositories($containerBuilder);
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();
 
+$container->set('session', $session);
+$container->set('staticexecutor', $staticexecutor);
+
 // Instantiate the app
 AppFactory::setContainer($container);
 $app = AppFactory::create();
@@ -51,7 +60,7 @@ $middleware($app);
 
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';
-$routes($app);
+$routes($app, $session, $staticexecutor);
 
 /** @var SettingsInterface $settings */
 $settings = $container->get(SettingsInterface::class);

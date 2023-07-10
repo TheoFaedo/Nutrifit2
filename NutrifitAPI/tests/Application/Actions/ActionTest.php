@@ -11,11 +11,15 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Tests\TestCase;
 
+use App\Application\Session;
+
 class ActionTest extends TestCase
 {
     public function testActionSetsHttpCodeInRespond()
     {
-        $app = $this->getAppInstance();
+        $sessionMock = $this->createMock(Session::class);
+
+        $app = $this->getAppInstance($sessionMock);
         $container = $app->getContainer();
         $logger = $container->get(LoggerInterface::class);
 
@@ -48,7 +52,9 @@ class ActionTest extends TestCase
 
     public function testActionSetsHttpCodeRespondData()
     {
-        $app = $this->getAppInstance();
+        $sessionMock = $this->createMock(Session::class);
+
+        $app = $this->getAppInstance($sessionMock);
         $container = $app->getContainer();
         $logger = $container->get(LoggerInterface::class);
 
