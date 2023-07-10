@@ -55,8 +55,8 @@ return function (App $app) {
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->post('/register[/]', function (Request $request, Response $response, $args) {
-        $controller = new RegisterController();
+    $app->post('/register[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new RegisterController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
