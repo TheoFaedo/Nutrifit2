@@ -40,7 +40,7 @@ class PublicConsumablesController extends Controller{
             $rs= $rs->withStatus(200);
             return $rs->withHeader('Content-Type', 'application/json');
         }else{
-            $res['error'] = "Not authenticated";
+            $res['error'] = "Not authentified";
 
             $rs->getBody()->write(json_encode($res));
             $rs= $rs->withStatus(401);

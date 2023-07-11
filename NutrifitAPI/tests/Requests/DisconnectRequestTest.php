@@ -11,7 +11,7 @@ use App\Helpers\DBConnection;
 use App\Application\Session;
 use App\Application\StaticExecutor;
 
-class RegisterRequestTest extends TestCase{
+class DisconnectRequestTest extends TestCase{
 
     private User|null $userSaved = null;
 
@@ -26,30 +26,29 @@ class RegisterRequestTest extends TestCase{
         }
     }
 
-    public function testValidIdentifiers(){
+    public function test(){
         $app = $this->getAppInstance();
         $container = $app->getContainer();
-    
+
         $staticexecutorMock = $container->get('staticexecutor');
-        $staticexecutorMock->expects($this->any())
-            ->method('execute')
-            ->with('App\Models\User', 'register', [
-                'pseudo' => 'test',
-                'password' => 'test',
-            ])
+        $sessionMock = $container->get('session');
+
+        $sessionMock->expects($this->any())
+            ->method('has')
+            ->with('user')
             ->willReturn(true);
-    
-        $request = $this->createRequest('POST', '/register')
-        ->withParsedBody([
-            'pseudo' => 'test',
-            'password' => 'test',
-        ]);
-    
+        $sessionMock->expects($this->any())
+            ->method('unset')
+            ->with('user')
+            ->willReturnSelf();
+
+        $request = $this->createRequest('GET', '/disconnect');
+
         $response = $app->handle($request);
-    
+
         $json = (string) $response->getBody();
         $data = json_decode($json, true);
-    
+
         $this->assertEquals(['success' => true], $data);
     }
 }

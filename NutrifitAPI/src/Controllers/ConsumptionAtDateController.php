@@ -38,7 +38,7 @@ class ConsumptionAtDateController extends Controller{
 
             $rs= $rs->withStatus(200);
         }else{
-            $res['error'] = "Not authenticated";
+            $res['error'] = "Not authentified";
             
             $rs= $rs->withStatus(401);  
         }

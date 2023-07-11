@@ -13,15 +13,19 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 class DisconnectController extends Controller{
 
+    public function __construct($container){
+        parent::__construct($container);
+    }
+
     /**
      * Authenticate the user
      * @return Result json with sucess value, json with error message if error
      */
     public function __invoke(Request $rq, Response $rs, $args){
-        $authhelper = new AuthHelper();
+        $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if(!$authhelper->authentified()){
-            $res['error'] = "Not authenticated";
+            $res['error'] = "Not authentified";
 
             $rs->getBody()->write(json_encode($res));
             $rs= $rs->withStatus(401);

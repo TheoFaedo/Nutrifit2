@@ -40,7 +40,7 @@ class RemoveConsumableController extends Controller{
                 $rs= $rs->withStatus(401);
             }
         }else{
-            $res['error'] = "Not authenticated";
+            $res['error'] = "Not authentified";
             
             $rs= $rs->withStatus(401);  
         }

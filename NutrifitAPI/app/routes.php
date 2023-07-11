@@ -49,8 +49,8 @@ return function (App $app) {
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->get('/disconnect[/]', function (Request $request, Response $response, $args) {
-        $controller = new DisconnectController();
+    $app->get('/disconnect[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new DisconnectController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
@@ -61,80 +61,80 @@ return function (App $app) {
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->group('/consumables', function (Group $group) {
+    $app->group('/consumables', function (Group $group) use ($container) {
 
         // Get all consumables who are public
-        $group->get('/', function ($request, $response, array $args) {
-            $controller = new PublicConsumablesController();
+        $group->get('/', function ($request, $response, array $args) use ($container) {
+            $controller = new PublicConsumablesController($container);
 
             return $controller->__invoke($request, $response, $args);
         });
 
         // Get all consumables created by the specified user
-        $group->get('/{author_id:[0-9]+}[/]', function ($request, $response, array $args) {
+        $group->get('/{author_id:[0-9]+}[/]', function ($request, $response, array $args) use ($container) {
 
-            $controller = new ConsumablesOfAuthorController();
+            $controller = new ConsumablesOfAuthorController($container);
 
             return $controller->__invoke($request, $response, $args);
         });
     });
 
-    $app->get('/consumable/{id:[0-9]+}[/]', function (Request $request, Response $response, $args) {
-        $controller = new ConsumableByIdController();
+    $app->get('/consumable/{id:[0-9]+}[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ConsumableByIdController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->get('/dailyconsumption[/]', function (Request $request, Response $response, $args) {
-        $controller = new DailyConsumptionController();
+    $app->get('/dailyconsumption[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new DailyConsumptionController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->get('/nutritionalgoal[/]', function (Request $request, Response $response, $args) {
-        $controller = new NutritionalGoalController();
+    $app->get('/nutritionalgoal[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new NutritionalGoalController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->post('/consume[/]', function (Request $request, Response $response, $args) {
-        $controller = new ConsumeController();
+    $app->post('/consume[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ConsumeController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->put('/changenutritionalgoal[/]', function (Request $request, Response $response, $args) {
-        $controller = new ChangeNutritionalGoalController();
+    $app->put('/changenutritionalgoal[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ChangeNutritionalGoalController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->post('/addconsumable[/]', function (Request $request, Response $response, $args) {
-        $controller = new AddConsumableController();
+    $app->post('/addconsumable[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new AddConsumableController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->put('/changeconsumable/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) {
-        $controller = new ChangeConsumableController();
+    $app->put('/changeconsumable/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ChangeConsumableController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->get('/consumptionatdate[/]', function (Request $request, Response $response, $args) {
-        $controller = new ConsumptionAtDateController();
+    $app->get('/consumptionatdate[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ConsumptionAtDateController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->delete('/removeconsumption/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) {
-        $controller = new RemoveConsumptionController();
+    $app->delete('/removeconsumption/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new RemoveConsumptionController($container);
 
         return $controller->__invoke($request, $response, $args);
     });
 
-    $app->delete('/removeconsumable/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) {
-        $controller = new RemoveConsumableController();
+    $app->delete('/removeconsumable/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new RemoveConsumableController($container);
 
         return $controller->__invoke($request, $response, $args);
     });

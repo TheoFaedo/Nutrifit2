@@ -46,7 +46,7 @@ class ConsumeController extends Controller{
                 $rs= $rs->withStatus(400);
             }
         }else{
-            $res['error'] = "Not authenticated";
+            $res['error'] = "Not authentified";
 
             $rs= $rs->withStatus(401);
         }
