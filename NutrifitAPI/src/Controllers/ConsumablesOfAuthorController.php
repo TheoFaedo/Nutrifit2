@@ -10,11 +10,15 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 //Models
-use App\Models\Consumables;
+use App\Models\Consumable;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 class ConsumablesOfAuthorController extends Controller{
+
+    public function __construct($container){
+        parent::__construct($container);
+    }
     
     /**
      * Authenticate the user
@@ -22,10 +26,10 @@ class ConsumablesOfAuthorController extends Controller{
      */
     public function __invoke(Request $rq, Response $rs, $args){
 
-        $authhelper = new AuthHelper();
+        $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
-            $consumables = Consumables::where('author', $args['author_id'])->get();
+            $consumables = Consumable::where('author', $args['author_id'])->get();
 
             $res['consumables'] = $consumables;
 

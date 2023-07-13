@@ -93,4 +93,17 @@ class TestCase extends PHPUnit_TestCase
 
         return new SlimRequest($method, $uri, $h, $cookies, $serverParams, $stream);
     }
+
+    protected function authentifyByMock($sessionMock){
+        $sessionMock->expects($this->any())
+            ->method('has')
+            ->with('user')
+            ->willReturn(true);
+        $sessionMock->expects($this->any())
+            ->method('unset')
+            ->with('user')
+            ->willReturnSelf();
+
+        return $sessionMock;
+    }
 }

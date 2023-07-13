@@ -15,6 +15,10 @@ use App\Models\Consumable;
 require __DIR__ . '/../../vendor/autoload.php';
 
 class PublicConsumablesController extends Controller{
+
+    public function __construct($container){
+        parent::__construct($container);
+    }
     
     /**
      * Authenticate the user
@@ -23,7 +27,7 @@ class PublicConsumablesController extends Controller{
     public function __invoke(Request $rq, Response $rs, $args){
         $params = $rq->getQueryParams();
 
-        $authhelper = new AuthHelper();
+        $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
             $publicConsumables = Consumable::where('public', 1);
