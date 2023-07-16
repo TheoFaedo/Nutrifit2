@@ -84,5 +84,5 @@ class NutritionalGoalRequestTest extends TestCase{
 
         array_push($this->models, $user);
     }
-
+    
 }
