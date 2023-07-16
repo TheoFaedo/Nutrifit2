@@ -113,7 +113,9 @@ class ConsumableRequestTest extends TestCase{
     public function testNotAuthentified(){
         $app = $this->getAppInstance();
 
-        $request = $this->createRequest('GET', '/consumables/');
+        $this->createDataSet();
+
+        $request = $this->createRequest('GET', '/consumable/1/');
 
         $response = $app->handle($request);
 
