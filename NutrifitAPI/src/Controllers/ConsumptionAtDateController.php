@@ -15,6 +15,10 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 class ConsumptionAtDateController extends Controller{
 
+    public function __construct(\DI\Container $container){
+        parent::__construct($container);    
+    }
+
     /**
      * Authenticate the user
      * @return Result json with sucess value, json with error message if error
@@ -24,18 +28,24 @@ class ConsumptionAtDateController extends Controller{
 
         $params = $rq->getQueryParams();
 
-        $authhelper = new AuthHelper();
+        $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
             $idUser = $authhelper->getIdUserAuthentified();
 
             $date = date('Y-m-d');
-            $consumptionAtDay = Consumption::whereDate('consumed_on', '=', $params['date'])->where('idUser', $idUser)->get();
+            if(isset($params['date'])){
+                $consumptionAtDay = Consumption::whereDate('consumed_on', '=', $params['date'])->where('idUser', $idUser)->get();
             
-            foreach($consumptionAtDay as $consumption){
-                $res[$consumption->idConsumption] = $consumption;
+                foreach($consumptionAtDay as $consumption){
+                    $res[$consumption->idConsumption] = $consumption;
+                }
+            }else{
+                $res['error'] = "Missing parameters";
+                $rs= $rs->withStatus(400);
+                $rs->getBody()->write(json_encode($res));
+                return $rs->withHeader('Content-Type', 'application/json');
             }
-
             $rs= $rs->withStatus(200);
         }else{
             $res['error'] = "Not authentified";
