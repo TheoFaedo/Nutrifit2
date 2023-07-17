@@ -16,6 +16,10 @@ use App\Models\RecipeComposition;
 require __DIR__ . '/../../vendor/autoload.php';
 
 class AddConsumableController extends Controller{
+
+    public function __construct(\DI\Container $container){
+        parent::__construct($container);
+    }
     
     /**
      * Authenticate the user
@@ -26,7 +30,7 @@ class AddConsumableController extends Controller{
 
         $res = [];
 
-        $authhelper = new AuthHelper();
+        $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
             if(isset($params['name']) && isset($params['energy']) 
