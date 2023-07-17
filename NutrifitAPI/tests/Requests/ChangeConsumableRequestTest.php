@@ -14,7 +14,7 @@ use App\Models\RecipeComposition;
 use App\Models\Consumable;
 use App\Models\User;
 
-class AddConsumableRequestTest extends TestCase{
+class ChangeConsumableRequestTest extends TestCase{
 
     protected function setUp(): void{
         parent::setUp();
@@ -40,7 +40,7 @@ class AddConsumableRequestTest extends TestCase{
             ->with('user')
             ->willReturn(['idUser' => 99999]);
 
-        $request = $this->createRequest('POST', '/addconsumable/')
+        $request = $this->createRequest('PUT', '/changeconsumable/1/')
         ->withParsedBody([
             'name' => 'test1',
             'energy' => 100,
@@ -59,55 +59,6 @@ class AddConsumableRequestTest extends TestCase{
         $this->assertEquals(['success' => true], $data);
     }
 
-    public function testSuccessForRecipe(){
-        $app = $this->getAppInstance();
-        $container = $app->getContainer();
-
-        $this->createDataSet();
-
-        $sessionMock = $container->get('session');
-        $sessionMock = $this->authentifyByMock($sessionMock);
-        $sessionMock->expects($this->any())
-            ->method('getItem')
-            ->with('user')
-            ->willReturn(['idUser' => 99999]);
-
-        $request = $this->createRequest('POST', '/addconsumable/')
-        ->withParsedBody([
-            'name' => 'test3',
-            'energy' => 100,
-            'proteins' => 100,
-            'fats' => 100,
-            'carbohydrates' => 100,
-            'quantity_label' => '100g',
-            'public' => 1,
-            'type' => 'RECIPE',
-            'ingredients' => [
-                [
-                    'idConsumable' => 1,
-                    'proportion' => 2.5
-                ],
-                [
-                    'idConsumable' => 2,
-                    'proportion' => 1
-                ]
-            ]
-        ]);
-        $response = $app->handle($request);
-
-        $json = (string) $response->getBody();
-        $data = json_decode($json, true);
-
-        $consumable = Consumable::query()->where('name', 'test3')->first();
-
-        $this->assertEquals(['success' => true], $data);
-        $this->assertNotNull($consumable);
-        $this->assertEquals(450, $consumable->energy);
-        $this->assertEquals(450, $consumable->proteins);
-        $this->assertEquals(450, $consumable->fats);
-        $this->assertEquals(450, $consumable->carbohydrates);
-    }
-
     public function testMissingParameters(){
         $app = $this->getAppInstance();
         $container = $app->getContainer();
@@ -115,7 +66,7 @@ class AddConsumableRequestTest extends TestCase{
         $sessionMock = $container->get('session');
         $sessionMock = $this->authentifyByMock($sessionMock);
 
-        $request = $this->createRequest('POST', '/addconsumable/')
+        $request = $this->createRequest('PUT', '/changeconsumable/1/')
         ->withParsedBody([]);
         $response = $app->handle($request);
 
@@ -130,7 +81,7 @@ class AddConsumableRequestTest extends TestCase{
 
         $this->createDataSet();
 
-        $request = $this->createRequest('POST', '/addconsumable/')
+        $request = $this->createRequest('PUT', '/changeconsumable/1/')
         ->withParsedBody([]);
         $response = $app->handle($request);
 
@@ -150,7 +101,7 @@ class AddConsumableRequestTest extends TestCase{
         $user->carbohydrates_goal = 210;
         $user->proteins_goal = 140;
         $user->save();
-
+        
         $consumable = new Consumable();
         $consumable->idConsumable = 1;
         $consumable->name = 'test1';
@@ -161,19 +112,13 @@ class AddConsumableRequestTest extends TestCase{
         $consumable->fats = 100;
         $consumable->carbohydrates = 100;
         $consumable->quantity_label = '100g';
+        $consumable->type = 'MEAL';
         $consumable->save();
 
-        $consumable = new Consumable();
-        $consumable->idConsumable = 2;
-        $consumable->name = 'test2';
-        $consumable->author = 99999;
-        $consumable->public = 1;
-        $consumable->energy = 200;
-        $consumable->proteins = 200;
-        $consumable->fats = 200;
-        $consumable->carbohydrates = 200;
-        $consumable->quantity_label = '100g';
-        $consumable->save();
+        $recipecomposition = new RecipeComposition();
+        $recipecomposition->idRecipe = 1;
+        $recipecomposition->idIngredient = 1;
+        $recipecomposition->proportion = 2;
 
     }
 
