@@ -15,6 +15,10 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 class RemoveConsumableController extends Controller{
 
+    public function __construct(\DI\Container $container){
+        parent::__construct($container);
+    }
+
     /**
      * Authenticate the user
      * @return Result json with sucess value, json with error message if error
@@ -22,7 +26,7 @@ class RemoveConsumableController extends Controller{
     public function __invoke(Request $rq, Response $rs, $args){
         $res = [];
 
-        $authhelper = new AuthHelper();
+        $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
             $idUser = $authhelper->getIdUserAuthentified();

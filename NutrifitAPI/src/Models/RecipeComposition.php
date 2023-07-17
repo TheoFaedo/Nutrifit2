@@ -8,4 +8,6 @@ class RecipeComposition extends \Illuminate\Database\Eloquent\Model{
 
     public $timestamps = false;
     protected $table = 'recipecomposition';
+    protected $primaryKey = 'id';
+
 }
