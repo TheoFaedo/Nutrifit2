@@ -843,6 +843,10 @@ module.exports = {
       72: '18rem',
       80: '20rem',
       96: '24rem',
+      100: '25rem',
+      120: '30rem',
+      128: '32rem',
+      144: '36rem',
     },
     stroke: ({ theme }) => ({
       none: 'none',
@@ -973,6 +977,7 @@ module.exports = {
       min: 'min-content',
       max: 'max-content',
       fit: 'fit-content',
+      phone: '500px'
     }),
     willChange: {
       auto: 'auto',
