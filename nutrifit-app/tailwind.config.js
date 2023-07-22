@@ -161,6 +161,7 @@ module.exports = {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
       rose: colors.rose,
+      main: '#8DF0C0'
     }),
     columns: {
       auto: 'auto',
@@ -330,6 +331,7 @@ module.exports = {
         '"Courier New"',
         'monospace',
       ],
+      'britannic': ['Britannic', 'sans-serif'],
     },
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -977,7 +979,7 @@ module.exports = {
       min: 'min-content',
       max: 'max-content',
       fit: 'fit-content',
-      phone: '500px'
+      phone: '320px'
     }),
     willChange: {
       auto: 'auto',
@@ -995,6 +997,8 @@ module.exports = {
       50: '50',
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+  ],
 }
 

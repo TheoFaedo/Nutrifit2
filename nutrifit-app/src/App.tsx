@@ -1,22 +1,26 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import Header from './components/Header';
+import RewardBar from './components/RewardBar';
 
 function App() {
   return (
-    <div className="h-full md:mx-32 lg:mx-100 xl:w-phone xl:mx-auto bg-cyan-400 text-center flex-1 flex-wrap gap-y-8">
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-      <div className='h-48 bg-slate-600 my-8 mx-4 rounded-lg'>
+    <div className="bg-neutral-950 h-full md:mx-32 lg:w-phone lg:mx-auto xl:w-phone xl:mx-auto text-center shadow-black
+    flex flex-col">
+      <Header />
+      <RewardBar />
+      <div className='flex-grow overflow-y-scroll scrollbar-hide'>
+        <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'>
 
-      </div>
-      <div className='h-48 bg-slate-600 my-8 mx-4 rounded-lg'>
+        </div>
+        <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'>
 
-      </div>
-      <div className='h-48 bg-slate-600 my-8 mx-4 '>
+        </div>
+        <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'>
 
+        </div>
       </div>
+      <RewardBar />
     </div>
     
   );
