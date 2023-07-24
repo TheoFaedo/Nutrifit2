@@ -1,10 +1,9 @@
-import React from 'react';
-import WhiteHatSVG from '../svg/WhiteHatSVG';
+import React, { FunctionComponent } from 'react';
 
-function RewardBar() {
+const RewardBar: FunctionComponent = () => {
 
     return (
-        <div className="bg-main h-6 w-full"></div>
+        <div className="reward-bar"></div>
     );
 }
 

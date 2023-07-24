@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import WhiteHatSVG from '../svg/WhiteHatSVG';
 
-function Header() {
+const Header: FunctionComponent = () => {
 
     return (
-        <div className="bg-neutral-950 h-16 flex justify-center content-stretch items-center text-main text-2xl w-full">
-            <WhiteHatSVG className="h-7 fill-main mx-2"/>
+        <div className="header">
+            <WhiteHatSVG className="h-7 mx-2" primary="main" secondary="none"/>
             <div className='font-britannic'>nutrifit</div>
         </div>
     );

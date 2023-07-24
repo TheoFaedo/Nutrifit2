@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.container{
+    @apply bg-neutral-950 h-full text-center shadow-lg shadow-black flex flex-col;
+}
+
+.reward-bar{
+    @apply bg-main h-6 w-full;
+}
+
+.header{
+    @apply bg-neutral-950 h-16 flex justify-center content-stretch items-center text-main text-2xl w-full;
+}
+
+.navbar-svg{
+    @apply h-20 fill-main absolute -top-0 -z-10 transform translate-y-[-50%] w-full;
+}
+
+.navbar{
+    @apply bg-main h-16 items-center text-main text-2xl w-full flex place-content-evenly
+}
+
+.navbar-icon{
+    @apply w-16 h-16 rounded-full active:bg-secondary active:bg-opacity-30 cursor-pointer select-none;
+}
+
+.navbar-icon-child{
+    @apply text-center text-black flex text-xs flex-col font-britannic transform translate-y-[+25%];
+}
+
+@screen md{
+    .container{
+        @apply mx-32;
+    }
+}
+
+@screen lg{
+    .container{
+        @apply w-phone mx-auto;
+    }
+}
+
+@screen xl{
+    .container{
+        @apply w-phone mx-auto;
+    }
+}

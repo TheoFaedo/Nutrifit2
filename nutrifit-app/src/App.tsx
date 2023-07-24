@@ -1,12 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
 import Header from './components/Header';
+import NavBar from './components/NavBar';
 import RewardBar from './components/RewardBar';
 
 function App() {
   return (
-    <div className="bg-neutral-950 h-full md:mx-32 lg:w-phone lg:mx-auto xl:w-phone xl:mx-auto text-center shadow-black
-    flex flex-col">
+    <div className="container">
       <Header />
       <RewardBar />
       <div className='flex-grow overflow-y-scroll scrollbar-hide'>
@@ -20,7 +18,7 @@ function App() {
 
         </div>
       </div>
-      <RewardBar />
+      <NavBar />
     </div>
     
   );
