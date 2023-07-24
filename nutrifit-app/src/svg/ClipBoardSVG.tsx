@@ -12,8 +12,6 @@ const ClipBoardSVG: FunctionComponent<Props> = (props) => {
     const primaryFill = primary ? ('fill-' + primary) : 'fill-none';
     const secondaryFill = secondary ? ('fill-' + secondary) : 'fill-none';
 
-    const primaryStroke = primary ? ('stroke-' + primary) : 'stroke-none';
-
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 244 291" className='h-7'>
             <path className={secondaryFill} d="m203.29,0H40.71C18.23,0,0,18.23,0,40.71v209.58c0,22.48,18.23,40.71,40.71,40.71h162.58c22.48,0,40.71-18.23,40.71-40.71V40.71c0-22.48-18.23-40.71-40.71-40.71Zm-11.29,171H52v-20h140v20Zm0-32H52v-20h140v20Zm0-32H52v-20h140v20Zm0-32H52v-20h140v20Z"/>

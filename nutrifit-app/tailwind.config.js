@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  layers: {
+    custom: ['utilities'],
+  },
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
@@ -980,7 +983,7 @@ module.exports = {
       min: 'min-content',
       max: 'max-content',
       fit: 'fit-content',
-      phone: '320px'
+      phone: '400px'
     }),
     willChange: {
       auto: 'auto',

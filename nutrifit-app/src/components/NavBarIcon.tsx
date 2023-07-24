@@ -18,7 +18,7 @@ const NavBarIcon: FunctionComponent<Props> = (props) => {
 
     const [actived, setActived] = useState(active);
 
-    const svg = svgname === "whitehat" ? <WhiteHatSVG className="h-7" primary={!actived ? "neutral-950" : "none"} secondary={actived ? "neutral-950" : "none"} /> :
+    const svg = svgname === "whitehat" ? <WhiteHatSVG className="h-7" fillPrimary={!actived ? "fill-neutral-950" : "fill-none"} fillSecondary={actived ? "fill-neutral-950" : "fill-none"} /> :
             svgname === "clipboard" ? <ClipBoardSVG primary={!actived ? "neutral-950" : "none"} secondary={actived ? "neutral-950" : "none"} /> :
             svgname === "profile" ? <ProfileSVG primary={!actived ? "neutral-950" : "none"} secondary={actived ? "neutral-950" : "none"}/> :
             null;

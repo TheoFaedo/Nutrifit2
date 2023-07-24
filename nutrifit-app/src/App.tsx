@@ -1,25 +1,26 @@
+import PrivateRoute from './PrivateRoute';
 import Header from './components/Header';
 import NavBar from './components/NavBar';
 import RewardBar from './components/RewardBar';
+import Login from './pages/Login';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="container">
-      <Header />
-      <RewardBar />
-      <div className='flex-grow overflow-y-scroll scrollbar-hide'>
-        <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'>
-
-        </div>
-        <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'>
-
-        </div>
-        <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'>
-
-        </div>
+    <Router>
+      <div className="container">
+        <Header />
+        <RewardBar />
+        <Routes>
+          <Route path="/" element={
+            <PrivateRoute exact component={Login} />
+          }/>
+          <Route path="/login" Component={Login}/>
+        </Routes>
+        <NavBar />
       </div>
-      <NavBar />
-    </div>
+    </Router>
+    
     
   );
 }
