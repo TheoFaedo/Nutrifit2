@@ -7,7 +7,7 @@
 }
 
 .reward-bar{
-    @apply bg-main h-6 w-full;
+    @apply gradient-bg h-6 w-full;
 }
 
 .header{
@@ -19,7 +19,7 @@
 }
 
 .navbar{
-    @apply bg-main h-16 items-center text-main text-2xl w-full flex place-content-evenly
+    @apply bg-main h-16 items-center text-2xl w-full flex place-content-evenly
 }
 
 .navbar-icon{
@@ -29,6 +29,47 @@
 .navbar-icon-child{
     @apply text-center text-black flex text-xs flex-col font-britannic transform translate-y-[+25%];
 }
+
+.gradient-bg{
+    @apply bg-gradient-to-r from-main to-secondary animate-gradient-fast;
+}
+
+.error-message{
+    @apply text-red-500 text-xs font-light mt-1;
+}
+
+.button{
+    @apply bg-main text-black px-2 py-1 rounded mt-4 cursor-pointer select-none;
+}
+
+.button:hover{
+    @apply shadow-sm shadow-secondary;
+}
+
+.button:active{
+    @apply shadow-lg bg-green-400 transform transition-all duration-300 ease-in-out;
+}
+
+.text-input{
+    @apply text-white px-3 py-2 bg-neutral-700 caret-main font-normal w-full;
+}
+
+.text-input-error{
+    @apply border-red-500 border-2;
+}
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+  
+  .animate-gradient-fast {
+    animation: gradient 1s linear infinite;
+  }
 
 @screen md{
     .container{

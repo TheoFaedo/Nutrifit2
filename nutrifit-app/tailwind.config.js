@@ -9,6 +9,11 @@ module.exports = {
   presets: [],
   darkMode: 'media', // or 'class'
   theme: {
+    extend: {
+      caretWidth: {
+        thick: '4px',
+      },
+    },
     accentColor: ({ theme }) => ({
       ...theme('colors'),
       auto: 'auto',
@@ -308,6 +313,10 @@ module.exports = {
       DEFAULT: '1',
     },
     fontFamily: {
+      inter: [
+        '"Inter"',
+        'Arial',
+      ],
       sans: [
         'ui-sans-serif',
         'system-ui',
