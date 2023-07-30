@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 
 type Props = {
     value: string;
@@ -8,11 +8,12 @@ type Props = {
     placeholder?: string;
     errorMessage?: string;
     errorBorder?: boolean;
+    className?: string;
 }
 
 const TextInput: FunctionComponent<Props> = (props) => {
 
-    const {value, name, password, onChange, placeholder, errorMessage, errorBorder} = props;
+    const {value, name, password, onChange, placeholder, errorMessage, errorBorder, className} = props;
 
     const type = password ? "password" : "text";
     const inputPlaceholder = placeholder ? placeholder : "";
@@ -24,7 +25,7 @@ const TextInput: FunctionComponent<Props> = (props) => {
     }
 
     return (
-        <div className='w-full mx-0'>
+        <div className={'w-full mx-0 ' + className}>
             <input className={'text-input ' + errorB} type={type} name={name} value={value} placeholder={inputPlaceholder} onChange={onChangeHandler}/>
             <div className='error-message'>{errorM}</div>
         </div>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .container{
-    @apply bg-neutral-950 h-full text-center shadow-lg shadow-black flex flex-col;
+    @apply bg-neutral-950 h-full text-center shadow-lg shadow-black flex flex-col mx-auto;
 }
 
 .reward-bar{
@@ -39,7 +39,7 @@
 }
 
 .button{
-    @apply bg-main text-black px-2 py-1 rounded mt-4 cursor-pointer select-none;
+    @apply gradient-bg text-black px-2 py-1 rounded-lg mt-4 cursor-pointer select-none w-full;
 }
 
 .button:hover{
@@ -58,6 +58,43 @@
     @apply border-red-500 border-2;
 }
 
+.tile_title{
+    @apply text-2xl mb-4 ml-3 font-inter font-bold text-white;
+}
+
+@keyframes animate {
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+}
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #61a584;
+    overflow: hidden;
+}
+
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 1rem;
+  }
+
 @keyframes gradient {
     0% {
       background-position: 0% 50%;
@@ -71,20 +108,14 @@
     animation: gradient 1s linear infinite;
   }
 
-@screen md{
-    .container{
-        @apply mx-auto;
-    }
-}
-
 @screen lg{
     .container{
-        @apply w-phone mx-auto;
+        @apply w-phone;
     }
 }
 
 @screen xl{
     .container{
-        @apply w-phone mx-auto;
+        @apply w-phone;
     }
 }

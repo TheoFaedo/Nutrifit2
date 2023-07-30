@@ -992,7 +992,7 @@ module.exports = {
       min: 'min-content',
       max: 'max-content',
       fit: 'fit-content',
-      phone: '400px'
+      phone: '420px'
     }),
     willChange: {
       auto: 'auto',

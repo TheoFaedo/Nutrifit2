@@ -26,8 +26,6 @@ class ConnectController extends Controller{
 
         $res = [];
 
-        
-
         $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
         
         if(!isset($params['pseudo']) || !isset($params['password'])){

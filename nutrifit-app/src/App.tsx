@@ -33,17 +33,17 @@ function App() {
             <Route path="/" element={
               <Navigate to="/profile" />
             }/>
-            <Route path="/login" element={<Login hideNavBar={hideNavBar}/>}/>
-            <Route path="/regsiter" element={<Login hideNavBar={hideNavBar}/>}/>
+            <Route path="/login" element={<Login hideNavBar={hideNavBar}/>} />
+            <Route path="/regsiter" element={<Login hideNavBar={hideNavBar}/>} />
             <Route path="/profile" element={
               <PrivateRoute children={<Profile showNavBar={showNavBar}/>} />
-            }/>
+            } />
             <Route path="/diary" element={
               <PrivateRoute children={<Diary showNavBar={showNavBar}/>} />
-            }/>
+            } />
             <Route path="/createmeal" element={
               <PrivateRoute children={<CreateMeal showNavBar={showNavBar}/>} />
-            }/>
+            } />
           </Routes>
         </div>
         <NavBar hidden={!navBarVisibility}/>

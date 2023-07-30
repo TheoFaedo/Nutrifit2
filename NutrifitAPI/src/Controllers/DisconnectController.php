@@ -25,7 +25,7 @@ class DisconnectController extends Controller{
         $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if(!$authhelper->authentified()){
-            $res['error'] = "Not authentified";
+            $res['error'] = json_encode($_SESSION['user']);
 
             $rs->getBody()->write(json_encode($res));
             $rs= $rs->withStatus(401);

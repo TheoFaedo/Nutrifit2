@@ -1,4 +1,6 @@
 import { FunctionComponent, useEffect } from "react";
+import LogoutTile from "../components/tiles/LogoutTile";
+import ChangingGoalTile from "../components/tiles/ChangingGoalTile";
 
 type Props = {
     showNavBar: Function;
@@ -6,14 +8,16 @@ type Props = {
 
 const Profile: FunctionComponent<Props> = (props) => {
 
+    const { showNavBar } = props;
+
     useEffect(() => {
-        props.showNavBar();
-    }, []);
+        showNavBar();
+    }, [showNavBar]);
 
     return (
         <>
-            <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'>Profile</div>
-            <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'></div>
+            <LogoutTile />
+            <ChangingGoalTile />
             <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'></div>
         </>
     )
