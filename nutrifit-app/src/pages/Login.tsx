@@ -1,14 +1,11 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import Button from './../components/Button';
 import TextInput from '../components/TextInput';
 import { connect } from '../services/api-service';
 import { useNavigate } from 'react-router-dom';
 import AuthenticationService from '../services/authentication-service';
 import { Link } from 'react-router-dom';
-
-type Props = {
-  hideNavBar: Function;
-}
+import { NavBarContext } from '../context/NavBarContext';
 
 type Field = {
   value?: any;
@@ -21,10 +18,12 @@ type Form = {
   password: Field;
 }
 
-const Login: FunctionComponent<Props> = (props) => {
+const Login: FunctionComponent = () => {
+
+    const { hideNavBar } = useContext(NavBarContext);
 
     useEffect(() => {
-        props.hideNavBar();
+      hideNavBar();
     }, [])
 
     const navigate = useNavigate();

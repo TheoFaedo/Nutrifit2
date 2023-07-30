@@ -1,24 +1,20 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useContext, useEffect } from "react";
 import LogoutTile from "../components/tiles/LogoutTile";
 import ChangingGoalTile from "../components/tiles/ChangingGoalTile";
+import { NavBarContext } from "../context/NavBarContext";
 
-type Props = {
-    showNavBar: Function;
-}
+const Profile: FunctionComponent = () => {
 
-const Profile: FunctionComponent<Props> = (props) => {
-
-    const { showNavBar } = props;
+    const { showNavBar } = useContext(NavBarContext);
 
     useEffect(() => {
         showNavBar();
-    }, [showNavBar]);
+    }, [])
 
     return (
         <>
             <LogoutTile />
             <ChangingGoalTile />
-            <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'></div>
         </>
     )
 }

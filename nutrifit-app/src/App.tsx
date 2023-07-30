@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { ReactNode, createContext, useState } from 'react';
 import Header from './components/Header';
 import NavBar from './components/NavBar';
 import RewardBar from './components/RewardBar';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import Profile from './pages/Profile';
 import Diary from './pages/Diary';
 import CreateMeal from './pages/CreateMeal';
+import { NavBarContextProvider } from './context/NavBarContext';
 
 function App() {
 
@@ -23,29 +23,32 @@ function App() {
   const showNavBar = () => {
     setNavBarVisibility(true);
   };
+
   return (
     <Router>
       <div className="container">
         <Header />
         <RewardBar />
-        <div className='flex-grow overflow-y-scroll scrollbar-hide'>
-          <Routes>
-            <Route path="/" element={
-              <Navigate to="/profile" />
-            }/>
-            <Route path="/login" element={<Login hideNavBar={hideNavBar}/>} />
-            <Route path="/regsiter" element={<Login hideNavBar={hideNavBar}/>} />
-            <Route path="/profile" element={
-              <PrivateRoute children={<Profile showNavBar={showNavBar}/>} />
-            } />
-            <Route path="/diary" element={
-              <PrivateRoute children={<Diary showNavBar={showNavBar}/>} />
-            } />
-            <Route path="/createmeal" element={
-              <PrivateRoute children={<CreateMeal showNavBar={showNavBar}/>} />
-            } />
-          </Routes>
-        </div>
+        <NavBarContextProvider defaultValue={{ hideNavBar, showNavBar }}>
+          <div className='flex-grow overflow-y-scroll scrollbar-hide'>
+            <Routes>
+              <Route path="/" element={
+                <Navigate to="/profile" />
+              }/>
+              <Route path="/login" element={<Login/>} />
+              <Route path="/regsiter" element={<Login/>} />
+              <Route path="/profile" element={
+                <PrivateRoute children={<Profile/>} />
+              } />
+              <Route path="/diary" element={
+                <PrivateRoute children={<Diary/>} />
+              } />
+              <Route path="/createmeal" element={
+                <PrivateRoute children={<CreateMeal/>} />
+              } />
+            </Routes>
+          </div>
+        </NavBarContextProvider>
         <NavBar hidden={!navBarVisibility}/>
       </div>
     </Router>

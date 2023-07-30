@@ -1,14 +1,13 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useContext, useEffect } from "react";
+import { NavBarContext } from '../context/NavBarContext';
 
-type Props = {
-    showNavBar: Function;
-}
+const CreateMeal: FunctionComponent = () => {
 
-const CreateMeal: FunctionComponent<Props> = (props) => {
+    const { showNavBar } = useContext(NavBarContext);
 
     useEffect(() => {
-        props.showNavBar();
-    }, []);
+        showNavBar();
+    }, [])
 
     return (
         <>
