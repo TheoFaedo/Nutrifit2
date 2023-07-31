@@ -3,9 +3,9 @@ import Button from './../components/Button';
 import TextInput from '../components/TextInput';
 import { connect } from '../services/api-service';
 import { useNavigate } from 'react-router-dom';
-import AuthenticationService from '../services/authentication-service';
 import { Link } from 'react-router-dom';
 import { NavBarContext } from '../context/NavBarContext';
+import { UserContext } from '../context/UserContext';
 
 type Field = {
   value?: any;
@@ -21,10 +21,11 @@ type Form = {
 const Login: FunctionComponent = () => {
 
     const { hideNavBar } = useContext(NavBarContext);
+    const { loginContext } = useContext(UserContext);
 
     useEffect(() => {
       hideNavBar();
-    }, [])
+    }, [hideNavBar])
 
     const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ const Login: FunctionComponent = () => {
       e.preventDefault();
       connect(form.username.value, form.password.value).then((res) => {
         if(res.success){
-          AuthenticationService.authentify();
+          loginContext(res.pseudo, res.idToken);
           navigate('/profile');
         }else{
           if(res.error){

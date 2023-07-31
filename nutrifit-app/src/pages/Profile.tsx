@@ -9,7 +9,7 @@ const Profile: FunctionComponent = () => {
 
     useEffect(() => {
         showNavBar();
-    }, [])
+    }, [showNavBar])
 
     return (
         <>

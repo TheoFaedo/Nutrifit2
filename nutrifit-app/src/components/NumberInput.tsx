@@ -22,7 +22,7 @@ const NumberInput: FunctionComponent<Props> = (props) => {
     }
 
     return (
-        <input className={"w-14 ml-2 bg-neutral-700 py-1 px-0.5 " + className} name={name} type="number" placeholder={inputPlaceholder} value={value} maxLength={inputMaxLength} onChange={onChangeHandler}/>
+        <input className={"w-14 ml-2 bg-neutral-700 py-1 px-0.5 " + className} min={0} name={name} type="number" placeholder={inputPlaceholder} value={value} maxLength={inputMaxLength} onChange={onChangeHandler}/>
     );
 }
 

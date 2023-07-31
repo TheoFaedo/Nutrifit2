@@ -7,7 +7,7 @@ const CreateMeal: FunctionComponent = () => {
 
     useEffect(() => {
         showNavBar();
-    }, [])
+    }, [showNavBar])
 
     return (
         <>

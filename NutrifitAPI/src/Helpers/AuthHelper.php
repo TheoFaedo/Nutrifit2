@@ -29,7 +29,7 @@ class AuthHelper{
         $user = $this->staticexecutor->execute('App\Models\User', 'authentify', $pseudo, $password);
         if($user){
             $this->session->setItem('user', $user->toArray());
-            return true;
+            return $user;
         }
         return false;
     }

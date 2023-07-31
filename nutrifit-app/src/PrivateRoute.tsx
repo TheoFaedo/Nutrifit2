@@ -1,13 +1,16 @@
 import { Navigate } from "react-router-dom";
-import AuthenticationService from "./services/authentication-service";
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactNode, useContext } from "react";
+import { UserContext } from "./context/UserContext";
 
 type Props = {
     children: ReactNode;
 }
 
 const PrivateRoute: FunctionComponent<Props> = (props) => {
-  if(!AuthenticationService.isAuthenticated){
+
+  const userContext = useContext(UserContext);
+
+  if(!userContext.loggedIn){
     return <Navigate to="/login" />;
   }else{
     return (

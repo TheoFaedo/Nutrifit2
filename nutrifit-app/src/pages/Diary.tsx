@@ -7,7 +7,7 @@ const Diary: FunctionComponent = () => {
 
     useEffect(() => {
         showNavBar();
-    }, [])
+    }, [showNavBar])
 
     return (
         <>
