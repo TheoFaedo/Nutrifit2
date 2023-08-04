@@ -3,15 +3,17 @@
 @tailwind utilities;
 
 .container{
-    @apply bg-neutral-950 h-full text-center shadow-lg shadow-black flex flex-col mx-auto;
+    @apply bg-neutral-950 h-full text-center shadow-lg shadow-black flex flex-col mx-auto max-h-screen;
 }
 
 .reward-bar{
     @apply gradient-bg h-6 w-full;
+    min-height: 1.5rem;
 }
 
 .header{
     @apply bg-neutral-950 h-16 flex justify-center content-stretch items-center text-main text-2xl w-full;
+    min-height: 4rem;
 }
 
 .navbar-svg{
@@ -42,11 +44,15 @@
     @apply gradient-bg text-black px-2 py-1 rounded-lg mt-4 cursor-pointer select-none w-full;
 }
 
-.button:hover{
+.button-inverted{
+    @apply bg-transparent text-main border border-main px-2 py-1 rounded-lg mt-4 cursor-pointer select-none w-full;
+}
+
+.button:hover, .button-inverted:hover{
     @apply shadow-sm shadow-secondary;
 }
 
-.button:active{
+.button:active, .button-inverted:active{
     @apply shadow-lg bg-green-400 transform transition-all duration-300 ease-in-out;
 }
 
@@ -60,6 +66,14 @@
 
 .tile_title{
     @apply text-2xl mb-4 ml-3 font-inter font-bold text-white;
+}
+
+.button_selector{
+    @apply w-1/2 px-4 py-1 text-sm font-medium text-white border bg-neutral-700 border-neutral-600 focus:outline-none;
+}
+
+.button_selector_active{
+    @apply gradient-bg text-black;
 }
 
 @keyframes animate {

@@ -10,7 +10,7 @@ type UserContextType = {
 
 export const UserContext = createContext<UserContextType>({loggedIn: false, loginContext: () => {}, logoutContext: () => {}});
 
-export const UserContextProvider = ({ defaultValue, children }: { defaultValue: any, children: ReactNode }) => {
+export const UserContextProvider = ({ defaultValue, children } : { defaultValue: any, children: ReactNode }) => {
     const [data, setData] = useState(defaultValue);
   
     const login = useCallback((username: string, idToken: string) => {

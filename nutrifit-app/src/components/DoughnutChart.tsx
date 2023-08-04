@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { doughnutChartPercentToProportions } from "../helpers/chartDataHelper";
+import { doughnutChartPercentToProportions, doughnutChartProportionsToProportions } from "../helpers/chartDataHelper";
 
 type NutriData = {
     carbos_percents: number;
@@ -15,7 +15,7 @@ type NutriData = {
 type Props = {
     className?: string;
     nutriData: NutriData;
-    type: "setGoal" | "viewGoal";
+    type: "goal" | "proportions";
 }
 
 const DoughnutChart: FunctionComponent<Props> = (props) => {
@@ -24,8 +24,12 @@ const DoughnutChart: FunctionComponent<Props> = (props) => {
 
     ChartJS.register(ArcElement, Tooltip, Legend);
 
+    const data = type === "proportions" ? 
+    doughnutChartProportionsToProportions({proteins: nutriData.proteins_percents, fats: nutriData.fats_percents, carbos: nutriData.carbos_percents})
+    : 
+    doughnutChartPercentToProportions({proteins: nutriData.proteins_percents, fats: nutriData.fats_percents, carbos: nutriData.carbos_percents});
 
-    const center = type === "setGoal" ? 
+    const center = type === "proportions" ? 
         (<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
             <div className={'text-2xl font-bold text-white'}>{nutriData.energy}</div>
             <div className={'text-md text-white'}>{nutriData.energy_unit}</div>
@@ -46,7 +50,7 @@ const DoughnutChart: FunctionComponent<Props> = (props) => {
                         datasets: [
                             {
                                 label: '%',
-                                data: doughnutChartPercentToProportions({proteins: nutriData.proteins_percents, fats: nutriData.fats_percents, carbos: nutriData.carbos_percents}),
+                                data: data,
                                 backgroundColor: [
                                     '#F20000',
                                     '#38D386',

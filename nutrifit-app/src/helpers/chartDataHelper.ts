@@ -5,4 +5,12 @@ export const doughnutChartPercentToProportions = (data: any) => {
         return [0, data.carbos, data.fats, data.proteins, 0];
     }
     return [0, data.carbos, data.fats, data.proteins, 100-sum];
-} 
+}
+
+export const doughnutChartProportionsToProportions = (data: any) => {
+    let sum = data.proteins + data.fats + data.carbos;
+    if(sum > 0){
+        return [0, data.carbos, data.fats, data.proteins, 0];
+    }
+    return [0, 0, 0, 0, 1];
+}

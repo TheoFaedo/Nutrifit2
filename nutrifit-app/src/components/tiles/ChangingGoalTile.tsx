@@ -79,7 +79,7 @@ const ChangingGoalTile: FunctionComponent = () => {
         <form className='bg-neutral-800  my-6 mx-4 rounded-lg p-4' onSubmit={handleSubmit}>
             <div className="tile_title text-left">Change daily goal</div>
             <div className="flex justify-evenly items-center">
-                <DoughnutChart type="setGoal" nutriData={
+                <DoughnutChart type="proportions" nutriData={
                     {
                         energy:form.energy,
                         energy_unit:"kcal",

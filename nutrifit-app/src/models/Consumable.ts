@@ -1,5 +1,5 @@
 export default class Consumable{
-    id: number;
+    id?: number;
     name: string;
     energy: number;
     fats: number;
@@ -8,7 +8,8 @@ export default class Consumable{
     quantity_label: string;
     is_public: boolean;
     type: string;
-    author: number;
+    author?: number;
+    ingredients: Consumable[];
 
     constructor(
         id: number,
@@ -20,7 +21,8 @@ export default class Consumable{
         quantity_label: string = "1g",
         is_public: boolean = true,
         type: string = "MEAL",
-        author: number
+        author: number,
+        ingredients: Consumable[] = []
     ){
         this.id = id;
         this.name = name;
@@ -32,5 +34,6 @@ export default class Consumable{
         this.is_public = is_public;
         this.type = type;
         this.author = author;
+        this.ingredients = ingredients;
     }
 }

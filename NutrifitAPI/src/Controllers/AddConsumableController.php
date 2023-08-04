@@ -36,14 +36,14 @@ class AddConsumableController extends Controller{
             if(isset($params['name']) && isset($params['energy']) 
             && isset($params['fats']) && isset($params['carbohydrates']) 
             && isset($params['proteins']) && isset($params['quantity_label'])
-            && isset($params['public']) && isset($params['type'])){
+            && isset($params['is_public']) && isset($params['type'])){
 
                 $user = $authhelper->getIdUserAuthentified();
 
                 $consumable = new Consumable();
                 $consumable->name = $params['name'];
                 $consumable->quantity_label = $params['quantity_label'];
-                $consumable->public = $params['public'];
+                $consumable->is_public = $params['is_public'];
                 $consumable->type = $params['type'];
                 $consumable->author = $user;
                 $consumable->save();

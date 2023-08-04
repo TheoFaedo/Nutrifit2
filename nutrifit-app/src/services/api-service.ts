@@ -1,3 +1,5 @@
+import Consumable from "../models/Consumable";
+
 const apiDomain = "http://localhost:8080";
 
 
@@ -33,7 +35,22 @@ export const changenutritionalgoal = (newGoal: any): Promise<any> => {
     },
     credentials: 'include',
     body: JSON.stringify(newGoal),
-    } ).then(response => {
+    }).then(response => {
+        return response.json();
+    }).catch(() => {
+        return {error: "Connection problem"};
+    });
+}
+
+export const addConsumable = (consumable: Consumable): Promise<any> => {
+    return fetch(`${apiDomain}/addconsumable`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(consumable),
+    }).then(response => {
         return response.json();
     }).catch(() => {
         return {error: "Connection problem"};
