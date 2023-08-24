@@ -20,40 +20,42 @@ type Form = {
     proteins: Field;
 }
 
+const initialForm = {
+    name: {
+        value: "",
+        error: "",
+        isValid: true
+    },
+    serving_size: {
+        value: "",
+        error: "",
+        isValid: true
+    },
+    energy: {
+        value: 0,
+        error: "",
+        isValid: true
+    },
+    carbos: {
+        value: 0,
+        error: "",
+        isValid: true
+    },
+    fats: {
+        value: 0,
+        error: "",
+        isValid: true
+    },
+    proteins: {
+        value: 0,
+        error: "",
+        isValid: true
+    }
+}
+
 const AddingMealMeal : FunctionComponent = () => {
 
-    const [form, setForm] = useState<Form>({
-        name: {
-            value: "",
-            error: "",
-            isValid: true
-        },
-        serving_size: {
-            value: "",
-            error: "",
-            isValid: true
-        },
-        energy: {
-            value: 0,
-            error: "",
-            isValid: true
-        },
-        carbos: {
-            value: 0,
-            error: "",
-            isValid: true
-        },
-        fats: {
-            value: 0,
-            error: "",
-            isValid: true
-        },
-        proteins: {
-            value: 0,
-            error: "",
-            isValid: true
-        }
-    });
+    const [form, setForm] = useState<Form>( { ...initialForm});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
@@ -125,12 +127,16 @@ const AddingMealMeal : FunctionComponent = () => {
             carbohydrates: form.carbos.value,
             fats: form.fats.value,
             proteins: form.proteins.value,
-            type : "meal",
+            type : "MEAL",
             is_public: true,
             ingredients: [],
         }
 
-        addConsumable(consumable);
+        addConsumable(consumable).catch((err) => {
+            console.log(err);
+        });
+
+        setForm({...initialForm});
     }
 
     return (

@@ -1,4 +1,11 @@
+type consumablePropotion = {
+    idConsumable: number;
+    proportion: number;
+}
+
 export default class Consumable{
+
+
     idConsumable?: number;
     name: string;
     energy: number;
@@ -9,7 +16,7 @@ export default class Consumable{
     is_public: boolean;
     type: string;
     author?: number;
-    ingredients: Consumable[];
+    ingredients: consumablePropotion[];
 
     constructor(
         idConsumable: number,
@@ -22,7 +29,7 @@ export default class Consumable{
         is_public: boolean = true,
         type: string = "MEAL",
         author: number,
-        ingredients: Consumable[] = []
+        ingredients: consumablePropotion[] = []
     ){
         this.idConsumable = idConsumable;
         this.name = name;
