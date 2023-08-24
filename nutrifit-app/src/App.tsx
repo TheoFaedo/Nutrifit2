@@ -27,7 +27,7 @@ function App() {
 
   return (
     <Router>
-      <div className="container">
+      <div className="containerr" id="container">
         <UserContextProvider defaultValue={{loggedIn: false}}>
           <Header />
           <RewardBar />

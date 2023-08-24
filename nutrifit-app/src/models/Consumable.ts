@@ -1,5 +1,5 @@
 export default class Consumable{
-    id?: number;
+    idConsumable?: number;
     name: string;
     energy: number;
     fats: number;
@@ -12,7 +12,7 @@ export default class Consumable{
     ingredients: Consumable[];
 
     constructor(
-        id: number,
+        idConsumable: number,
         name: string = "undefined",
         energy: number = 0,
         fats: number = 0,
@@ -24,7 +24,7 @@ export default class Consumable{
         author: number,
         ingredients: Consumable[] = []
     ){
-        this.id = id;
+        this.idConsumable = idConsumable;
         this.name = name;
         this.energy = energy;
         this.fats = fats;

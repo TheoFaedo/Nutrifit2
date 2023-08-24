@@ -30,7 +30,7 @@ class PublicConsumablesController extends Controller{
         $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
-            $publicConsumables = Consumable::where('public', 1);
+            $publicConsumables = Consumable::where('is_public', 1);
 
             if(isset($params['q'])){
                 if(strlen($params['q']) >= 3){

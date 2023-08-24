@@ -138,7 +138,7 @@ class RemoveConsumptionRequestTest extends TestCase{
         $consumable->idConsumable = 1;
         $consumable->name = 'test1';
         $consumable->author = 99999;
-        $consumable->public = 1;
+        $consumable->is_public = 1;
         $consumable->energy = 100;
         $consumable->proteins = 100;
         $consumable->fats = 100;
@@ -151,7 +151,7 @@ class RemoveConsumptionRequestTest extends TestCase{
         $consumable->idConsumable = 2;
         $consumable->name = 'test2';
         $consumable->author = 99999;
-        $consumable->public = 1;
+        $consumable->is_public = 1;
         $consumable->energy = 200;
         $consumable->proteins = 200;
         $consumable->fats = 200;

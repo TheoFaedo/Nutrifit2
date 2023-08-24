@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-.container{
+.containerr{
     @apply bg-neutral-950 h-full text-center shadow-lg shadow-black flex flex-col mx-auto max-h-screen;
+}
+
+.dialog{
+    @apply fixed inset-0 z-20 bg-neutral-800 h-full text-center flex flex-col mx-auto max-h-screen;
 }
 
 .reward-bar{
@@ -76,6 +80,18 @@
     @apply gradient-bg text-black;
 }
 
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #61a584;
+    overflow: hidden;
+}
+
 @keyframes animate {
     0%{
         transform: translateY(0) rotate(0deg);
@@ -89,16 +105,16 @@
     }
 }
 
-.background {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    background: #61a584;
-    overflow: hidden;
+@keyframes button-background-color {
+    0%{
+        @apply bg-none;
+    }
+    40%{
+        @apply bg-black;
+    }
+    100%{
+        @apply bg-none;
+    }
 }
 
 .dot {
@@ -116,20 +132,20 @@
     100% {
       background-position: 100% 50%;
     }
-  }
+}
   
-  .animate-gradient-fast {
-    animation: gradient 1s linear infinite;
-  }
+.animate-gradient-fast {
+    animation: gradient 1s ease-in-out infinite;
+}
 
 @screen lg{
-    .container{
+    .containerr, .dialog{
         @apply w-phone;
     }
 }
 
 @screen xl{
-    .container{
+    .containerr, .dialog{
         @apply w-phone;
     }
 }

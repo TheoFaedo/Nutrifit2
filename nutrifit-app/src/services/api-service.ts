@@ -56,3 +56,17 @@ export const addConsumable = (consumable: Consumable): Promise<any> => {
         return {error: "Connection problem"};
     });
 }
+
+export const consumables = (keyword: string): Promise<any> => {
+    return fetch(`${apiDomain}/consumables/?q=${keyword}`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    }).then(response => {
+        return response.json();
+    }).catch(() => {
+        return {error: "Connection problem"};
+    });
+}
