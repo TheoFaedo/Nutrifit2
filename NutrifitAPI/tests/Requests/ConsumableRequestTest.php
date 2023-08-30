@@ -57,7 +57,7 @@ class ConsumableRequestTest extends TestCase{
             'carbohydrates' => 0,
             'proteins' => 0,
             'quantity_label' => '',
-            'public' => 1,
+            'is_public' => 1,
             'type' => 'RECIPE',
             'author' => 99999
         ]
@@ -148,7 +148,7 @@ class ConsumableRequestTest extends TestCase{
             $consumable->idConsumable = $data['idConsumable'];
             $consumable->name = $data['name'];
             $consumable->author = $data['author'];
-            $consumable->public = 1;
+            $consumable->is_public = 1;
             $consumable->save();
             array_push($this->models, $consumable);
         }

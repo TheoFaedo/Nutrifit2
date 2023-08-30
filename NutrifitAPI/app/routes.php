@@ -63,6 +63,15 @@ return function (App $app) {
 
     $app->group('/consumables', function (Group $group) use ($container) {
 
+        // Get all consumables created by the specified user
+        $group->get('/{author_id}[/]', function ($request, $response, array $args) use ($container) {
+
+            $controller = new ConsumablesOfAuthorController($container);
+
+            return $controller->__invoke($request, $response, $args);
+        });
+
+    
         // Get all consumables who are public
         $group->get('/', function ($request, $response, array $args) use ($container) {
             $controller = new PublicConsumablesController($container);
@@ -70,13 +79,6 @@ return function (App $app) {
             return $controller->__invoke($request, $response, $args);
         });
 
-        // Get all consumables created by the specified user
-        $group->get('/{author_id:[0-9]+}[/]', function ($request, $response, array $args) use ($container) {
-
-            $controller = new ConsumablesOfAuthorController($container);
-
-            return $controller->__invoke($request, $response, $args);
-        });
     });
 
     $app->get('/consumable/{id:[0-9]+}[/]', function (Request $request, Response $response, $args) use ($container) {

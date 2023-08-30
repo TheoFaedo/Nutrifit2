@@ -38,7 +38,7 @@ class PublicConsumablesController extends Controller{
                 }
             }
 
-            $res['publicConsumables'] = $publicConsumables->get();
+            $res['consumables'] = $publicConsumables->get();
 
             $rs->getBody()->write(json_encode($res));
             $rs= $rs->withStatus(200);

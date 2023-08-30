@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 //Models
 use App\Models\Consumable;
+use App\Models\User;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -25,13 +26,22 @@ class ConsumablesOfAuthorController extends Controller{
      * @return Result json with sucess value, json with error message if error
      */
     public function __invoke(Request $rq, Response $rs, $args){
+        $params = $rq->getQueryParams();
 
         $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
-            $consumables = Consumable::where('author', $args['author_id'])->get();
+            $idFromIdToken = User::where('token', $args['author_id'])->first()->idUser;
 
-            $res['consumables'] = $consumables;
+            $consumables = Consumable::where('author', $idFromIdToken);
+
+            if(isset($params['q'])){
+                if(strlen($params['q']) >= 3){
+                    $consumables = $consumables->where('name', 'LIKE', '%'.$params['q'].'%');
+                }
+            }
+
+            $res['consumables'] = $consumables->get();
 
             $rs->getBody()->write(json_encode($res));
             $rs= $rs->withStatus(200);

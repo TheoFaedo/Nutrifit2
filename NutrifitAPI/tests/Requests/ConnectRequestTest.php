@@ -67,8 +67,6 @@ class ConnectRequestTest extends TestCase{
         $this->userSaved->pseudo = $pseudo;
         $this->userSaved->pwdhash = $password;
         $this->userSaved->save();
-
-        
         
 
         $app = $this->getAppInstance();
@@ -94,7 +92,11 @@ class ConnectRequestTest extends TestCase{
         $json = (string) $response->getBody();
         $data = json_decode($json, true);
 
-        $this->assertEquals(['success' => true], $data);
+        $this->assertEquals([
+            'success' => true,
+            'pseudo' => $this->userSaved->pseudo,
+            'idToken' => $this->userSaved->token]
+        , $data);
     }
 
 }

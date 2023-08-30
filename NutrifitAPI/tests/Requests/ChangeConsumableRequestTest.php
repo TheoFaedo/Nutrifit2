@@ -48,8 +48,9 @@ class ChangeConsumableRequestTest extends TestCase{
             'fats' => 100,
             'carbohydrates' => 100,
             'quantity_label' => '100g',
-            'public' => 1,
-            'type' => 'MEAL'
+            'is_public' => 1,
+            'type' => 'MEAL',
+            'ingredients' => []
         ]);
         $response = $app->handle($request);
 
@@ -106,7 +107,7 @@ class ChangeConsumableRequestTest extends TestCase{
         $consumable->idConsumable = 1;
         $consumable->name = 'test1';
         $consumable->author = 99999;
-        $consumable->public = 1;
+        $consumable->is_public = 1;
         $consumable->energy = 100;
         $consumable->proteins = 100;
         $consumable->fats = 100;

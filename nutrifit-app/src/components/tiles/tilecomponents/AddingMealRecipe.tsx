@@ -5,6 +5,7 @@ import Consumable from "../../../models/Consumable";
 import TextInput from "../../TextInput";
 import { addConsumable } from "../../../services/api-service";
 import NumberInput from "../../NumberInput";
+import DoughnutChart from "../../DoughnutChart";
 
 type Field = {
     value?: any;
@@ -48,6 +49,38 @@ const AddingMealRecipe : FunctionComponent = () => {
                 proportion: 1
             }
         ]);
+    }
+
+    const totalEnergy = () => {
+        let energy = 0;
+        ingredients.forEach((cons) => {
+            energy += cons.proportion * cons.consumable.energy;
+        });
+        return energy;
+    }
+
+    const totalCarbos = () => {
+        let carbos = 0;
+        ingredients.forEach((cons) => {
+            carbos += cons.proportion * cons.consumable.carbohydrates;
+        });
+        return carbos;
+    }
+
+    const totalFats = () => {
+        let fats = 0;
+        ingredients.forEach((cons) => {
+            fats += cons.proportion * cons.consumable.fats;
+        });
+        return fats;
+    }
+
+    const totalProteins = () => {
+        let proteins = 0;
+        ingredients.forEach((cons) => {
+            proteins += cons.proportion * cons.consumable.proteins;
+        });
+        return proteins;
     }
 
     const quitDialog = () => {
@@ -127,12 +160,55 @@ const AddingMealRecipe : FunctionComponent = () => {
                 <label className='text-white font-inter font-medium text-sm text-left' htmlFor='serving_size'>Serving size :</label>
             </div>
             <TextInput name="serving_size" placeholder="Serving size" value={form.serving_size.value} onChange={handleChange}/>
+
             <div className="font-inter font-medium text-white text-lg text-left mt-6">Ingredient(s)</div>
             <SearchConsumableDialog addToList={addIngredient} active={dialogActive} quitDialog={quitDialog}/>
 
             {ingredientNode}
             
             <div className="mx-6"><Button name="Add ingredient" inverted onClick={() => {setDialogActive(true)}}/></div>
+
+            <div className="font-inter font-medium text-white text-lg text-left mt-6">Nutritionnal values :</div>
+            <div className="w-full flex items-center justify-center">
+                <DoughnutChart className="mt-6" type="proportions" nutriData={
+                    {
+                        energy: totalEnergy(),
+                        carbos_percents: totalCarbos(),
+                        fats_percents: totalFats(),
+                        proteins_percents: totalProteins(),
+                        energy_unit: "kcal",
+                        energy_goal: 0
+                    }
+                }
+                />
+            </div>
+
+            <div className='flex flex-col justify-center gap-2 my-4 p-4'>
+                <div className='text-white grid grid-cols-2'>
+                    <div className='text-left text-white font-medium text-sm flex items-center h-full'>
+                        <span className="dot" style={{ backgroundColor: "#38D386" }}></span>
+                        <label htmlFor='energy'>Carbohydrates (g)</label>
+                    </div>
+                    {totalCarbos()}
+                </div>
+                <div className='text-white grid grid-cols-2'>
+                    <div className='text-left text-white font-medium text-sm flex items-center h-full'>
+                        <span className="dot" style={{ backgroundColor: "#CC57F5" }}></span>
+                        <label htmlFor='energy'>Fats (g)</label>
+                    </div>
+                    {totalFats()}
+                </div>
+                <div className='text-white grid grid-cols-2'>
+                    <div className='text-left text-white font-medium text-sm flex items-center h-full'>
+                        <span className="dot" style={{ backgroundColor: "#EEBD30" }}></span>
+                        <label htmlFor='energy'>Proteins (g)</label>
+                    </div>
+                    {totalProteins()}
+                </div>
+            </div>
+
+           
+
             <div className="mt-4"><Button name="Add" onClick={handleSubmit}/></div>
         </div>
     );

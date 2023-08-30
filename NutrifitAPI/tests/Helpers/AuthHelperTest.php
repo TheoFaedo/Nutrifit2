@@ -27,17 +27,18 @@ class AuthHelperTest extends TestCase
             ->method('setItem')
             ->with('user', $userMock->toArray());
 
-        $staticExecutoMock = $this->createMock(StaticExecutor::class);
-        $staticExecutoMock->expects($this->any())
+        $staticExecutorMock = $this->createMock(StaticExecutor::class);
+        $staticExecutorMock->expects($this->any())
             ->method('execute')
             ->with('App\Models\User', 'authentify', 'john_doe', 'password123')
             ->willReturn($userMock);
 
-        $authHelper = new AuthHelper($sessionMock, $staticExecutoMock);
+        $authHelper = new AuthHelper($sessionMock, $staticExecutorMock);
 
         $result = $authHelper->authentify('john_doe', 'password123');
 
-        $this->assertTrue($result);
+        $this->assertNotFalse($result);
+        $this->assertNotNull($result);
     }
 
     public function testGetIdUserAuthentifiedIfAuthentified()

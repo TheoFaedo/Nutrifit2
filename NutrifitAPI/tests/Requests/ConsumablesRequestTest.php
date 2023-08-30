@@ -44,7 +44,7 @@ class ConsumablesRequestTest extends TestCase{
         $json = (string) $response->getBody();
         $data = json_decode($json, true);
 
-        $this->assertEquals(['publicConsumables' => array(
+        $this->assertEquals(['consumables' => array(
             [
                 'idConsumable' => 1,
                 'name' => 'test1',
@@ -54,7 +54,7 @@ class ConsumablesRequestTest extends TestCase{
                 'carbohydrates' => 0,
                 'proteins' => 0,
                 'quantity_label' => '',
-                'public' => 1,
+                'is_public' => 1,
                 'type' => 'RECIPE'
             ],
             [
@@ -66,7 +66,7 @@ class ConsumablesRequestTest extends TestCase{
                 'carbohydrates' => 0,
                 'proteins' => 0,
                 'quantity_label' => '',
-                'public' => 1,
+                'is_public' => 1,
                 'type' => 'RECIPE'
             ]
         )], $data);
@@ -81,7 +81,7 @@ class ConsumablesRequestTest extends TestCase{
         $sessionMock = $container->get('session');
         $sessionMock = $this->authentifyByMock($sessionMock);
 
-        $request = $this->createRequest('GET', '/consumables/99998');
+        $request = $this->createRequest('GET', '/consumables/token99998');
 
         $response = $app->handle($request);
 
@@ -98,7 +98,7 @@ class ConsumablesRequestTest extends TestCase{
                 'carbohydrates' => 0,
                 'proteins' => 0,
                 'quantity_label' => '',
-                'public' => 1,
+                'is_public' => 1,
                 'type' => 'RECIPE'
             ]
         )], $data);
@@ -121,7 +121,7 @@ class ConsumablesRequestTest extends TestCase{
         $json = (string) $response->getBody();
         $data = json_decode($json, true);
 
-        $this->assertEquals(['publicConsumables' => array(
+        $this->assertEquals(['consumables' => array(
             [
                 'idConsumable' => 2,
                 'name' => 'test2',
@@ -131,7 +131,7 @@ class ConsumablesRequestTest extends TestCase{
                 'carbohydrates' => 0,
                 'proteins' => 0,
                 'quantity_label' => '',
-                'public' => 1,
+                'is_public' => 1,
                 'type' => 'RECIPE'
             ]
         )], $data);
@@ -154,7 +154,7 @@ class ConsumablesRequestTest extends TestCase{
         $json = (string) $response->getBody();
         $data = json_decode($json, true);
 
-        $this->assertEquals(['publicConsumables' => array()], $data);
+        $this->assertEquals(['consumables' => array()], $data);
     }
 
     public function testNotAuthentified(){
@@ -184,6 +184,7 @@ class ConsumablesRequestTest extends TestCase{
 
         $user2 = new User();
         $user2->idUser = 99998;
+        $user2->token = 'token99998';
         $user2->pseudo = 'test2';
         $user2->mail = 'test2@gmail.com';
         $user2->save();
@@ -193,7 +194,7 @@ class ConsumablesRequestTest extends TestCase{
             $consumable->idConsumable = $data['idConsumable'];
             $consumable->name = $data['name'];
             $consumable->author = $data['author'];
-            $consumable->public = 1;
+            $consumable->is_public = 1;
             $consumable->save();
             array_push($this->models, $consumable);
         }

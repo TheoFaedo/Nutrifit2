@@ -117,7 +117,7 @@ class ConsumptionAtDateRequestTest extends TestCase{
         $consumable->idConsumable = 1;
         $consumable->name = 'test1';
         $consumable->author = 99999;
-        $consumable->public = 1;
+        $consumable->is_public = 1;
         $consumable->energy = 100;
         $consumable->proteins = 100;
         $consumable->fats = 100;

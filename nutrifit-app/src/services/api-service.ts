@@ -70,3 +70,17 @@ export const consumables = (keyword: string): Promise<any> => {
         return {error: "Connection problem"};
     });
 }
+
+export const consumablesOfAuthor = (keyword: string, idToken: string): Promise<any> => {
+    return fetch(`${apiDomain}/consumables/${idToken}/?q=${keyword}`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    }).then(response => {
+        return response.json();
+    }).catch(() => {
+        return {error: "Connection problem"};
+    });
+}

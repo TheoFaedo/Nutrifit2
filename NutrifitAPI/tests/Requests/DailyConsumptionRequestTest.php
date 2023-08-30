@@ -123,7 +123,7 @@ class DailyConsumptionRequestTest extends TestCase{
             $consumable->idConsumable = $consumabledata['idConsumable'];
             $consumable->name = $consumabledata['name'];
             $consumable->author = $consumabledata['author'];
-            $consumable->public = 1;
+            $consumable->is_public = 1;
             $consumable->save();
             array_push($this->consumables, $consumable);
         }
