@@ -28,6 +28,7 @@ use App\Controllers\ChangeConsumableController;
 use App\Controllers\ConsumptionAtDateController;
 use App\Controllers\RemoveConsumptionController;
 use App\Controllers\RemoveConsumableController;
+use App\Controllers\ChangeConsumptionController;
 
 return function (App $app) {
 
@@ -119,6 +120,12 @@ return function (App $app) {
 
     $app->put('/changeconsumable/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) use ($container) {
         $controller = new ChangeConsumableController($container);
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->put('/changeconsumption/{id_cons:[0-9]+}[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ChangeConsumptionController($container);
 
         return $controller->__invoke($request, $response, $args);
     });

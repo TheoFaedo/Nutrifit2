@@ -10,11 +10,11 @@ use App\Helpers\DBConnection;
 use App\Application\Session;
 use App\Application\StaticExecutor;
 
-use App\Models\Consumption;
 use App\Models\Consumable;
 use App\Models\User;
+use App\Models\Consumption;
 
-class ConsumptionAtDateRequestTest extends TestCase{
+class ChangeConsumptionRequestTest extends TestCase{
 
     protected function setUp(): void{
         parent::setUp();
@@ -40,42 +40,17 @@ class ConsumptionAtDateRequestTest extends TestCase{
             ->with('user')
             ->willReturn(['idUser' => 99999]);
 
-        $request = $this->createRequest('GET', '/consumptionatdate/')
-        ->withQueryParams(['date' => '2019-01-01']);
-        $response = $app->handle($request);
-
-        $json = (string) $response->getBody();
-        $data = json_decode($json, true);
-
-        $this->assertEquals([[
-            'idConsumption' => 1,
+        $request = $this->createRequest('PUT', '/changeconsumption/99/')
+        ->withParsedBody([
             'idConsumable' => 1,
-            'idUser' => 99999,
-            'consumed_on' => '2019-01-01 00:00:00',
-            'last_update' => '2019-01-01 00:00:00',
-            'proportion' => 1,
-            'consumable' => [
-                'idConsumable' => 1,
-                'name' => 'test1',
-                'energy' => 100,
-                'fats' => 100,
-                'carbohydrates' => 100,
-                'proteins' => 100,
-                'quantity_label' => '100g',
-                'is_public' => 1,
-                'type' => 'MEAL',
-                'author' => 99999
-            ]
-        ]], $data);
-
-        $request = $this->createRequest('GET', '/consumptionatdate/')
-        ->withQueryParams(['date' => '2019-01-02']);
+            'proportion' => 2
+        ]);
         $response = $app->handle($request);
 
         $json = (string) $response->getBody();
         $data = json_decode($json, true);
 
-        $this->assertEquals([], $data);
+        $this->assertEquals(['success' => true], $data);
     }
 
     public function testMissingParameters(){
@@ -84,13 +59,9 @@ class ConsumptionAtDateRequestTest extends TestCase{
 
         $sessionMock = $container->get('session');
         $sessionMock = $this->authentifyByMock($sessionMock);
-        $sessionMock->expects($this->any())
-            ->method('getItem')
-            ->with('user')
-            ->willReturn(['idUser' => 99999]);
 
-        $request = $this->createRequest('GET', '/consumptionatdate/')
-        ->withQueryParams([]);
+        $request = $this->createRequest('PUT', '/changeconsumable/1/')
+        ->withParsedBody([]);
         $response = $app->handle($request);
 
         $json = (string) $response->getBody();
@@ -104,8 +75,8 @@ class ConsumptionAtDateRequestTest extends TestCase{
 
         $this->createDataSet();
 
-        $request = $this->createRequest('GET', '/consumptionatdate/')
-        ->withQueryParams([]);
+        $request = $this->createRequest('PUT', '/changeconsumable/1/')
+        ->withParsedBody([]);
         $response = $app->handle($request);
 
         $json = (string) $response->getBody();
@@ -138,15 +109,12 @@ class ConsumptionAtDateRequestTest extends TestCase{
         $consumable->type = 'MEAL';
         $consumable->save();
 
-        $recipecomposition = new Consumption();
-        $recipecomposition->idConsumption = 1;
-        $recipecomposition->idConsumable = 1;
-        $recipecomposition->idUser = 99999;
-        $recipecomposition->consumed_on = '2019-01-01';
-        $recipecomposition->last_update = '2019-01-01';
-        $recipecomposition->proportion = 1;
-        $recipecomposition->save();
-
+        $consumption = new Consumption();
+        $consumption->idConsumption = 99;
+        $consumption->idUser = 99999;
+        $consumption->idConsumable = 1;
+        $consumption->proportion = 1;
+        $consumption->save();
     }
 
 } 
