@@ -1,6 +1,7 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { NavBarContext } from '../context/NavBarContext';
 import CalendarTile from "../components/tiles/CalendarTile";
+import DiaryTile from "../components/tiles/DiaryTile";
 
 const Diary: FunctionComponent = () => {
 
@@ -27,6 +28,7 @@ const Diary: FunctionComponent = () => {
     return (
         <>
             <CalendarTile date={date} prevHandler={() => {prevHandler()}} nextHandler={() => {nextHandler()}} />
+            <DiaryTile date={date}/>
         </>
     );
 }

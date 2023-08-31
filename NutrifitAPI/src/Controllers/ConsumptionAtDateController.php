@@ -7,6 +7,7 @@ use App\Helpers\AuthHelper;
 use App\Controllers\Controller;
 
 use App\Models\Consumption;
+use App\Models\Consumable;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -38,7 +39,8 @@ class ConsumptionAtDateController extends Controller{
                 $consumptionAtDay = Consumption::whereDate('consumed_on', '=', $params['date'])->where('idUser', $idUser)->get();
             
                 foreach($consumptionAtDay as $consumption){
-                    $res[$consumption->idConsumption] = $consumption;
+                    $consumable = Consumable::where('idConsumable', $consumption->idConsumable)->first();
+                    array_push($res, [...$consumption->toArray(), 'consumable' => $consumable->toArray()]);
                 }
             }else{
                 $res['error'] = "Missing parameters";

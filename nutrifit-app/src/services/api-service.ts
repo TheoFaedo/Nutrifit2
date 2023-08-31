@@ -1,4 +1,5 @@
 import Consumable from "../models/Consumable";
+import { formatDate } from "../helpers/dateHelper";
 
 const apiDomain = "http://localhost:8080";
 
@@ -83,4 +84,36 @@ export const consumablesOfAuthor = (keyword: string, idToken: string): Promise<a
     }).catch(() => {
         return {error: "Connection problem"};
     });
+}
+
+export const consumptionListAtDate = (date: Date): Promise<any> => {
+
+    const formatedDate = formatDate(date);
+
+    return fetch(`${apiDomain}/consumptionatdate/?date=${formatedDate}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        }).then(response => {
+            return response.json();
+        }).catch(() => {
+            return {error: "Connection problem"};
+        });
+}
+
+export const removeConsumption = (idConsumption: number): Promise<any> => {
+
+    return fetch(`${apiDomain}/removeconsumption/${idConsumption}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        }).then(response => {
+            return response.json();
+        }).catch(() => {
+            return {error: "Connection problem"};
+        });
 }
