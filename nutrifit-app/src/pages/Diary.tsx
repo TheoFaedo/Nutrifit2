@@ -1,9 +1,24 @@
-import { FunctionComponent, useContext, useEffect } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { NavBarContext } from '../context/NavBarContext';
+import CalendarTile from "../components/tiles/CalendarTile";
 
 const Diary: FunctionComponent = () => {
 
     const { showNavBar } = useContext(NavBarContext);
+
+    const [date, setDate] = useState(new Date());
+
+    const prevHandler = () => {
+        const prevDate = new Date(date);
+        prevDate.setDate(prevDate.getDate() - 1);
+        setDate(prevDate);
+    }
+
+    const nextHandler = () => {
+        const nextDate = new Date(date);
+        nextDate.setDate(nextDate.getDate() + 1);
+        setDate(nextDate);
+    }
 
     useEffect(() => {
         showNavBar();
@@ -11,11 +26,9 @@ const Diary: FunctionComponent = () => {
 
     return (
         <>
-            <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'>Diary</div>
-            <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'></div>
-            <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'></div>
+            <CalendarTile date={date} prevHandler={() => {prevHandler()}} nextHandler={() => {nextHandler()}} />
         </>
-    )
+    );
 }
 
 export default Diary;
