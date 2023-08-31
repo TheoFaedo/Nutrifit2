@@ -1,8 +1,7 @@
 
 import { FunctionComponent, useEffect, useState } from 'react';
 import Consumption from '../../models/Consumption';
-import Consumable from '../../models/Consumable';
-import { consumptionListAtDate, removeConsumption } from '../../services/api-service';
+import { changeConsumption, consumptionListAtDate, removeConsumption } from '../../services/api-service';
 import NumberInput from '../NumberInput';
 
 type Props = {
@@ -25,6 +24,10 @@ const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
         }))
     }
 
+    const handleBlurSaveConsumption = (cons: Consumption) => {
+        changeConsumption(cons);
+    }
+
     const handleRemoveConsumption = (idConsumption: number) => {
         setconsumptionList(consumptionList.filter((cons) => cons.idConsumption !== idConsumption));
         removeConsumption(idConsumption);
@@ -34,11 +37,11 @@ const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
         <div key={cons.idConsumption} className={"bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center"}>
             <div>
                 <div className="h-full text-left text-white">{cons.consumable.name ? cons.consumable.name : "undefined"}</div>
-                <div className="h-full text-left text-neutral-400 font-normal">{cons.consumable.energy} kcal, {cons.consumable.quantity_label}</div>
+                <div className="h-full text-left text-neutral-400 font-normal">{cons.consumable.energy*cons.proportion} kcal, {(cons.proportion === 1 ? "" : (cons.proportion + "x")) + cons.consumable.quantity_label}</div>
             </div>
             <div className="flex items-center gap-6">
-                <NumberInput value={cons.proportion} name={cons.idConsumption+""} onChange={handleChangeProportion} backgroundColor="bg-neutral-600" textColor="text-white" />
-                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 bg-main text-3xl" onClick={() => {handleRemoveConsumption(cons.idConsumption)}}>-</button>
+                <NumberInput value={cons.proportion} name={cons.idConsumption+""} onChange={handleChangeProportion} onBlur={() => handleBlurSaveConsumption(cons)} backgroundColor="bg-neutral-600" textColor="text-white" />
+                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 bg-main text-3xl text-white" onClick={() => {handleRemoveConsumption(cons.idConsumption)}}>-</button>
             </div>
         </div>
     ));

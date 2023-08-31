@@ -44,6 +44,7 @@ class ChangeConsumptionController extends Controller{
                     $consumption->idConsumable = $params['idConsumable'];
                     $consumption->proportion = $params['proportion'];
                     $consumption->last_update = date('Y-m-d H:i:s');
+                    $consumption->save();
     
                     $res['success'] = true;
                     $rs= $rs->withStatus(200);

@@ -1,5 +1,6 @@
 import Consumable from "../models/Consumable";
 import { formatDate } from "../helpers/dateHelper";
+import Consumption from "../models/Consumption";
 
 const apiDomain = "http://localhost:8080";
 
@@ -111,6 +112,25 @@ export const removeConsumption = (idConsumption: number): Promise<any> => {
             'Content-Type': 'application/json',
         },
         credentials: 'include',
+        }).then(response => {
+            return response.json();
+        }).catch(() => {
+            return {error: "Connection problem"};
+        });
+}
+
+export const changeConsumption = (consumption: Consumption): Promise<any> => {
+
+    return fetch(`${apiDomain}/changeconsumption/${consumption.idConsumption}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            idConsumable: consumption.consumable.idConsumable,
+            proportion: consumption.proportion
+        })
         }).then(response => {
             return response.json();
         }).catch(() => {
