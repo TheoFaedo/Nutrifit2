@@ -1,8 +1,12 @@
 
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import Consumption from '../../models/Consumption';
-import { changeConsumption, consumptionListAtDate, removeConsumption } from '../../services/api-service';
+import { addConsumption, changeConsumption, consumptionListAtDate, removeConsumption } from '../../services/api-service';
 import NumberInput from '../NumberInput';
+import Button from '../Button';
+import SearchConsumableDialog from '../dialog/SearchConsumableDialog';
+import Consumable from '../../models/Consumable';
+import { UserContext } from '../../context/UserContext';
 
 type Props = {
     date: Date;
@@ -10,7 +14,33 @@ type Props = {
 
 const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
 
+    const { idToken } = useContext(UserContext);
+
     const [consumptionList, setconsumptionList] = useState<Consumption[]>([]);
+    const [dialogActive, setDialogActive] = useState(false);
+
+    const quitDialog = () => {
+        setDialogActive(false);
+    }
+
+    const addConsumable = (cons: Consumable) => {
+        setconsumptionList([...consumptionList, 
+            {
+                consumable: cons,
+                idUser: idToken,
+                last_update: new Date(),
+                consumed_on: date,
+                proportion: 1
+            }
+        ]);
+        addConsumption({
+            consumable: cons,
+            idUser: idToken,
+            last_update: new Date(),
+            consumed_on: date,
+            proportion: 1
+        });
+    }
 
     const handleChangeProportion = (e: React.ChangeEvent<HTMLInputElement>) => {
         setconsumptionList(consumptionList.map((cons) => {
@@ -28,9 +58,9 @@ const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
         changeConsumption(cons);
     }
 
-    const handleRemoveConsumption = (idConsumption: number) => {
+    const handleRemoveConsumption = (idConsumption: number|undefined) => {
         setconsumptionList(consumptionList.filter((cons) => cons.idConsumption !== idConsumption));
-        removeConsumption(idConsumption);
+        if(idConsumption) removeConsumption(idConsumption);
     }
 
     const consumptionListNode = consumptionList && consumptionList.map((cons) => (
@@ -58,6 +88,8 @@ const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
             <div>
                 {consumptionListNode}
             </div>
+            <div className="mx-6"><Button name="Add food" inverted onClick={() => {setDialogActive(true)}}/></div>
+            <SearchConsumableDialog active={dialogActive} quitDialog={quitDialog} addToList={addConsumable}/>
         </div>
     );
 }

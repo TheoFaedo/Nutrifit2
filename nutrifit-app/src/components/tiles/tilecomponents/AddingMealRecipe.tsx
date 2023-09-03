@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import Button from "../../Button";
-import SearchConsumableDialog from "../../SearchConsumableDialog";
+import SearchConsumableDialog from "../../dialog/SearchConsumableDialog";
 import Consumable from "../../../models/Consumable";
 import TextInput from "../../TextInput";
 import { addConsumable } from "../../../services/api-service";
@@ -145,7 +145,7 @@ const AddingMealRecipe : FunctionComponent = () => {
             </div>
             <div className="flex items-center gap-6">
                 <NumberInput value={cons.proportion} name={cons.idConsumable+""} onChange={handleChangeProportion} backgroundColor="bg-neutral-600" textColor="text-white" />
-                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 bg-main text-3xl" onClick={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable))}}>-</button>
+                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 bg-main text-3xl text-white" onClick={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable))}}>-</button>
             </div>
         </div>
     ))
