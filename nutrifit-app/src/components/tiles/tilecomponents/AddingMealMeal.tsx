@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import TextInput from '../../TextInput';
-import DoughnutChart from '../../DoughnutChart';
+import DoughnutChart from '../../MultipleDoughnutChart';
 import NumberInput from '../../NumberInput';
 import Button from '../../Button';
 import { addConsumable } from '../../../services/api-service';

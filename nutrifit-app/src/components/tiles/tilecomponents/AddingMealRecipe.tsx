@@ -5,7 +5,7 @@ import Consumable from "../../../models/Consumable";
 import TextInput from "../../TextInput";
 import { addConsumable } from "../../../services/api-service";
 import NumberInput from "../../NumberInput";
-import DoughnutChart from "../../DoughnutChart";
+import DoughnutChart from "../../MultipleDoughnutChart";
 
 type Field = {
     value?: any;

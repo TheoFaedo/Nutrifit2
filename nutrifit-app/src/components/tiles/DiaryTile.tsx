@@ -71,7 +71,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
             </div>
             <div className="flex items-center gap-6">
                 <NumberInput value={cons.proportion} name={cons.idConsumption+""} onChange={handleChangeProportion} onBlur={() => handleBlurSaveConsumption(cons)} backgroundColor="bg-neutral-600" textColor="text-white" />
-                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 bg-main text-3xl text-white" onClick={() => {handleRemoveConsumption(cons.idConsumption)}}>-</button>
+                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl text-white" onClick={() => {handleRemoveConsumption(cons.idConsumption)}}>-</button>
             </div>
         </div>
     ));

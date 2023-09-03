@@ -1,7 +1,7 @@
 
 import { FunctionComponent, useEffect, useState } from 'react';
 import Button from '../Button';
-import DoughnutChart from '../DoughnutChart';
+import MultipleDoughnutChart from '../MultipleDoughnutChart';
 import NumberInput from '../NumberInput';
 import { getnutritionalgoal, changenutritionalgoal } from '../../services/api-service';
 
@@ -79,7 +79,7 @@ const ChangingGoalTile: FunctionComponent = () => {
         <form className='bg-neutral-800  my-6 mx-4 rounded-lg p-4' onSubmit={handleSubmit}>
             <div className="tile_title text-left">Change daily goal</div>
             <div className="flex justify-evenly items-center">
-                <DoughnutChart type="proportions" nutriData={
+                <MultipleDoughnutChart type="proportions" nutriData={
                     {
                         energy:form.energy,
                         energy_unit:"kcal",

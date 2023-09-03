@@ -171,6 +171,9 @@ module.exports = {
       rose: colors.rose,
       main: '#8DF0C0',
       secondary: '#64DB84',
+      carbohydrates: '#38D386',
+      fats: '#CC57F5',
+      proteins: '#EEBD30',
     }),
     columns: {
       auto: 'auto',
