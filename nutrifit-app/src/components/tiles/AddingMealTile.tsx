@@ -6,7 +6,7 @@ import AddingMealRecipe from './tilecomponents/AddingMealRecipe';
 
 
 
-const AddingMeal: FunctionComponent = () => {
+const AddingMealTile: FunctionComponent = () => {
 
     const [active, setActive] = useState(0);
 
@@ -25,4 +25,4 @@ const AddingMeal: FunctionComponent = () => {
     );
 }
 
-export default AddingMeal;
+export default AddingMealTile;

@@ -137,3 +137,22 @@ export const changeConsumption = (consumption: Consumption): Promise<any> => {
             return {error: "Connection problem"};
         });
 }
+
+export const addConsumption = (consumption: Consumption): Promise<any> => {
+    return fetch(`${apiDomain}/consume/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            idConsumable: consumption.consumable.idConsumable,
+            proportion: consumption.proportion,
+            consumed_on: formatDate(consumption.consumed_on)
+        })
+        }).then(response => {
+            return response.json();
+        }).catch(() => {
+            return {error: "Connection problem"};
+        });
+}

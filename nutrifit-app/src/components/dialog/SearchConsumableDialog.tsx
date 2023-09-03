@@ -1,11 +1,11 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import left_arrow from "../img/left_arrow.png";
-import TextInput from "./TextInput";
-import Consumable from "../models/Consumable";
-import { consumables, consumablesOfAuthor } from "../services/api-service";
-import ListSelectorButton from "./ListSelectorButton";
-import { UserContext } from "../context/UserContext";
+import left_arrow from "../../img/left_arrow.png";
+import TextInput from "../TextInput";
+import Consumable from "../../models/Consumable";
+import { consumables, consumablesOfAuthor } from "../../services/api-service";
+import ListSelectorButton from "../ListSelectorButton";
+import { UserContext } from "../../context/UserContext";
 
 type Props = {
     addToList: Function; 

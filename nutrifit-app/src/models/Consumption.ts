@@ -1,9 +1,9 @@
 import Consumable from "./Consumable";
 
 export default class Consumption{
-    idConsumption: number;
+    idConsumption?: number;
     consumable: Consumable;
-    idUser: number;
+    idUser: string|undefined;
     consumed_on: Date;
     last_update: Date;
     proportion: number;
@@ -11,7 +11,7 @@ export default class Consumption{
     constructor(
         idConsumption: number,
         consumable: Consumable,
-        idUser: number,
+        idUser: string|undefined,
         consumed_on: Date = new Date(),
         last_update: Date = new Date(),
         proportion: number = 1

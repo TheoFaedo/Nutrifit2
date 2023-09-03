@@ -32,14 +32,14 @@ class ConsumeController extends Controller{
         $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
-            if(isset($params['idConsumable']) && isset($params['proportion'])){
+            if(isset($params['idConsumable']) && isset($params['proportion']) && isset($params['consumed_on'])){
                 $user = $authhelper->getIdUserAuthentified();
 
                 $consumption = new Consumption();
                 $consumption->idUser = $user;
                 $consumption->idConsumable = $params['idConsumable'];
                 $consumption->proportion = $params['proportion'];
-                $consumption->consumed_on = date('Y-m-d H:i:s');
+                $consumption->consumed_on = $params['consumed_on'];
                 $consumption->last_update = date('Y-m-d H:i:s');
                 $consumption->save();
 
