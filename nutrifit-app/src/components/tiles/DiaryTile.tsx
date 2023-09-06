@@ -10,13 +10,14 @@ import { UserContext } from '../../context/UserContext';
 
 type Props = {
     date: Date;
+    setConsumptionList: React.Dispatch<React.SetStateAction<Consumption[]>>;
+    consumptionList: Consumption[];
 }
 
-const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
+const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consumptionList} ) => {
 
     const { idToken } = useContext(UserContext);
 
-    const [consumptionList, setconsumptionList] = useState<Consumption[]>([]);
     const [dialogActive, setDialogActive] = useState(false);
 
     const quitDialog = () => {
@@ -24,26 +25,30 @@ const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
     }
 
     const addConsumable = (cons: Consumable) => {
-        setconsumptionList([...consumptionList, 
-            {
-                consumable: cons,
-                idUser: idToken,
-                last_update: new Date(),
-                consumed_on: date,
-                proportion: 1
-            }
-        ]);
         addConsumption({
             consumable: cons,
             idUser: idToken,
             last_update: new Date(),
             consumed_on: date,
             proportion: 1
+        }).then((response) => {
+            if(response.success){
+                setConsumptionList([...consumptionList, 
+                    {
+                        idConsumption: response.idConsumption,
+                        consumable: cons,
+                        idUser: idToken,
+                        last_update: new Date(),
+                        consumed_on: date,
+                        proportion: 1
+                    }
+                ]);
+            }
         });
     }
 
     const handleChangeProportion = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setconsumptionList(consumptionList.map((cons) => {
+        setConsumptionList(consumptionList.map((cons) => {
             if(cons.idConsumption === Number(e.target.name)){
                 return {
                     ...cons,
@@ -59,12 +64,12 @@ const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
     }
 
     const handleRemoveConsumption = (idConsumption: number|undefined) => {
-        setconsumptionList(consumptionList.filter((cons) => cons.idConsumption !== idConsumption));
+        setConsumptionList(consumptionList.filter((cons) => cons.idConsumption !== idConsumption));
         if(idConsumption) removeConsumption(idConsumption);
     }
 
     const consumptionListNode = consumptionList && consumptionList.map((cons) => (
-        <div key={cons.idConsumption} className={"bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center"}>
+        <div key={cons.idConsumption !== undefined ? cons.idConsumption : ""+Math.floor(Math.random()*1000)} className={"bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center"}>
             <div>
                 <div className="h-full text-left text-white">{cons.consumable.name ? cons.consumable.name : "undefined"}</div>
                 <div className="h-full text-left text-neutral-400 font-normal">{cons.consumable.energy*cons.proportion} kcal, {(cons.proportion === 1 ? "" : (cons.proportion + "x")) + cons.consumable.quantity_label}</div>
@@ -78,7 +83,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date} ) => {
 
     useEffect(() => {
         consumptionListAtDate(date).then((res) => {
-            setconsumptionList(res);
+            setConsumptionList(res);
         })
     }, [date]);
 

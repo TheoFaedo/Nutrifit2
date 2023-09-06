@@ -44,6 +44,7 @@ class ConsumeController extends Controller{
                 $consumption->save();
 
                 $res['success'] = true;
+                $res['idConsumption'] = $consumption->idConsumption;
                 $rs= $rs->withStatus(200);
             }else{
                 $res['error'] = "Missing parameters";

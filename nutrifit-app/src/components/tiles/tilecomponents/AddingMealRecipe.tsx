@@ -138,14 +138,14 @@ const AddingMealRecipe : FunctionComponent = () => {
     }
 
     const ingredientNode = ingredients.map((cons) => (
-        <div key={cons.idConsumable} className="bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center">
+        <div key={cons.idConsumable + "-" + Math.floor(Math.random()*100000)} className="bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center">
             <div>
                 <div className="h-full text-left text-white">{cons.consumable.name ? cons.consumable.name : "undefined"}</div>
                 <div className="h-full text-left text-neutral-400 font-normal">{cons.consumable.energy} kcal, {cons.consumable.quantity_label}</div>
             </div>
             <div className="flex items-center gap-6">
                 <NumberInput value={cons.proportion} name={cons.idConsumable+""} onChange={handleChangeProportion} backgroundColor="bg-neutral-600" textColor="text-white" />
-                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 bg-main text-3xl text-white" onClick={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable))}}>-</button>
+                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 bg-main text-3xl text-white" onClick={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable)); console.log(ingredients)}}>-</button>
             </div>
         </div>
     ))

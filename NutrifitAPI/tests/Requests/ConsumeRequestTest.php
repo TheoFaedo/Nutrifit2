@@ -45,6 +45,7 @@ class ConsumeRequestTest extends TestCase{
         ->withParsedBody([
             'idConsumable' => 1,
             'proportion' => 2,
+            'consumed_on' => '2020-01-01'
         ]);
         $response = $app->handle($request);
 
@@ -53,7 +54,7 @@ class ConsumeRequestTest extends TestCase{
         $json = (string) $response->getBody();
         $data = json_decode($json, true);
 
-        $this->assertEquals(['success' => true], $data);
+        $this->assertEquals(['success' => true, 'idConsumption' => $consumptionCreated->idConsumption], $data);
         $this->assertNotNull($consumptionCreated);
     }
 

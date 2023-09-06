@@ -102,7 +102,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`idUser`, `pseudo`, `pwdhash`, `gender`, `token`, `tokenValidation`, `mail`, `energy_goal`, `fats_goal`, `carbohydrates_goal`, `proteins_goal`) VALUES
 (0, 'test5', 'test5', '', '', '', 'fdfsfs', 0, 0, 0, 0),
 (1, 'test', 'test', 'H', 'etze', 'tretert', 'zsfgsdf', 2367, 79, 249, 165),
-(10000011, 'test10', '$2y$10$K1zhjTbelrGWqdC.VXBm5.9iRuuv/vzyjCy2xiOTeZhzOP9uY7ebm', 'M', '9579256dbf68cdb7444948b9fe7483794ea7f996', 'ed4ec22e8bcf11f315e5f10385f3941b21089314', 'test.d@gmail.com', 2600, 80, 330, 140);
+(100, 'test10', '$2y$10$K1zhjTbelrGWqdC.VXBm5.9iRuuv/vzyjCy2xiOTeZhzOP9uY7ebm', 'M', '9579256dbf68cdb7444948b9fe7483794ea7f996', 'ed4ec22e8bcf11f315e5f10385f3941b21089314', 'test.d@gmail.com', 2600, 80, 330, 140);
 
 --
 -- Index pour les tables déchargées

@@ -1,6 +1,8 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import DoughnutChart from '../DoughnutChart';
 import { getnutritionalgoal } from '../../services/api-service';
+import Consumption from '../../models/Consumption';
+import { consumptionsValNutSum } from '../../helpers/diaryHelper';
 
 type NutritionnalGoal = {
     carbohydrates_goal: number;
@@ -9,7 +11,18 @@ type NutritionnalGoal = {
     energy_goal: number;
 }
 
-const MacrosTile: FunctionComponent = () => {
+type NutritionalSum = {
+    carbohydrates: number;
+    fats: number;
+    proteins: number;
+    energy: number;
+}
+
+type Props = {
+    consumptionList : Consumption[];
+}
+
+const MacrosTile: FunctionComponent<Props> = ( { consumptionList } ) => {
 
     const [nutritionalgoal, setNutritionalgoal] = useState<NutritionnalGoal>({
         carbohydrates_goal: 0,
@@ -18,11 +31,22 @@ const MacrosTile: FunctionComponent = () => {
         energy_goal: 0
     });
 
+    const [nutritionalSum, setNutritionalSum] = useState<NutritionalSum>({
+        carbohydrates: 0,
+        fats: 0,
+        proteins: 0,
+        energy: 0
+    });
+
     useEffect(() => {
         getnutritionalgoal().then((res) => {
             setNutritionalgoal(res);
-        })
+        });
     }, []);
+
+    useEffect(() => {
+        setNutritionalSum(consumptionsValNutSum(consumptionList));
+    }, [consumptionList]);
 
     return (
         <div className='bg-neutral-800 my-6 mx-4 rounded-lg p-4 flex flex-col font-inter'>
@@ -30,17 +54,17 @@ const MacrosTile: FunctionComponent = () => {
             <div className='flex justify-evenly items-center'>
                 <div className='flex flex-col items-center w-28 mx-1'>
                     <div className='mb-4 text-carbohydrates font-semibold text-md'>Carbohydrates</div>
-                    <DoughnutChart className="h-24 w-24" label={'Carbohydrates'} color={'#38D386'} value={20} goal={nutritionalgoal.carbohydrates_goal} />
+                    <DoughnutChart className="h-24 w-24" label={'Carbohydrates'} color={'#38D386'} value={nutritionalSum.carbohydrates} goal={nutritionalgoal.carbohydrates_goal} />
                     <div className='mt-2 text-neutral-400'>20g left</div>
                 </div>
                 <div className='flex flex-col items-center w-28 mx-1'>
                     <div className='mb-4 text-fats font-semibold text-md'>Fat</div>
-                    <DoughnutChart className="h-24 w-24" label={'Fats'} color={'#CC57F5'} value={20} goal={nutritionalgoal.fats_goal} />
+                    <DoughnutChart className="h-24 w-24" label={'Fats'} color={'#CC57F5'} value={nutritionalSum.fats} goal={nutritionalgoal.fats_goal} />
                     <div className='mt-2 text-neutral-400'>20g left</div>
                 </div>
                 <div className='flex flex-col items-center w-28 mx-1'>
                     <div className='mb-4 text-proteins font-semibold text-md'>Proteins</div>
-                    <DoughnutChart className="h-24 w-24" label={'Proteins'} color={'#EEBD30'} value={20} goal={nutritionalgoal.proteins_goal} />
+                    <DoughnutChart className="h-24 w-24" label={'Proteins'} color={'#EEBD30'} value={nutritionalSum.proteins} goal={nutritionalgoal.proteins_goal} />
                     <div className='mt-2 text-neutral-400'>20g left</div>
                 </div>
             </div>
