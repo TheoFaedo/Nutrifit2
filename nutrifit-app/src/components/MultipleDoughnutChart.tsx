@@ -31,12 +31,12 @@ const MultipleDoughnutChart: FunctionComponent<Props> = (props) => {
 
     const center = type === "proportions" ? 
         (<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-            <div className={'text-2xl font-bold text-white'}>{nutriData.energy}</div>
+            <div className={'text-2xl font-bold text-white'}>{isNaN(nutriData.energy) ? "-" : nutriData.energy}</div>
             <div className={'text-md text-white'}>{nutriData.energy_unit}</div>
         </div>) 
         : 
         (<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-            <div className={'text-2xl font-bold ' + (nutriData.energy_goal < nutriData.energy ? "text-red-500" : "text-white")}>{nutriData.energy}</div>
+            <div className={'text-2xl font-bold ' + (nutriData.energy_goal < nutriData.energy ? "text-red-500" : "text-white")}>{isNaN(nutriData.energy) ? "-" : nutriData.energy}</div>
             <div className={'text-md ' + (nutriData.energy_goal < nutriData.energy ? "text-red-600" : "text-neutral-400")}>/{nutriData.energy_goal}{nutriData.energy_unit}</div>
         </div>) ;
 

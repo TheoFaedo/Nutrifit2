@@ -4,6 +4,7 @@ import Button from '../Button';
 import MultipleDoughnutChart from '../MultipleDoughnutChart';
 import NumberInput from '../NumberInput';
 import { getnutritionalgoal, changenutritionalgoal } from '../../services/api-service';
+import { zeroIfIsNaN } from '../../helpers/nanHelper';
 
 type Form = {
     energy: number;
@@ -15,10 +16,10 @@ type Form = {
 const ChangingGoalTile: FunctionComponent = () => {
 
     const [form, setForm] = useState<Form>({
-        energy: 10,
-        carbos: 10,
-        fats: 10,
-        proteins: 10
+        energy: 0,
+        carbos: 0,
+        fats: 0,
+        proteins: 0
     })
 
     useEffect(() => {
@@ -35,10 +36,16 @@ const ChangingGoalTile: FunctionComponent = () => {
     const handleChangeGoal = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
         const value = parseFloat(e.target.value);
-        let updatedEnergy = form.energy;
-        let updatedCarbos = form.carbos;
-        let updatedFats = form.fats;
-        let updatedProteins = form.proteins;
+
+        const energy = zeroIfIsNaN(form.energy);
+        const carbos = zeroIfIsNaN(form.carbos);
+        const fats = zeroIfIsNaN(form.fats);
+        const proteins = zeroIfIsNaN(form.proteins);
+
+        let updatedEnergy = energy;
+        let updatedCarbos = carbos;
+        let updatedFats = fats;
+        let updatedProteins = proteins;
 
         if (name === 'energy') {
             updatedEnergy = value;
@@ -48,13 +55,13 @@ const ChangingGoalTile: FunctionComponent = () => {
             updatedProteins = coef*2;
         } else if (name === 'carbos') {
             updatedCarbos = value;
-            updatedEnergy = (value * 4) + (form.fats * 9) + (form.proteins * 4);
+            updatedEnergy = (zeroIfIsNaN(value) * 4) + (fats * 9) + (proteins * 4);
         } else if (name === 'fats') {
             updatedFats = value;
-            updatedEnergy = (form.carbos * 4) + (value * 9) + (form.proteins * 4);
+            updatedEnergy = (carbos * 4) + (zeroIfIsNaN(value) * 9) + (proteins * 4);
         } else if (name === 'proteins') {
             updatedProteins = value;
-            updatedEnergy = (form.carbos * 4) + (form.fats * 9) + (value * 4);
+            updatedEnergy = (carbos * 4) + (fats * 9) + (zeroIfIsNaN(value) * 4);
         }
         setForm({
             ...form,
