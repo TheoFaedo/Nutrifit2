@@ -18,7 +18,7 @@ type Form = {
     serving_size: Field;
 }
 
-type ConsumablePropotion = {
+type ConsumableProportion = {
     consumable: Consumable;
     idConsumable: number;
     proportion: number;
@@ -27,7 +27,7 @@ type ConsumablePropotion = {
 const AddingMealRecipe : FunctionComponent = () => {
 
     const [dialogActive, setDialogActive] = useState(false);
-    const [ingredients, setIngredients] = useState<ConsumablePropotion[]>([]);
+    const [ingredients, setIngredients] = useState<ConsumableProportion[]>([]);
     const [form, setForm] = useState<Form>({
         name: {
             value: "",
@@ -42,13 +42,26 @@ const AddingMealRecipe : FunctionComponent = () => {
     })
 
     const addIngredient = (cons: Consumable) => {
-        setIngredients([...ingredients, 
-            {
-                consumable: cons,
-                idConsumable: cons.idConsumable as NonNullable<typeof cons.idConsumable>,
-                proportion: 1
-            }
-        ]);
+        const consAlreadyChoosen: ConsumableProportion|undefined = ingredients.find((c) => c.idConsumable === cons.idConsumable)
+        if(consAlreadyChoosen){
+            setIngredients(ingredients.map((c) => {
+                if(c.idConsumable === cons.idConsumable){
+                    return {
+                        ...c,
+                        proportion: c.proportion + 1
+                    }
+                }
+                return c
+            }))
+        }else{
+            setIngredients([...ingredients, 
+                {
+                    consumable: cons,
+                    idConsumable: cons.idConsumable as NonNullable<typeof cons.idConsumable>,
+                    proportion: 1
+                }
+            ]);
+        } 
     }
 
     const totalEnergy = () => {

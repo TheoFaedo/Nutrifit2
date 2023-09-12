@@ -17,7 +17,7 @@ const DoughnutChart: FunctionComponent<Props> = (props) => {
     ChartJS.register(ArcElement, Tooltip, Legend);
 
     const data = goal < value ?
-    [0, 1, 0]
+    [0, value, 0]
     :
     [0, value, goal-value];
 
@@ -36,7 +36,7 @@ const DoughnutChart: FunctionComponent<Props> = (props) => {
                         labels: ['Over', label, 'Empty'],
                         datasets: [
                             {
-                                label: '%',
+                                label: 'g',
                                 data: data,
                                 backgroundColor: [
                                     '#F20000',
