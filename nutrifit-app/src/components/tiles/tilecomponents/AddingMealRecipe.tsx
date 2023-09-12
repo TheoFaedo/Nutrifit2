@@ -144,6 +144,21 @@ const AddingMealRecipe : FunctionComponent = () => {
             ingredients: ingredientsToSend
         }
 
+        setForm({
+            name: {
+                value: "",
+                error: "",
+                isValid: true
+            },
+            serving_size: {
+                value: "",
+                error: "",
+                isValid: true
+            }
+        });
+
+        setIngredients([]);
+
         addConsumable(consumable).catch((err) => {
             console.log(err);
         })
@@ -158,7 +173,7 @@ const AddingMealRecipe : FunctionComponent = () => {
             </div>
             <div className="flex items-center gap-6">
                 <NumberInput value={cons.proportion} name={cons.idConsumable+""} onChange={handleChangeProportion} backgroundColor="bg-neutral-600" textColor="text-white" />
-                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 bg-main text-3xl text-white" onClick={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable)); console.log(ingredients)}}>-</button>
+                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl text-white" onClick={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable))}}>-</button>
             </div>
         </div>
     ))
@@ -197,26 +212,26 @@ const AddingMealRecipe : FunctionComponent = () => {
             </div>
 
             <div className='flex flex-col justify-center gap-2 my-4 p-4'>
-                <div className='text-white grid grid-cols-2'>
-                    <div className='text-left text-white font-medium text-sm flex items-center h-full'>
+                <div className='text-white flex items-center justify-center'>
+                    <div className='text-white font-medium text-sm flex items-center h-full w-40 mx-4'>
                         <span className="dot" style={{ backgroundColor: "#38D386" }}></span>
                         <label htmlFor='energy'>Carbohydrates (g)</label>
                     </div>
-                    {totalCarbos()}
+                    <span className="font-semibold mx-4">{totalCarbos()}</span>
                 </div>
-                <div className='text-white grid grid-cols-2'>
-                    <div className='text-left text-white font-medium text-sm flex items-center h-full'>
+                <div className='text-white flex items-center justify-center'>
+                    <div className='text-left text-white font-medium text-sm flex items-center h-full w-40 mx-4'>
                         <span className="dot" style={{ backgroundColor: "#CC57F5" }}></span>
                         <label htmlFor='energy'>Fats (g)</label>
                     </div>
-                    {totalFats()}
+                    <span className="font-semibold mx-4">{totalFats()}</span>
                 </div>
-                <div className='text-white grid grid-cols-2'>
-                    <div className='text-left text-white font-medium text-sm flex items-center h-full'>
+                <div className='text-white flex items-center justify-center'>
+                    <div className='text-left text-white font-medium text-sm flex items-center h-full w-40 mx-4'>
                         <span className="dot" style={{ backgroundColor: "#EEBD30" }}></span>
                         <label htmlFor='energy'>Proteins (g)</label>
                     </div>
-                    {totalProteins()}
+                    <span className="font-semibold mx-4">{totalProteins()}</span>
                 </div>
             </div>
 
