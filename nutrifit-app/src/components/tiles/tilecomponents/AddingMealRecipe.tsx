@@ -6,6 +6,7 @@ import TextInput from "../../TextInput";
 import { addConsumable } from "../../../services/api-service";
 import NumberInput from "../../NumberInput";
 import DoughnutChart from "../../MultipleDoughnutChart";
+import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
 
 type Field = {
     value?: any;
@@ -123,7 +124,34 @@ const AddingMealRecipe : FunctionComponent = () => {
         }))
     }
 
+    const validateForm = () => {
+        let newForm : Form = form;
+
+        if(validConsumableName(newForm.name.value)){
+            const newField = { value: newForm.name.value, error: "", isValid: true };
+            newForm = { ...newForm, name: newField };
+        }else{
+            const newField = { value: newForm.name.value, error: "Invalid consumable name", isValid: false };
+            newForm = { ...newForm, name: newField };
+        }
+
+        if(validConsumableServingSize(newForm.serving_size.value)){
+            const newField = { value: newForm.serving_size.value, error: "", isValid: true };
+            newForm = { ...newForm, serving_size: newField };
+        }else{
+            const newField = { value: newForm.serving_size.value, error: "Invalid serving size", isValid: false };
+            newForm = { ...newForm, serving_size: newField };
+        }
+
+        setForm(newForm);
+        return newForm.name.isValid && newForm.serving_size.isValid && ingredients.length > 0;
+    }
+
     const handleSubmit = () => {
+
+        if(!validateForm()){
+            return
+        }
 
         const ingredientsToSend = ingredients
         .filter((cons) => cons.idConsumable !== undefined)
@@ -183,11 +211,11 @@ const AddingMealRecipe : FunctionComponent = () => {
             <div className="text-left mt-4">
                 <label className='text-white font-inter font-medium text-sm' htmlFor='name'>Name :</label>
             </div>
-            <TextInput name="name" placeholder="Name" value={form.name.value} onChange={handleChange}/>
+            <TextInput name="name" placeholder="Name" value={form.name.value} onChange={handleChange} errorBorder={!form.name.isValid} errorMessage={form.name.error}/>
             <div className="text-left mt-2">
                 <label className='text-white font-inter font-medium text-sm text-left' htmlFor='serving_size'>Serving size :</label>
             </div>
-            <TextInput name="serving_size" placeholder="Serving size" value={form.serving_size.value} onChange={handleChange}/>
+            <TextInput name="serving_size" placeholder="Serving size" value={form.serving_size.value} onChange={handleChange} errorBorder={!form.serving_size.isValid} errorMessage={form.serving_size.error}/>
 
             <div className="font-inter font-medium text-white text-lg text-left mt-6">Ingredient(s)</div>
             <SearchConsumableDialog addToList={addIngredient} active={dialogActive} quitDialog={quitDialog}/>

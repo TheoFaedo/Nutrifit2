@@ -4,6 +4,7 @@ import DoughnutChart from '../../MultipleDoughnutChart';
 import NumberInput from '../../NumberInput';
 import Button from '../../Button';
 import { addConsumable } from '../../../services/api-service';
+import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
 
 type Field = {
     value?: any;
@@ -65,8 +66,7 @@ const AddingMealMeal : FunctionComponent = () => {
             ...form,
             [name]: {
                 value,
-                error: "",
-                isValid: true
+                error: ""
             }
         })
     }
@@ -117,8 +117,35 @@ const AddingMealMeal : FunctionComponent = () => {
         });
     }
 
+    const validateForm = () => {
+        let newForm : Form = form;
+
+        if(validConsumableName(newForm.name.value)){
+            const newField = { value: newForm.name.value, error: "", isValid: true };
+            newForm = { ...newForm, name: newField };
+        }else{
+            const newField = { value: newForm.name.value, error: "Invalid consumable name", isValid: false };
+            newForm = { ...newForm, name: newField };
+        }
+
+        if(validConsumableServingSize(newForm.serving_size.value)){
+            const newField = { value: newForm.serving_size.value, error: "", isValid: true };
+            newForm = { ...newForm, serving_size: newField };
+        }else{
+            const newField = { value: newForm.serving_size.value, error: "Invalid serving size", isValid: false };
+            newForm = { ...newForm, serving_size: newField };
+        }
+
+        setForm(newForm);
+        return newForm.name.isValid && newForm.serving_size.isValid;
+    }
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if(!validateForm()){
+            return
+        }
 
         const consumable = {
             name: form.name.value,
@@ -142,9 +169,9 @@ const AddingMealMeal : FunctionComponent = () => {
     return (
         <form className='flex flex-col' onSubmit={handleSubmit}>
             <label className='mt-4 text-white font-inter font-medium text-sm text-left' htmlFor='name'>Name :</label>
-            <TextInput name="name" placeholder="Name" value={form.name.value} onChange={handleChange}/>
+            <TextInput name="name" placeholder="Name" value={form.name.value} onChange={handleChange} errorBorder={!form.name.isValid} errorMessage={form.name.error}/>
             <label className='mt-2 text-white font-inter font-medium text-sm text-left' htmlFor='serving_size'>Serving size :</label>
-            <TextInput name="serving_size" placeholder="Serving size" value={form.serving_size.value} onChange={handleChange}/>
+            <TextInput name="serving_size" placeholder="Serving size" value={form.serving_size.value} onChange={handleChange} errorBorder={!form.serving_size.isValid} errorMessage={form.serving_size.error}/>
             <div className='w-full flex items-center justify-center'>
                 <DoughnutChart type="proportions" nutriData={
                     {
