@@ -28,4 +28,8 @@ class Consumable extends \Illuminate\Database\Eloquent\Model{
         return false;
     }
 
+    public function ingredients(){
+        return $this->hasMany(RecipeComposition::class, 'idRecipe');
+    }
+
 }

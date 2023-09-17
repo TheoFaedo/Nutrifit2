@@ -66,7 +66,8 @@ const AddingMealMeal : FunctionComponent = () => {
             ...form,
             [name]: {
                 value,
-                error: ""
+                error: "",
+                isValid: true
             }
         })
     }

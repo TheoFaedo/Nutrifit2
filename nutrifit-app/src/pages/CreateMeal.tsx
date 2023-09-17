@@ -13,8 +13,6 @@ const CreateMeal: FunctionComponent = () => {
     return (
         <>
             <AddingMealTile />
-            <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'></div>
-            <div className='h-48 bg-neutral-800  my-6 mx-4 rounded-lg'></div>
         </>
     )
 }

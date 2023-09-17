@@ -30,6 +30,17 @@ class ConsumableByIdController extends Controller{
 
         if($authhelper->authentified()){
             $consumable = Consumable::where('idConsumable', $args['id'])->first();
+            $returnedConsumable = $consumable->toArray();
+            
+            if($consumable->type == "RECIPE"){
+                $newIngredients = [];
+                $ingredients = $consumable->ingredients;
+                foreach ($ingredients as $value) {
+                    $cons = Consumable::where('idConsumable', $value->idIngredient)->first();
+                    $newIngredients[] = [...$cons->toArray(), 'proportion' => $value->proportion];
+                }
+                $returnedConsumable['ingredients'] = $newIngredients;
+            }
 
             if($consumable !== null && $consumable !== false){
                 $idUser = $authhelper->getIdUserAuthentified();
@@ -38,7 +49,7 @@ class ConsumableByIdController extends Controller{
                     $res['error'] = "Not authorized";
                     $rs= $rs->withStatus(401);
                 }else{
-                    $res['consumable'] = $consumable;
+                    $res['consumable'] = $returnedConsumable;
                     $rs= $rs->withStatus(200);
                 }
 
