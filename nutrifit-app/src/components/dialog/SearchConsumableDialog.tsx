@@ -3,70 +3,103 @@ import { createPortal } from "react-dom";
 import left_arrow from "../../img/left_arrow.png";
 import TextInput from "../TextInput";
 import Consumable from "../../models/Consumable";
-import { consumables, consumablesOfAuthor } from "../../services/api-service";
+import { consumables, consumablesOfAuthor, removeConsumable } from "../../services/api-service";
 import ListSelectorButton from "../ListSelectorButton";
 import { UserContext } from "../../context/UserContext";
+import TrashSVG from "../../svg/TrashSVG";
+import EditConsumableDialog from "./EditConsumableDialog";
+import { Console } from "console";
 
 type Props = {
-    addToList: Function; 
+    type?: "adding" | "edit";
+    addToList?: Function; 
     quitDialog: Function;
     active: boolean;
 }
 
-const SearchConsumableDialog : FunctionComponent<Props> = (props) => {
+const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", addToList = () => {}, quitDialog = () => {}, active }) => {
 
     const { idToken } = useContext(UserContext);
 
     const idTokenOfUser = idToken ? idToken : "";
 
-    const {active, quitDialog} = props;
+    const [consumableToEdit, setConsumableToEdit] = useState<Consumable>(
+        new Consumable(-1,"",0,0,0,0,"",true,"MEAL",-1,[])
+    );
+    const [editActive, setEditActive] = useState(false);
 
     const [keyword, setKeyword] = useState("");
     const [consumablesList, setConsumablesList] = useState<Consumable[]>([]);
     const [categActive, setCategActive] = useState(0);
 
+    const updateConsumablesList = (categActiveParam: number, keywords: string) => {
+        if(type === "adding"){
+            return categActiveParam === 0 ? 
+            consumablesOfAuthor(keywords, idTokenOfUser).then((res) => {
+                setConsumablesList(res["consumables"]);
+            })
+            : 
+            consumables(keywords).then((res) => {
+                setConsumablesList(res["consumables"]);
+            })
+        }else{
+            return consumablesOfAuthor(keywords, idTokenOfUser).then((res) => {
+                setConsumablesList(res["consumables"]);
+            })
+        }
+    }
+
+    const handleEdit = (consumable: Consumable) => {
+        setConsumableToEdit(consumable);
+        setEditActive(true);
+    }
+
+    const handleRemove = (id: number|undefined) => {
+        if(id){
+            removeConsumable(id).then((res) => {
+                if(res.success){
+                    setConsumablesList(consumablesList.filter((cons) => cons.idConsumable !== id));
+                }
+            })
+        }
+    }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value);
 
-        categActive === 0 ? 
-        consumablesOfAuthor(e.target.value, idTokenOfUser).then((res) => {
-            setConsumablesList(res["consumables"]);
-        })
-        : 
-        consumables(e.target.value).then((res) => {
-            setConsumablesList(res["consumables"]);
-        })
+        updateConsumablesList(categActive, e.target.value);
     }
 
     const handleChangeListSelector = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
         setCategActive(index);
-
-        index === 0 ? 
-        consumablesOfAuthor(keyword, idTokenOfUser).then((res) => {
-            setConsumablesList(res["consumables"]);
-        })
-        : 
-        consumables(keyword).then((res) => {
-            setConsumablesList(res["consumables"]);
-        })
+    
+        updateConsumablesList(index, keyword);
     }
 
     const consumablesNode = consumablesList && consumablesList.map((cons) => (
-        <div key={cons.idConsumable} className="bg-neutral-800 my-2 rounded-lg py-2 px-4 flex justify-between items-center">
+        <div key={cons.idConsumable} className={"bg-neutral-800 my-2 rounded-lg py-2 px-4 flex justify-between items-center " + (type === "edit" ? "cursor-pointer" : "")} onClick={() => { handleEdit(cons) }}>
             <div>
                 <div className="h-full text-left">{cons.name ? cons.name : "undefined"}</div>
                 <div className="h-full text-left text-neutral-400 font-normal">{cons.energy} kcal, {cons.quantity_label}</div>
             </div>
-            <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl" onClick={() => {props.addToList(cons); quitDialog()}}>+</button>
+            {
+                type === "adding" 
+                ? 
+                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl" onClick={() => {addToList(cons); quitDialog()}}>+</button>
+                :
+                <button className="" onClick={() => {handleRemove(cons.idConsumable)}}><TrashSVG primary="fill-neutral-500"/></button>
+            }
+            
         </div>
     ))
 
     useEffect(() => {
+        if(active || (active && !editActive))
         consumablesOfAuthor(keyword, idTokenOfUser).then((res) => {
             setConsumablesList(res["consumables"]);
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [active, editActive]);
 
     if(active){
         return createPortal(
@@ -78,7 +111,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = (props) => {
                 </div>
                 <div className="text-white flex flex-col flex-grow">
                     <TextInput className="my-4 px-6" name="searchfield" value={keyword} placeholder="Search consumable" onChange={handleChange} />
-                    <ListSelectorButton names={["My own meals", "Public meals"]} active={categActive} onClick={handleChangeListSelector}/>
+                    { type === "adding" ? <ListSelectorButton names={["My own meals", "Public meals"]} active={categActive} onClick={handleChangeListSelector}/> : <></> }
                     <div className="bg-neutral-900 px-4 pt-4 h-0 flex-grow overflow-y-scroll scrollbar-hide">
                         <div className="text-lg font-medium text-left">{categActive === 0 ? "My own" : "Public"}</div>
                         <ul className="mt-2">
@@ -86,6 +119,10 @@ const SearchConsumableDialog : FunctionComponent<Props> = (props) => {
                         </ul>
                     </div>
                 </div>
+                {type === "edit" ?
+                <EditConsumableDialog active={editActive} quitDialog={() => setEditActive(false)} consumableToEdit={consumableToEdit} handleRemove={handleRemove} />
+                :
+                <></>}
             </div>,
         document.getElementById("root")!);
     }

@@ -42,7 +42,7 @@ class ChangeConsumableController extends Controller{
 
                 $consumable = Consumable::where('idConsumable', $args['id_cons'])->first();
                 $consumable->deleteAllRecipeIngredients();
-
+                
                 if($consumable->author == $user){
                     $consumable->name = $params['name'];
                     $consumable->quantity_label = $params['quantity_label'];

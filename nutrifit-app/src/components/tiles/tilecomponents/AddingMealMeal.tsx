@@ -3,8 +3,9 @@ import TextInput from '../../TextInput';
 import DoughnutChart from '../../MultipleDoughnutChart';
 import NumberInput from '../../NumberInput';
 import Button from '../../Button';
-import { addConsumable } from '../../../services/api-service';
+import { addConsumable, changeConsumable } from '../../../services/api-service';
 import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
+import Consumable from "../../../models/Consumable";
 
 type Field = {
     value?: any;
@@ -54,9 +55,47 @@ const initialForm = {
     }
 }
 
-const AddingMealMeal : FunctionComponent = () => {
+type Props = {
+    type?: "adding"|"edit";
+    consumableToEdit?: Consumable;
+}
 
-    const [form, setForm] = useState<Form>( { ...initialForm});
+const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumableToEdit }) => {
+
+    const beginForm = type === "adding" ? initialForm : {
+        name: {
+            value: consumableToEdit?.name,
+            error: "",
+            isValid: true
+        },
+        serving_size: {
+            value: consumableToEdit?.quantity_label,
+            error: "",
+            isValid: true
+        },
+        energy: {
+            value: consumableToEdit?.energy,
+            error: "",
+            isValid: true
+        },
+        carbos: {
+            value: consumableToEdit?.carbohydrates,
+            error: "",
+            isValid: true
+        },
+        fats: {
+            value: consumableToEdit?.fats,
+            error: "",
+            isValid: true
+        },
+        proteins: {
+            value: consumableToEdit?.proteins,
+            error: "",
+            isValid: true
+        }
+    }
+    const [form, setForm] = useState<Form>( { ...beginForm})
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
@@ -160,11 +199,17 @@ const AddingMealMeal : FunctionComponent = () => {
             ingredients: [],
         }
 
-        addConsumable(consumable).catch((err) => {
-            console.log(err);
-        });
-
-        setForm({...initialForm});
+        if(type === "adding"){
+            addConsumable(consumable).catch((err) => {
+                console.log(err);
+            });
+    
+            setForm({...initialForm});
+        }else{
+            changeConsumable({...consumable, idConsumable: consumableToEdit?.idConsumable}).catch((err) => {
+                console.log(err);
+            })
+        }
     }
 
     return (
@@ -215,7 +260,12 @@ const AddingMealMeal : FunctionComponent = () => {
                     <NumberInput name="proteins" placeholder="g" value={form.proteins.value} className='w-full' rightAlign onChange={handleChangeNutVal}/>
                 </div>
             </div>
-            <Button name="Add" submit/>
+            {
+                type === "adding" ?
+                <Button name="Add" submit/>
+                :
+                <Button name="Save" submit/>
+            }
         </form>
     );
 }

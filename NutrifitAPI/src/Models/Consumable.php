@@ -28,6 +28,17 @@ class Consumable extends \Illuminate\Database\Eloquent\Model{
         return false;
     }
 
+    public function deleteAllConsumptions(){
+        if($this->idConsumable != null){
+            $consumptions = Consumption::where('idConsumable', $this->idConsumable)->get();
+            foreach ($consumptions as $consumption) {
+                $consumption->delete();
+            }
+            return true;
+        }
+        return false;
+    }
+
     public function ingredients(){
         return $this->hasMany(RecipeComposition::class, 'idRecipe');
     }

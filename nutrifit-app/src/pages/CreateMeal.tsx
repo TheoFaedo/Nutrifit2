@@ -1,6 +1,7 @@
 import { FunctionComponent, useContext, useEffect } from "react";
 import { NavBarContext } from '../context/NavBarContext';
 import AddingMealTile from "../components/tiles/AddingMealTile";
+import EditMealTile from "../components/tiles/EditMealTile";
 
 const CreateMeal: FunctionComponent = () => {
 
@@ -12,6 +13,7 @@ const CreateMeal: FunctionComponent = () => {
 
     return (
         <>
+            <EditMealTile />
             <AddingMealTile />
         </>
     )

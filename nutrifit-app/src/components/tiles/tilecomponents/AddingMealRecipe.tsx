@@ -3,7 +3,7 @@ import Button from "../../Button";
 import SearchConsumableDialog from "../../dialog/SearchConsumableDialog";
 import Consumable from "../../../models/Consumable";
 import TextInput from "../../TextInput";
-import { addConsumable } from "../../../services/api-service";
+import { addConsumable, changeConsumable, consumables } from "../../../services/api-service";
 import NumberInput from "../../NumberInput";
 import DoughnutChart from "../../MultipleDoughnutChart";
 import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
@@ -19,37 +19,54 @@ type Form = {
     serving_size: Field;
 }
 
-type ConsumableProportion = {
-    consumable: Consumable;
-    idConsumable: number;
-    proportion: number;
+const initialForm = {
+    name: {
+        value: "",
+        error: "",
+        isValid: true
+    },
+    serving_size: {
+        value: "",
+        error: "",
+        isValid: true
+    }
 }
 
-const AddingMealRecipe : FunctionComponent = () => {
+type Props = {
+    type?: "adding"|"edit";
+    consumableToEdit?: Consumable;
+}
+
+const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumableToEdit = new Consumable() }) => {
 
     const [dialogActive, setDialogActive] = useState(false);
-    const [ingredients, setIngredients] = useState<ConsumableProportion[]>([]);
-    const [form, setForm] = useState<Form>({
+    
+    console.log(consumableToEdit);
+    const [ingredients, setIngredients] = useState<Consumable[]>((type === "adding") ? [] : consumableToEdit?.ingredients);
+    
+
+    const beginForm = type === "adding" ? initialForm : {
         name: {
-            value: "",
+            value: consumableToEdit?.name,
             error: "",
             isValid: true
         },
         serving_size: {
-            value: "",
+            value: consumableToEdit?.quantity_label,
             error: "",
             isValid: true
         }
-    })
+    }
+    const [form, setForm] = useState<Form>(beginForm)
 
     const addIngredient = (cons: Consumable) => {
-        const consAlreadyChoosen: ConsumableProportion|undefined = ingredients.find((c) => c.idConsumable === cons.idConsumable)
+        const consAlreadyChoosen: Consumable|undefined = ingredients.find((c) => c.idConsumable === cons.idConsumable)
         if(consAlreadyChoosen){
             setIngredients(ingredients.map((c) => {
                 if(c.idConsumable === cons.idConsumable){
                     return {
                         ...c,
-                        proportion: c.proportion + 1
+                        proportion: (c.proportion ? c.proportion : 1)  + 1
                     }
                 }
                 return c
@@ -57,8 +74,7 @@ const AddingMealRecipe : FunctionComponent = () => {
         }else{
             setIngredients([...ingredients, 
                 {
-                    consumable: cons,
-                    idConsumable: cons.idConsumable as NonNullable<typeof cons.idConsumable>,
+                    ...cons,
                     proportion: 1
                 }
             ]);
@@ -68,7 +84,7 @@ const AddingMealRecipe : FunctionComponent = () => {
     const totalEnergy = () => {
         let energy = 0;
         ingredients.forEach((cons) => {
-            energy += cons.proportion * cons.consumable.energy;
+            energy += (cons.proportion ? cons.proportion : 1) * cons.energy;
         });
         return energy;
     }
@@ -76,15 +92,15 @@ const AddingMealRecipe : FunctionComponent = () => {
     const totalCarbos = () => {
         let carbos = 0;
         ingredients.forEach((cons) => {
-            carbos += cons.proportion * cons.consumable.carbohydrates;
+            carbos += (cons.proportion ? cons.proportion : 1) * cons.carbohydrates;
         });
         return carbos;
     }
 
     const totalFats = () => {
         let fats = 0;
-        ingredients.forEach((cons) => {
-            fats += cons.proportion * cons.consumable.fats;
+        ingredients.forEach((cons) => { 
+            fats += (cons.proportion ? cons.proportion : 1) * cons.fats;
         });
         return fats;
     }
@@ -92,7 +108,7 @@ const AddingMealRecipe : FunctionComponent = () => {
     const totalProteins = () => {
         let proteins = 0;
         ingredients.forEach((cons) => {
-            proteins += cons.proportion * cons.consumable.proteins;
+            proteins += (cons.proportion ? cons.proportion : 1) * cons.proteins;
         });
         return proteins;
     }
@@ -156,7 +172,7 @@ const AddingMealRecipe : FunctionComponent = () => {
         const ingredientsToSend = ingredients
         .filter((cons) => cons.idConsumable !== undefined)
         .map((cons) => ({
-            idConsumable: cons.idConsumable as NonNullable<typeof cons.idConsumable>,
+            ...cons,
             proportion: cons.proportion
         }));
         
@@ -172,35 +188,29 @@ const AddingMealRecipe : FunctionComponent = () => {
             ingredients: ingredientsToSend
         }
 
-        setForm({
-            name: {
-                value: "",
-                error: "",
-                isValid: true
-            },
-            serving_size: {
-                value: "",
-                error: "",
-                isValid: true
-            }
-        });
-
-        setIngredients([]);
-
-        addConsumable(consumable).catch((err) => {
-            console.log(err);
-        })
+        if(type === "adding"){
+            addConsumable(consumable).catch((err) => {
+                console.log(err);
+            });
+            
+            setIngredients([]);
+            setForm({...initialForm});
+        }else{
+            changeConsumable({...consumable, idConsumable: consumableToEdit?.idConsumable}).catch((err) => {
+                console.log(err);
+            })
+        }
 
     }
 
     const ingredientNode = ingredients.map((cons) => (
         <div key={cons.idConsumable + "-" + Math.floor(Math.random()*100000)} className="bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center">
             <div>
-                <div className="h-full text-left text-white w-36 overflow-hidden text-ellipsis">{cons.consumable.name ? cons.consumable.name : "undefined"}</div>
-                <div className="h-full text-left text-neutral-400 font-normal">{cons.consumable.energy} kcal, {cons.consumable.quantity_label}</div>
+                <div className="h-full text-left text-white w-36 overflow-hidden text-ellipsis">{cons.name ? cons.name : "undefined"}</div>
+                <div className="h-full text-left text-neutral-400 font-normal">{cons.energy} kcal, {cons.quantity_label}</div>
             </div>
             <div className="flex items-center gap-6">
-                <NumberInput value={cons.proportion} name={cons.idConsumable+""} onChange={handleChangeProportion} backgroundColor="bg-neutral-600" textColor="text-white" />
+                <NumberInput value={cons.proportion ? cons.proportion : 0} name={cons.idConsumable+""} onChange={handleChangeProportion} backgroundColor="bg-neutral-600" textColor="text-white" />
                 <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl text-white" onClick={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable))}}>-</button>
             </div>
         </div>
@@ -265,7 +275,12 @@ const AddingMealRecipe : FunctionComponent = () => {
 
            
 
-            <div className="mt-4"><Button name="Add" onClick={handleSubmit}/></div>
+            <div className="mt-4">{
+                type === "adding" ?
+                <Button name="Add" onClick={handleSubmit}/>
+                :
+                <Button name="Save" onClick={handleSubmit}/>
+            }</div>
         </div>
     );
 }

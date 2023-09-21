@@ -16,7 +16,7 @@
 }
 
 .header{
-    @apply bg-neutral-950 h-16 flex justify-center content-stretch items-center text-main text-2xl w-full;
+    @apply bg-neutral-950 h-16 flex justify-center content-stretch items-center text-main text-3xl w-full;
     min-height: 4rem;
 }
 

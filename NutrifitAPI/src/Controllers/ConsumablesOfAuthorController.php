@@ -34,14 +34,33 @@ class ConsumablesOfAuthorController extends Controller{
             $idFromIdToken = User::where('token', $args['author_id'])->first()->idUser;
 
             $consumables = Consumable::where('author', $idFromIdToken);
-
             if(isset($params['q'])){
                 if(strlen($params['q']) >= 3){
                     $consumables = $consumables->where('name', 'LIKE', '%'.$params['q'].'%');
                 }
             }
 
-            $res['consumables'] = $consumables->get();
+            $consumablesArray = [];
+
+            foreach ($consumables->get() as $key => $consumable) {
+                $consArray = $consumable->toArray();
+                if($consumable->type == "RECIPE"){
+                    $newIngredients = [];
+                    $ingredients = $consumable->ingredients;
+                    foreach ($ingredients as $value) {
+                        $cons = Consumable::where('idConsumable', $value->idIngredient)->first();
+                        $newIngredients[] = [...$cons->toArray(), 'proportion' => $value->proportion];
+                    }
+                    $consArray['ingredients'] = $newIngredients;
+                }
+                $consumablesArray[] = $consArray;
+            }
+            
+            
+
+            
+
+            $res['consumables'] = $consumablesArray;
 
             $rs->getBody()->write(json_encode($res));
             $rs= $rs->withStatus(200);

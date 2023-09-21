@@ -156,3 +156,33 @@ export const addConsumption = (consumption: Consumption): Promise<any> => {
             return {error: "Connection problem"};
         });
 }
+
+export const removeConsumable = (idConsumable: number): Promise<any> => {
+
+    return fetch(`${apiDomain}/removeconsumable/${idConsumable}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        }).then(response => {
+            return response.json();
+        }).catch(() => {
+            return {error: "Connection problem"};
+        });
+}
+
+export const changeConsumable = (consumable: Consumable): Promise<any> => {
+    return fetch(`${apiDomain}/changeconsumable/${consumable.idConsumable}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(consumable)
+        }).then(response => {
+            return response.json();
+        }).catch(() => {
+            return {error: "Connection problem"};
+        });
+}

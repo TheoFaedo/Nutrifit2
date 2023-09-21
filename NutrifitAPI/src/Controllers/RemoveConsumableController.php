@@ -34,6 +34,7 @@ class RemoveConsumableController extends Controller{
             $consumable = Consumable::where('idConsumable', $args['id_cons'])->where('author', $idUser)->first();
 
             if($consumable !== null){
+                $consumable->deleteAllConsumptions();
                 $consumable->deleteAllRecipeIngredients();
                 $consumable->delete();
 

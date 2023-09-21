@@ -34,7 +34,7 @@ const NavBar: FunctionComponent<Props> = (props) => {
             <div className="navbar">
                 <NavBarIcon active={active === 0 ? true : false} svgname="clipboard" text="Diary" href="/diary" onClick={() => setActiveTab(0)}/>
                 <NavBarIcon active={active === 1 ? true : false}  svgname="profile" text="Profile" href="/profile" onClick={() => setActiveTab(1)}/>
-                <NavBarIcon active={active === 2 ? true : false} svgname="whitehat" text="Create meal" href="/createmeal" onClick={() => setActiveTab(2)}/>
+                <NavBarIcon active={active === 2 ? true : false} svgname="whitehat" text="Meals" href="/createmeal" onClick={() => setActiveTab(2)}/>
             </div>
         </div>
     );
