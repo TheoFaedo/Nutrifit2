@@ -14,7 +14,7 @@ class User extends \Illuminate\Database\Eloquent\Model{
 
     //Informations about predefined nutrional goals
     private static $predefinedNutrionalGoals = [
-        '1' => [
+        '3' => [
             'name' => 'weight gain',
             'energy' => '2600',
             'fats' => '80',
@@ -28,7 +28,7 @@ class User extends \Illuminate\Database\Eloquent\Model{
             'carbs' => '270',
             'proteins' => '90'
         ],
-        '3' => [
+        '1' => [
             'name' => 'weight loss',
             'energy' => '1875',
             'fats' => '75',
@@ -69,7 +69,6 @@ class User extends \Illuminate\Database\Eloquent\Model{
     public static function register($information){
 
         $errorResponse = [];
-
 
         //Pseudo
         if(isset($information['pseudo'])){

@@ -94,14 +94,13 @@ const ChangingGoalTile: FunctionComponent = () => {
                         carbos_percents: form.carbos*4,
                         fats_percents: form.fats*9,
                         proteins_percents: form.proteins*4
-                    }}
-                />
+                    }}/>
                 <div className="ml-2 text-white">
                     <div>
                         <div className="flex items-center justify-between mb-1">
-                            <div>
+                            <div className='flex items-center'>
                                 <span className="dot" style={{ backgroundColor: "#FFFFFF" }}></span>
-                                Energy
+                                <span>Energy</span>
                             </div>
                             <div className="flex items-center">
                                 <NumberInput name="energy" value={form.energy} maxlength={4} placeholder="kcal" onChange={handleChangeGoal}/>
@@ -109,9 +108,9 @@ const ChangingGoalTile: FunctionComponent = () => {
                             </div>
                         </div>
                         <div className="flex items-center justify-between mb-1">
-                            <div>
+                            <div className='flex items-center'>
                                 <span className="dot" style={{ backgroundColor: "#38D386" }}></span>
-                                Carbohydrates
+                                <span className='overflow-hidden'>Carbohydrates</span>
                             </div>
                             <div className="flex items-center">
                                 <NumberInput name="carbos" value={form.carbos} maxlength={4} placeholder="g" onChange={handleChangeGoal}/>
@@ -119,7 +118,7 @@ const ChangingGoalTile: FunctionComponent = () => {
                             </div>
                         </div>
                         <div className="flex items-center justify-between mb-1">
-                            <div>
+                            <div className='flex items-center'>
                                 <span className="dot" style={{ backgroundColor: "#CC57F5" }}></span>
                                 Fats
                             </div>
@@ -129,7 +128,7 @@ const ChangingGoalTile: FunctionComponent = () => {
                             </div>
                         </div>
                         <div className="flex items-center justify-between mb-1">
-                            <div>
+                            <div className='flex items-center'>
                                 <span className="dot" style={{ backgroundColor: "#EEBD30" }}></span>
                                 Proteins
                             </div>

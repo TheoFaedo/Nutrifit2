@@ -13,6 +13,21 @@ export const connect = (username: string, password: string): Promise<any> => {
     });
 }
 
+export const register = (user: any): Promise<any> => {
+    return fetch(`${apiDomain}/register/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(user),
+        }).then(response => {
+            return response.json();
+        }).catch(() => {
+            return {error: "Connection problem"};
+        });
+}
+
 export const logout = (): Promise<any> => {
     return fetch(`${apiDomain}/disconnect`, {credentials: 'include'}).then(response => {
         return response.json();

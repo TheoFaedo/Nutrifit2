@@ -10,6 +10,7 @@ import Diary from './pages/Diary';
 import CreateMeal from './pages/CreateMeal';
 import { NavBarContextProvider } from './context/NavBarContext';
 import { UserContextProvider } from './context/UserContext';
+import Register from './pages/Register';
 
 function App() {
 
@@ -38,7 +39,7 @@ function App() {
                   <Navigate to="/profile" />
                 }/>
                 <Route path="/login" element={<Login/>} />
-                <Route path="/register" element={<Login/>} />
+                <Route path="/register" element={<Register/>} />
                 <Route path="/profile" element={
                   <PrivateRoute children={<Profile/>} />
                 } />
