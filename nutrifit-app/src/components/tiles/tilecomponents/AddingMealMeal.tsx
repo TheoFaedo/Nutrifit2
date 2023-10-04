@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import TextInput from '../../TextInput';
 import DoughnutChart from '../../MultipleDoughnutChart';
 import NumberInput from '../../NumberInput';
@@ -61,6 +61,41 @@ type Props = {
 }
 
 const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumableToEdit }) => {
+
+    const setFormByConsumable = (consumable: Consumable) => {
+        setForm({
+            name: {
+                value: consumable.name,
+                error: "",
+                isValid: true
+            },
+            serving_size: {
+                value: consumable.quantity_label,
+                error: "",
+                isValid: true
+            },
+            energy: {
+                value: consumable.energy,
+                error: "",
+                isValid: true
+            },
+            carbos: {
+                value: consumable.carbohydrates,
+                error: "",
+                isValid: true
+            },
+            fats: {
+                value: consumable.fats,
+                error: "",
+                isValid: true
+            },
+            proteins: {
+                value: consumable.proteins,
+                error: "",
+                isValid: true
+            }
+        });
+    }
 
     const beginForm = type === "adding" ? initialForm : {
         name: {
@@ -211,6 +246,10 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
             })
         }
     }
+
+    useEffect(() => {
+        if(consumableToEdit) setFormByConsumable(consumableToEdit);
+    }, [consumableToEdit]);
 
     return (
         <form className='flex flex-col' onSubmit={handleSubmit}>

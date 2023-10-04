@@ -7,7 +7,7 @@
 }
 
 .dialog{
-    @apply fixed inset-0 z-20 bg-neutral-800 h-full text-center flex flex-col mx-auto max-h-screen;
+    @apply fixed inset-0 bg-neutral-800 h-full text-center flex flex-col mx-auto max-h-screen;
 }
 
 .reward-bar{
@@ -25,17 +25,21 @@
 }
 
 .navbar{
-    @apply bg-main h-16 items-center text-2xl w-full flex place-content-evenly
+    @apply bg-main h-16 text-2xl w-full flex justify-evenly
 }
 
 .navbar-icon{
-    @apply w-16 h-16 rounded-full active:bg-secondary active:bg-opacity-30 cursor-pointer select-none;
+    @apply w-16 h-16 rounded-full active:bg-secondary active:bg-opacity-30 cursor-pointer select-none flex items-center justify-center;
+}
+
+.navbar-icon:active{
+    animation: 0.1s ease-in 0s navbar_button_clicked;
+    animation-fill-mode: forwards;
 }
 
 .navbar-icon-child{
-    @apply text-center text-black flex text-xs flex-col font-britannic transform translate-y-[+25%];
+    @apply text-center text-black flex text-xs flex-col font-britannic;
 }
-
 .gradient-bg{
     @apply bg-gradient-to-r from-main to-secondary animate-gradient-fast;
 }
@@ -56,8 +60,10 @@
     @apply shadow-sm shadow-secondary;
 }
 
-.button:active, .button-inverted:active{
+.button:active, .button-inverted:active, button:active{
     @apply shadow-lg bg-green-400 transform transition-all duration-300 ease-in-out;
+    animation: .1s ease-in button_clicked;
+    animation-fill-mode: forwards;
 }
 
 .text-input{
@@ -86,6 +92,18 @@
 
 .button_selector_tiled_active{
     @apply gradient-bg text-black;
+}
+
+.test{
+    transition: 
+        transform 2s,
+        opacity 2s;
+}
+
+.test_after{
+    transition: 
+        transform 2s,
+        opacity 2s;
 }
 
 .background {
@@ -144,6 +162,24 @@
   
 .animate-gradient-fast {
     animation: gradient 1s ease-in-out infinite;
+}
+
+@keyframes button_clicked {
+    from{
+        transform: scale(1);
+    }
+    to{
+        transform: scaleX(0.90) scaleY(0.95);
+    }
+}
+
+@keyframes navbar_button_clicked {
+    from{
+        transform: scale(1);
+    }
+    to{
+        transform: scale(0.85);
+    }
 }
 
 @screen lg{
