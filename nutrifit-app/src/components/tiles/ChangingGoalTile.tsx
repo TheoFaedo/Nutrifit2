@@ -5,6 +5,7 @@ import MultipleDoughnutChart from '../MultipleDoughnutChart';
 import NumberInput from '../NumberInput';
 import { getnutritionalgoal, changenutritionalgoal } from '../../services/api-service';
 import { zeroIfIsNaN } from '../../helpers/nanHelper';
+import { useToasts } from '../../context/ToastContext';
 
 type Form = {
     energy: number;
@@ -14,6 +15,8 @@ type Form = {
 }
 
 const ChangingGoalTile: FunctionComponent = () => {
+
+    const { pushToast } = useToasts();
 
     const [form, setForm] = useState<Form>({
         energy: 0,
@@ -79,6 +82,9 @@ const ChangingGoalTile: FunctionComponent = () => {
             carbohydrates_goal: form.carbos,
             fats_goal: form.fats,
             proteins_goal: form.proteins
+        }).then((res) => {
+            if(res.success) pushToast({content: "Goal changed successfully"})
+            else pushToast({content: "Failed to change goal", type: "error"});
         });
     }
 

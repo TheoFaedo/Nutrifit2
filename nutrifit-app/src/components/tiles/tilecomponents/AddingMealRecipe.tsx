@@ -1,12 +1,13 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import Button from "../../Button";
 import SearchConsumableDialog from "../../dialog/SearchConsumableDialog";
 import Consumable from "../../../models/Consumable";
 import TextInput from "../../TextInput";
-import { addConsumable, changeConsumable, consumables } from "../../../services/api-service";
+import { addConsumable, changeConsumable } from "../../../services/api-service";
 import NumberInput from "../../NumberInput";
 import DoughnutChart from "../../MultipleDoughnutChart";
 import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
+import { useToasts } from "../../../context/ToastContext";
 
 type Field = {
     value?: any;
@@ -39,9 +40,10 @@ type Props = {
 
 const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumableToEdit = new Consumable() }) => {
 
+    const { pushToast } = useToasts();
+
     const [dialogActive, setDialogActive] = useState(false);
     
-    console.log(consumableToEdit);
     const [ingredients, setIngredients] = useState<Consumable[]>((type === "adding") ? [] : consumableToEdit?.ingredients);
     
 
@@ -166,6 +168,7 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
     const handleSubmit = () => {
 
         if(!validateForm()){
+            pushToast({type: "error", content: "Enter information in the valid format"});
             return
         }
 
@@ -189,14 +192,20 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
         }
 
         if(type === "adding"){
-            addConsumable(consumable).catch((err) => {
+            addConsumable(consumable).then((res) => {
+                if(res.success) pushToast({content: "Added successfully"})
+                else pushToast({content: "Failed to add", type: "error"});
+            }).catch((err) => {
                 console.log(err);
             });
             
             setIngredients([]);
             setForm({...initialForm});
         }else{
-            changeConsumable({...consumable, idConsumable: consumableToEdit?.idConsumable}).catch((err) => {
+            changeConsumable({...consumable, idConsumable: consumableToEdit?.idConsumable}).then((res) => {
+                if(res.success) pushToast({content: "Edited successfully"})
+                else pushToast({content: "Failed to edit", type: "error"});
+            }).catch((err) => {
                 console.log(err);
             })
         }

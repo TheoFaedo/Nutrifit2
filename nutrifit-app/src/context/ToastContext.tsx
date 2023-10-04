@@ -43,7 +43,7 @@ function Toasts(){
         setToasts([...toasts, toast]);
         setTimeout(() => {
             setToasts((v) => v.filter((t) => t !== toast));
-        }, (duration ?? 3)*1000);
+        }, (duration ?? 2)*1000);
     }
 
     

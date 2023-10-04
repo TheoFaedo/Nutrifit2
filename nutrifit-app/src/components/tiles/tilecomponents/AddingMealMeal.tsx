@@ -6,6 +6,7 @@ import Button from '../../Button';
 import { addConsumable, changeConsumable } from '../../../services/api-service';
 import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
 import Consumable from "../../../models/Consumable";
+import { useToasts } from "../../../context/ToastContext";
 
 type Field = {
     value?: any;
@@ -61,6 +62,8 @@ type Props = {
 }
 
 const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumableToEdit }) => {
+
+    const { pushToast } = useToasts();
 
     const setFormByConsumable = (consumable: Consumable) => {
         setForm({
@@ -219,6 +222,7 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
         e.preventDefault();
 
         if(!validateForm()){
+            pushToast({type: "error", content: "Enter information in the valid format"});
             return
         }
 
@@ -235,13 +239,22 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
         }
 
         if(type === "adding"){
-            addConsumable(consumable).catch((err) => {
+            addConsumable(consumable)
+            .then((res) => {
+                if(res.success) pushToast({content: "Added successfully"})
+                else pushToast({content: "Failed to add", type: "error"});
+            }).catch((err) => {
                 console.log(err);
             });
     
             setForm({...initialForm});
         }else{
-            changeConsumable({...consumable, idConsumable: consumableToEdit?.idConsumable}).catch((err) => {
+            
+            changeConsumable({...consumable, idConsumable: consumableToEdit?.idConsumable})
+            .then((res) => {
+                if(res.success) pushToast({content: "Edited successfully"})
+                else pushToast({content: "Failed to edit", type: "error"});
+            }).catch((err) => {
                 console.log(err);
             })
         }

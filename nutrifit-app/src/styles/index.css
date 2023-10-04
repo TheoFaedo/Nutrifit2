@@ -11,7 +11,7 @@
 }
 
 .toasts {
-    @apply fixed inset-x-0 bottom-40 z-10 h-1/4 pointer-events-none flex flex-col-reverse items-center;
+    @apply fixed inset-x-0 bottom-40 z-50 h-1/4 pointer-events-none flex flex-col-reverse items-center;
 }
 
 .reward-bar{
