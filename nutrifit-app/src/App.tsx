@@ -11,6 +11,8 @@ import CreateMeal from './pages/CreateMeal';
 import { NavBarContextProvider } from './context/NavBarContext';
 import { UserContextProvider } from './context/UserContext';
 import Register from './pages/Register';
+import Toast from './components/Toast';
+import { ToastContextProvider } from './context/ToastContext';
 
 function App() {
 
@@ -28,33 +30,35 @@ function App() {
 
   return (
     <Router>
-      <div className="containerr" id="container">
-        <UserContextProvider defaultValue={{loggedIn: false}}>
-          <Header />
-          <RewardBar />
-          <NavBarContextProvider defaultValue={{ hideNavBar, showNavBar }}>
-            <div className='flex-grow overflow-y-scroll scrollbar-hide'>
-              <Routes>
-                <Route path="/" element={
-                  <Navigate to="/profile" />
-                }/>
-                <Route path="/login" element={<Login/>} />
-                <Route path="/register" element={<Register/>} />
-                <Route path="/profile" element={
-                  <PrivateRoute children={<Profile/>} />
-                } />
-                <Route path="/diary" element={
-                  <PrivateRoute children={<Diary/>} />
-                } />
-                <Route path="/createmeal" element={
-                  <PrivateRoute children={<CreateMeal/>} />
-                } />
-              </Routes>
-            </div>
-          </NavBarContextProvider>
-          <NavBar hidden={!navBarVisibility}/>
-        </UserContextProvider>
-      </div>
+      <ToastContextProvider>
+        <div className="containerr" id="container">
+          <UserContextProvider defaultValue={{loggedIn: false}}>
+            <Header />
+            <RewardBar />
+            <NavBarContextProvider defaultValue={{ hideNavBar, showNavBar }}>
+              <div className='flex-grow overflow-y-scroll scrollbar-hide'>
+                <Routes>
+                  <Route path="/" element={
+                    <Navigate to="/profile" />
+                  }/>
+                  <Route path="/login" element={<Login/>} />
+                  <Route path="/register" element={<Register/>} />
+                  <Route path="/profile" element={
+                    <PrivateRoute children={<Profile/>} />
+                  } />
+                  <Route path="/diary" element={
+                    <PrivateRoute children={<Diary/>} />
+                  } />
+                  <Route path="/createmeal" element={
+                    <PrivateRoute children={<CreateMeal/>} />
+                  } />
+                </Routes>
+              </div>
+            </NavBarContextProvider>
+            <NavBar hidden={!navBarVisibility}/>
+          </UserContextProvider>
+        </div>
+      </ToastContextProvider>
     </Router>
     
     
