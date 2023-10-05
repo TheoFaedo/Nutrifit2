@@ -100,7 +100,7 @@
 
 .loader{
     @apply h-7 w-7;
-    border: 5px solid #171717;
+    border: 5px solid #242424;
     border-radius: 50%;
     border-right-color: #8DF0C0;
     animation: spin 1s ease infinite;

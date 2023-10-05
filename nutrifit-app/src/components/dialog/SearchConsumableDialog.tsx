@@ -8,6 +8,7 @@ import ListSelectorButton from "../ListSelectorButton";
 import { UserContext } from "../../context/UserContext";
 import TrashSVG from "../../svg/TrashSVG";
 import EditConsumableDialog from "./EditConsumableDialog";
+import Loader from "../Loader";
 
 type Props = {
     type?: "adding" | "edit";
@@ -19,6 +20,8 @@ type Props = {
 const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", addToList = () => {}, quitDialog = () => {}, active }) => {
 
     const { idToken } = useContext(UserContext);
+
+    const [loading, setLoading] = useState(false);
 
     const idTokenOfUser = idToken ? idToken : "";
 
@@ -68,7 +71,13 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value);
 
-        updateConsumablesList(categActive, e.target.value);
+        if(e.target.value.length >= 3 || (e.target.value.length < keyword.length && e.target.value.length <= 2)){ 
+            setLoading(true);
+            updateConsumablesList(categActive, e.target.value).then(() => {
+                setLoading(false);
+            });
+        }
+        
     }
 
     const handleChangeListSelector = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
@@ -96,7 +105,9 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
 
     useEffect(() => {
         if(active || (active && !editActive)){
+            setLoading(true);
             consumablesOfAuthor(keyword, idTokenOfUser).then((res) => {
+                setLoading(false);
                 setConsumablesList(res["consumables"]);
             });
         }
@@ -118,7 +129,13 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
                 <div className="bg-neutral-900 px-4 pt-4 h-0 flex-grow overflow-y-scroll scrollbar-hide">
                     <div className="text-lg font-medium text-left">{categActive === 0 ? "My own" : "Public"}</div>
                     <ul className="mt-2">
-                        {consumablesNode}
+                        {loading ? 
+                        <div className="w-full flex items-center justify-center">
+                            <Loader/> 
+                        </div>
+                        :
+                        consumablesNode
+                        }
                     </ul>
                 </div>
             </div>

@@ -7,6 +7,7 @@ import Button from '../Button';
 import SearchConsumableDialog from '../dialog/SearchConsumableDialog';
 import Consumable from '../../models/Consumable';
 import { UserContext } from '../../context/UserContext';
+import Loader from '../Loader';
 
 type Props = {
     date: Date;
@@ -18,6 +19,8 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
 
     const { idToken } = useContext(UserContext);
 
+    const [loading, setLoading] = useState(false);
+
     const [dialogActive, setDialogActive] = useState(false);
 
     const quitDialog = () => {
@@ -25,6 +28,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
     }
 
     const addConsumable = (cons: Consumable) => {
+        setLoading(true);
         addConsumption({
             consumable: cons,
             idUser: idToken,
@@ -33,6 +37,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
             proportion: 1
         }).then((response) => {
             if(response.success){
+                setLoading(false);
                 setConsumptionList([...consumptionList, 
                     {
                         idConsumption: response.idConsumption,
@@ -82,8 +87,10 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
     ));
 
     useEffect(() => {
+        setLoading(true);
         consumptionListAtDate(date).then((res) => {
             setConsumptionList(res);
+            setLoading(false);
         })
     }, [date]);
 
@@ -91,7 +98,12 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
         <div className='bg-neutral-800 my-6 mx-4 rounded-lg p-4 flex flex-col font-inter'>
             <div className="tile_title text-left">Diary</div>
             <div>
-                {consumptionListNode}
+                {loading ? 
+                <div className="w-full flex items-center justify-center my-6">
+                    <Loader/> 
+                </div>
+                :
+                consumptionListNode}
             </div>
             <div className="mx-6"><Button name="Add food" inverted onClick={() => {setDialogActive(true)}}/></div>
             <SearchConsumableDialog active={dialogActive} quitDialog={quitDialog} addToList={addConsumable}/>
