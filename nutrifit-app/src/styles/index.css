@@ -98,16 +98,18 @@
     @apply gradient-bg text-black;
 }
 
-.test{
-    transition: 
-        transform 2s,
-        opacity 2s;
+.loader{
+    @apply h-7 w-7;
+    border: 5px solid #171717;
+    border-radius: 50%;
+    border-right-color: #8DF0C0;
+    animation: spin 1s ease infinite;
 }
 
-.test_after{
-    transition: 
-        transform 2s,
-        opacity 2s;
+@keyframes spin {
+    100%{
+        transform: rotate(360deg);
+    }
 }
 
 .background {
