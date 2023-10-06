@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useEffect, useState } from "react";
+import { FunctionComponent, memo, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import left_arrow from "../../img/left_arrow.png";
 import TextInput from "../TextInput";
@@ -130,8 +130,8 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
                     <div className="text-lg font-medium text-left">{categActive === 0 ? "My own" : "Public"}</div>
                     <ul className="mt-2">
                         {loading ? 
-                        <div className="w-full flex items-center justify-center">
-                            <Loader/> 
+                        <div className="w-full flex items-center justify-center my-6">
+                            <Loader/>
                         </div>
                         :
                         consumablesNode

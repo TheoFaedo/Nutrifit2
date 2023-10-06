@@ -1,12 +1,12 @@
 
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent, memo, useContext } from 'react';
 import Button from '../Button';
 import { logout } from "../../services/api-service";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from '../../context/UserContext';
 
 
-const LogoutTile: FunctionComponent = () => {
+const LogoutTile: FunctionComponent = memo(() => {
 
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
@@ -26,6 +26,6 @@ const LogoutTile: FunctionComponent = () => {
             <Button name="Logout" onClick={logoutHandler}/>
         </div>
     );
-}
+});
 
 export default LogoutTile;

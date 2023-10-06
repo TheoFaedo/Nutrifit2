@@ -1,7 +1,7 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, memo } from 'react';
 import WhiteHatSVG from '../svg/WhiteHatSVG';
 
-const Header: FunctionComponent = () => {
+const Header: FunctionComponent = memo(() => {
 
     return (
         <div className="header">
@@ -9,6 +9,6 @@ const Header: FunctionComponent = () => {
             <div className='font-britannic'>nutrifit</div>
         </div>
     );
-}
+})
 
 export default Header;

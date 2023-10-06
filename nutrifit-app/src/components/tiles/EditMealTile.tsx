@@ -1,11 +1,11 @@
 
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, memo, useState } from 'react';
 import Button from '../Button';
 import SearchConsumableDialog from '../dialog/SearchConsumableDialog';
 
 
 
-const EditMealTile : FunctionComponent = () => {
+const EditMealTile : FunctionComponent = memo(() => {
 
     const [dialogActive, setDialogActive] = useState(false);
 
@@ -20,6 +20,6 @@ const EditMealTile : FunctionComponent = () => {
             <SearchConsumableDialog active={dialogActive} quitDialog={quitDialog} type="edit"/>
         </div>
     );
-}
+});
 
 export default EditMealTile;
