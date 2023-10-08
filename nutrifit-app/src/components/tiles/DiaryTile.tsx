@@ -92,10 +92,10 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
             setConsumptionList(res);
             setLoading(false);
         })
-    }, [date]);
+    }, [date, setConsumptionList]);
 
     return (
-        <div className='bg-neutral-800 my-6 mx-4 rounded-lg p-4 flex flex-col font-inter'>
+        <div className='diary_tile'>
             <div className="tile_title text-left">Diary</div>
             <div>
                 {loading ? 
@@ -106,7 +106,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
                 consumptionListNode}
             </div>
             <div className="mx-6"><Button name="Add food" inverted onClick={() => {setDialogActive(true)}}/></div>
-            <SearchConsumableDialog active={dialogActive} quitDialog={quitDialog} addToList={addConsumable}/>
+            <SearchConsumableDialog active={dialogActive} quitDialog={quitDialog} addToList={addConsumable} dialogName='Search food to add'/>
         </div>
     );
 }

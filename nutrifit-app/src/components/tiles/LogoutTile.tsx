@@ -21,7 +21,7 @@ const LogoutTile: FunctionComponent = memo(() => {
     }
 
     return (
-        <div className='bg-neutral-800  my-6 mx-4 rounded-lg p-4 text-white'>
+        <div className='logout_tile'>
             <div>You are logged as <span className="font-bold">{userContext.pseudo}</span></div>
             <Button name="Logout" onClick={logoutHandler}/>
         </div>

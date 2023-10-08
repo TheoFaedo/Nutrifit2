@@ -15,7 +15,7 @@ const AddingMealTile: FunctionComponent = () => {
     }
 
     return (
-        <div className='bg-neutral-800 my-6 mx-4 rounded-lg p-4 flex flex-col font-inter'>
+        <div className='adding_meal_tile'>
             <div className="tile_title text-left">Adding meal</div>
             <SelectorButton names={['Meal', 'Recipe']} active={active} onClick={selectorHandler}/>
             {

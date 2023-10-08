@@ -288,28 +288,28 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
                         <span className="dot" style={{ backgroundColor: "#FFFFFF" }}></span>
                         <label htmlFor='energy'>Energy (kcal)</label>
                     </div>
-                    <NumberInput name="energy" placeholder="kcal" value={form.energy.value} className='w-full' rightAlign onChange={handleChangeNutVal}/>
+                    <NumberInput name="energy" placeholder="kcal" value={form.energy.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
                 <div className='text-white grid grid-cols-2'>
                     <div className='text-left text-white font-medium text-sm flex items-center h-full'>
                         <span className="dot" style={{ backgroundColor: "#38D386" }}></span>
                         <label htmlFor='energy'>Carbohydrates (g)</label>
                     </div>
-                    <NumberInput name="carbos" placeholder="g" value={form.carbos.value} className='w-full' rightAlign onChange={handleChangeNutVal}/>
+                    <NumberInput name="carbos" placeholder="g" value={form.carbos.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
                 <div className='text-white grid grid-cols-2'>
                     <div className='text-left text-white font-medium text-sm flex items-center h-full'>
                         <span className="dot" style={{ backgroundColor: "#CC57F5" }}></span>
                         <label htmlFor='energy'>Fats (g)</label>
                     </div>
-                    <NumberInput name="fats" placeholder="g" value={form.fats.value} className='w-full' rightAlign onChange={handleChangeNutVal}/>
+                    <NumberInput name="fats" placeholder="g" value={form.fats.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
                 <div className='text-white grid grid-cols-2'>
                     <div className='text-left text-white font-medium text-sm flex items-center h-full'>
                         <span className="dot" style={{ backgroundColor: "#EEBD30" }}></span>
                         <label htmlFor='energy'>Proteins (g)</label>
                     </div>
-                    <NumberInput name="proteins" placeholder="g" value={form.proteins.value} className='w-full' rightAlign onChange={handleChangeNutVal}/>
+                    <NumberInput name="proteins" placeholder="g" value={form.proteins.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
             </div>
             {

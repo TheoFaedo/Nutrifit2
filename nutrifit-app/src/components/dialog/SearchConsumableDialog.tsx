@@ -1,31 +1,30 @@
-import { FunctionComponent, memo, useContext, useEffect, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import left_arrow from "../../img/left_arrow.png";
 import TextInput from "../TextInput";
 import Consumable from "../../models/Consumable";
 import { consumables, consumablesOfAuthor, removeConsumable } from "../../services/api-service";
 import ListSelectorButton from "../ListSelectorButton";
 import { UserContext } from "../../context/UserContext";
-import TrashSVG from "../../svg/TrashSVG";
 import EditConsumableDialog from "./EditConsumableDialog";
 import Loader from "../Loader";
+import LeftArrowButton from "../LeftArrowButton";
+import TrashCanButton from "../TrashCanButton";
 
 type Props = {
     type?: "adding" | "edit";
     addToList?: Function; 
     quitDialog: Function;
     active: boolean;
+    dialogName?: string;
 }
 
-const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", addToList = () => {}, quitDialog = () => {}, active }) => {
+const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", addToList = () => {}, quitDialog = () => {}, active, dialogName = "Search" }) => {
 
     const { idToken } = useContext(UserContext);
 
     const [loading, setLoading] = useState(false);
 
     const idTokenOfUser = idToken ? idToken : "";
-
-    const [animIsInBottom, setAnimIsInBottom] = useState(true); 
 
     const [consumableToEdit, setConsumableToEdit] = useState<Consumable>(
         new Consumable(-1,"",0,0,0,0,"",true,"MEAL",-1,[])
@@ -58,7 +57,8 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
         setEditActive(true);
     }
 
-    const handleRemove = (id: number|undefined) => {
+    const handleRemove = (e: React.MouseEvent<HTMLButtonElement>, id: number|undefined) => {
+        e.stopPropagation();
         if(id){
             removeConsumable(id).then((res) => {
                 if(res.success){
@@ -95,9 +95,9 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
             {
                 type === "adding" 
                 ? 
-                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl" onClick={() => {addToList(cons); quitDialog()}}>+</button>
+                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl pb-[12px]" onClick={() => {addToList(cons); quitDialog()}}>+</button>
                 :
-                <button className="" onClick={() => {handleRemove(cons.idConsumable)}}><TrashSVG primary="fill-neutral-500"/></button>
+                <TrashCanButton action={handleRemove} idConsumable={(cons.idConsumable ?? -1)} color="fill-neutral-500" />
             }
             
         </div>
@@ -118,10 +118,9 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
 
     return createPortal(
         <div className={"dialog z-30 font-inter flex flex-col h-full transition-transform duration-500 ease-in-out " + translation} >
-            <div className="h-12 gradient-bg flex items-center">
-                <button onClick={() => quitDialog()} className="rounded-full mx-2 active:bg-black">
-                <img src={left_arrow} className="h-7 w-7 m-1" alt="left oriented arrow" />
-                </button>
+            <div className="h-12 gradient-bg flex items-center relative">
+                <div className="font-inter font-semibold text-lg pt-1 absolute ml-auto mr-auto top-[20%] left-0 right-0 bottom-0 w-fit">{dialogName}</div>
+                <LeftArrowButton quitDialog={quitDialog}/>
             </div>
             <div className="text-white flex flex-col flex-grow">
                 <TextInput className="my-4 px-6" name="searchfield" value={keyword} placeholder="Search consumable" onChange={handleChange} />

@@ -14,10 +14,10 @@ const EditMealTile : FunctionComponent = memo(() => {
     }
 
     return (
-        <div className='bg-neutral-800 my-6 mx-4 rounded-lg p-4 flex flex-col font-inter'>
+        <div className='edit_meal_tile'>
             <div className="tile_title text-left">Edit meal</div>
             <div className="px-2"><Button name="Edit meal" inverted onClick={() => {setDialogActive(true)}}/></div>
-            <SearchConsumableDialog active={dialogActive} quitDialog={quitDialog} type="edit"/>
+            <SearchConsumableDialog active={dialogActive} quitDialog={quitDialog} type="edit" dialogName='Search meal to edit'/>
         </div>
     );
 });

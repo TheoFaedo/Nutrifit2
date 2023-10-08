@@ -243,7 +243,7 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
             
             <div className="mx-6"><Button name="Add ingredient" inverted onClick={() => {setDialogActive(true)}}/></div>
 
-            <div className="font-inter font-medium text-white text-lg text-left mt-6">Nutritionnal values :</div>
+            <div className="font-inter font-medium text-white text-lg text-left mt-6">Nutritionnal values</div>
             <div className="w-full flex items-center justify-center">
                 <DoughnutChart className="mt-6" type="proportions" nutriData={
                     {

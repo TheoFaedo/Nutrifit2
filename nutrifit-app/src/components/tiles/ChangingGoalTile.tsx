@@ -94,7 +94,7 @@ const ChangingGoalTile: FunctionComponent = () => {
     }
 
     return (
-        <form className='bg-neutral-800  my-6 mx-4 rounded-lg p-4' onSubmit={handleSubmit}>
+        <form className='changing_goal_tile' onSubmit={handleSubmit}>
             <div className="tile_title text-left">Change daily goal</div>
             {loading ?
 
@@ -104,7 +104,7 @@ const ChangingGoalTile: FunctionComponent = () => {
 
             :
 
-                <div className="flex justify-evenly items-center">
+                <div className="flex justify-evenly items-center changing_goal_tile_inside">
                     <MultipleDoughnutChart type="proportions" nutriData={
                         {
                             energy:form.energy,
@@ -114,7 +114,7 @@ const ChangingGoalTile: FunctionComponent = () => {
                             fats_percents: form.fats*9,
                             proteins_percents: form.proteins*4
                         }}/>
-                    <div className="ml-2 text-white">
+                    <div className="ml-2 text-white ">
                         <div>
                             <div className="flex items-center justify-between mb-1">
                                 <div className='flex items-center'>

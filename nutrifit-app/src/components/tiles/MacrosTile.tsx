@@ -52,7 +52,7 @@ const MacrosTile: FunctionComponent<Props> = ( { consumptionList } ) => {
     const fatsDif = nutritionalgoal.fats_goal-nutritionalSum.fats;
     const proteinsDif = nutritionalgoal.proteins_goal-nutritionalSum.proteins;
     return (
-        <div className='bg-neutral-800 my-6 mx-4 rounded-lg p-4 flex flex-col font-inter'>
+        <div className='macros_tile'>
             <div className="tile_title text-left">Macros</div>
             <div className='flex justify-evenly items-center'>
                 <div className='flex flex-col items-center w-28 mx-1'>
