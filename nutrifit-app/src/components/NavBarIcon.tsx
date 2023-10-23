@@ -3,6 +3,7 @@ import WhiteHatSVG from '../svg/WhiteHatSVG';
 import ClipBoardSVG from '../svg/ClipBoardSVG';
 import ProfileSVG from '../svg/ProfileSVG';
 import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 type Props = {
@@ -32,12 +33,21 @@ const NavBarIcon: FunctionComponent<Props> = (props) => {
     }
 
     return (
-        <div className="navbar-icon" onClick={onClick}>
-            <div className='navbar-icon-child'>
-                {svg}
-                <div>{text}</div>
-            </div>
+        <div className="navbar-icon" onClick={onClick} >
+            <NavLink to={
+                svgname === "whitehat" ?  "/createmeal" :
+                svgname === "clipboard" ? "/diary" :
+                svgname === "profile" ? "/profile" :
+                "/profile"
+            }
+            >
+                <div className='navbar-icon-child'>
+                    {svg}
+                    <div>{text}</div>
+                </div>
+            </NavLink>
         </div>
+        
     );
 }
 

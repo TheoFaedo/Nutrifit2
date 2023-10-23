@@ -4,14 +4,15 @@ type Props = {
     className?: string;
     fillPrimary?: string;
     fillSecondary?: string;
+    isImg?: boolean;
 }
 
 const WhiteHatSVG: FunctionComponent<Props> = (props) => {
 
-    const {className, fillPrimary, fillSecondary} = props;
+    const {className, fillPrimary, fillSecondary, isImg} = props;
 
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 266" className={className}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 266" className={className} role={(isImg ? "img" : "button")}>
             <rect className={fillPrimary} x="135.55" y="172.97" width="14" height="50.85"/>
             <rect className={fillPrimary} x="168.55" y="172.97" width="14" height="50.85"/>
             <rect className={fillPrimary} x="102.55" y="172.97" width="14" height="50.85"/>
