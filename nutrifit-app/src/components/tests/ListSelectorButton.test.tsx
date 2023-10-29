@@ -53,6 +53,15 @@ describe("ListSelectorButton component rendered correctly", () => {
         expect(button1Elmnt).toHaveClass("border-b-4");
         expect(button2Elmnt).not.toHaveClass("border-b-4");
     })
+
+    test("buttons rendered correctly with names empty table", () => {
+        render(<ListSelectorButton names={[]} active={0}/>);
+        const button1Elmnt = screen.getByRole("button", {name: "main"});
+
+        expect(button1Elmnt).toBeInTheDocument();
+
+        expect(button1Elmnt).toHaveClass("border-b-4");
+    })
 }) 
 
 describe("ListSelectorButton component interact correctly", () => {
