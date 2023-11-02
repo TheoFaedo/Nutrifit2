@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import TextInput from '../../TextInput';
-import DoughnutChart from '../../MultipleDoughnutChart';
+import MultipleDoughnutChart from '../../MultipleDoughnutChart';
 import NumberInput from '../../NumberInput';
 import Button from '../../Button';
 import { addConsumable, changeConsumable } from '../../../services/api-service';
@@ -271,7 +271,7 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
             <label className='mt-2 text-white font-inter font-medium text-sm text-left' htmlFor='serving_size'>Serving size :</label>
             <TextInput name="serving_size" placeholder="Serving size" value={form.serving_size.value} onChange={handleChange} errorBorder={!form.serving_size.isValid} errorMessage={form.serving_size.error}/>
             <div className='w-full flex items-center justify-center'>
-                <DoughnutChart type="proportions" nutriData={
+                <MultipleDoughnutChart nutriData={
                     {
                         carbos_percents: form.carbos.value*4,
                         fats_percents: form.fats.value*9,

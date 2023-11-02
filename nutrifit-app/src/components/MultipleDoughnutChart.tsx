@@ -15,31 +15,22 @@ type NutriData = {
 type Props = {
     className?: string;
     nutriData: NutriData;
-    type: "goal" | "proportions";
 }
 
 const MultipleDoughnutChart: FunctionComponent<Props> = (props) => {
 
-    const { className, nutriData, type } = props;
+    const { className, nutriData } = props;
 
     ChartJS.register(ArcElement, Tooltip, Legend);
 
-    const data = type === "proportions" ? 
-    doughnutChartProportionsToProportions({proteins: nutriData.proteins_percents, fats: nutriData.fats_percents, carbos: nutriData.carbos_percents})
-    : 
-    doughnutChartPercentToProportions({proteins: nutriData.proteins_percents, fats: nutriData.fats_percents, carbos: nutriData.carbos_percents});
+    const data = doughnutChartProportionsToProportions({proteins: nutriData.proteins_percents, fats: nutriData.fats_percents, carbos: nutriData.carbos_percents})
 
-    const center = type === "proportions" ? 
+    const center = 
         (<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-            <div className={'text-2xl font-bold text-white'}>{isNaN(nutriData.energy) ? "-" : nutriData.energy}</div>
+            <span className={'text-2xl font-bold text-white'}>{isNaN(nutriData.energy) ? "-" : nutriData.energy}</span>
             <div className={'text-md text-white'}>{nutriData.energy_unit}</div>
-        </div>) 
-        : 
-        (<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-            <div className={'text-2xl font-bold ' + (nutriData.energy_goal < nutriData.energy ? "text-red-500" : "text-white")}>{isNaN(nutriData.energy) ? "-" : nutriData.energy}</div>
-            <div className={'text-md ' + (nutriData.energy_goal < nutriData.energy ? "text-red-600" : "text-neutral-400")}>/{nutriData.energy_goal}{nutriData.energy_unit}</div>
-        </div>) ;
-
+        </div>)
+        
     return (
         <div className={'h-28 w-28 relative ' + className}>
             {center}

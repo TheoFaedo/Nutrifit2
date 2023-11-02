@@ -105,7 +105,7 @@ const ChangingGoalTile: FunctionComponent = () => {
             :
 
                 <div className="flex justify-evenly items-center changing_goal_tile_inside">
-                    <MultipleDoughnutChart type="proportions" nutriData={
+                    <MultipleDoughnutChart nutriData={
                         {
                             energy:form.energy,
                             energy_unit:"kcal",

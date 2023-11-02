@@ -5,7 +5,7 @@ import Consumable from "../../../models/Consumable";
 import TextInput from "../../TextInput";
 import { addConsumable, changeConsumable } from "../../../services/api-service";
 import NumberInput from "../../NumberInput";
-import DoughnutChart from "../../MultipleDoughnutChart";
+import MultipleDoughnutChart from "../../MultipleDoughnutChart";
 import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
 import { useToasts } from "../../../context/ToastContext";
 
@@ -245,7 +245,7 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
 
             <div className="font-inter font-medium text-white text-lg text-left mt-6">Nutritionnal values</div>
             <div className="w-full flex items-center justify-center">
-                <DoughnutChart className="mt-6" type="proportions" nutriData={
+                <MultipleDoughnutChart className="mt-6" nutriData={
                     {
                         energy: totalEnergy(),
                         carbos_percents: totalCarbos(),
