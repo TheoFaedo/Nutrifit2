@@ -13,6 +13,7 @@ import { UserContextProvider } from './context/UserContext';
 import Register from './pages/Register';
 import Toast from './components/Toast';
 import { ToastContextProvider } from './context/ToastContext';
+import { isAuthenticated } from './services/api-service';
 
 function App() {
 

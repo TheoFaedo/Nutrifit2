@@ -29,6 +29,7 @@ use App\Controllers\ConsumptionAtDateController;
 use App\Controllers\RemoveConsumptionController;
 use App\Controllers\RemoveConsumableController;
 use App\Controllers\ChangeConsumptionController;
+use App\Controllers\IsAuthenticatedController;
 
 return function (App $app) {
 
@@ -147,4 +148,11 @@ return function (App $app) {
 
         return $controller->__invoke($request, $response, $args);
     });
+
+    $app->get('/me[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new IsAuthenticatedController($container);
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
 };
