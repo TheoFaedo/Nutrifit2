@@ -7,7 +7,7 @@ import Consumption from "../models/Consumption";
 
 const Diary: FunctionComponent = () => {
 
-    const { showNavBar } = useContext(NavBarContext);
+    const { showNavBar, setActiveTab } = useContext(NavBarContext);
 
     const [date, setDate] = useState(new Date());
     const [consumptionList, setconsumptionList] = useState<Consumption[]>([]);
@@ -26,6 +26,7 @@ const Diary: FunctionComponent = () => {
 
     useEffect(() => {
         showNavBar();
+        setActiveTab(0);
     }, [showNavBar])
 
     return (

@@ -5,9 +5,10 @@ import EditMealTile from "../components/tiles/EditMealTile";
 
 const CreateMeal: FunctionComponent = () => {
 
-    const { showNavBar } = useContext(NavBarContext);
+    const { showNavBar, setActiveTab } = useContext(NavBarContext);
 
     useEffect(() => {
+        setActiveTab(2);
         showNavBar();
     }, [showNavBar])
 

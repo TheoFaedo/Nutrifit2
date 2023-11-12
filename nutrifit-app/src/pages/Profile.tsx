@@ -5,9 +5,10 @@ import { NavBarContext } from "../context/NavBarContext";
 
 const Profile: FunctionComponent = () => {
 
-    const { showNavBar } = useContext(NavBarContext);
+    const { showNavBar, setActiveTab } = useContext(NavBarContext);
 
     useEffect(() => {
+        setActiveTab(1);
         showNavBar();
     }, [showNavBar])
 
