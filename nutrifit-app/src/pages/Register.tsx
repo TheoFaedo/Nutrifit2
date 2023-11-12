@@ -1,12 +1,12 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import TextInput from '../components/TextInput';
 import Button from '../components/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import SelectorButton from '../components/SelectorButton';
 import TiledSelectorButton from '../components/TiledSelectorButton';
-import { connect, register } from '../services/api-service';
-import { validConsumableName, validConsumableServingSize, validEmail, validGender, validGoal, validPassword, validUsername } from '../helpers/fieldValidationHelper';
-import { UserContext } from '../context/UserContext';
+import { register } from '../services/api-service';
+import { validEmail, validGender, validGoal, validPassword, validUsername } from '../helpers/fieldValidationHelper';
+import { useToasts } from '../context/ToastContext';
 
 type Field = {
   value?: any;
@@ -25,8 +25,9 @@ type Form = {
 
 const Register: FunctionComponent = () => {
 
+    const { pushToast } = useToasts();
+
     const navigate = useNavigate();
-    const { loginContext } = useContext(UserContext);
 
     const [form, setForm] = useState<Form>({
         username: {
@@ -168,12 +169,11 @@ const Register: FunctionComponent = () => {
       register(userToRegister).then(
         (response) => {
           if(response.success){
-            connect(form.username.value, form.password.value).then((res) => {
-              if(res.success){
-                loginContext(res.pseudo, res.idToken);
-                navigate('/profile');
-              }
+            pushToast({
+              type: "success",
+              content: "Account created successfully",
             })
+            navigate('/login');
           }else{
             if(response.error){
               response.error.type ? setErrorMessage("Server error") : setErrorMessage(response.error);

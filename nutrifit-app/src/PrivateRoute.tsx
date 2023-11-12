@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
-import { FunctionComponent, ReactNode, useContext } from "react";
-import { UserContext } from "./context/UserContext";
+import { FunctionComponent, ReactNode } from "react";
+import { AuthStatus, useAuth } from "./hooks/useAuth";
+import Loader from "./components/Loader";
 
 type Props = {
     children: ReactNode;
@@ -8,10 +9,18 @@ type Props = {
 
 const PrivateRoute: FunctionComponent<Props> = (props) => {
 
-  const userContext = useContext(UserContext);
+  const { status } = useAuth();
 
-  if(!userContext.loggedIn){
+  if(status === AuthStatus.LOGGED_OUT){
     return <Navigate to="/login" />;
+  }else if(status === AuthStatus.LOADING){
+    return (
+      <>
+        <div className="flex justify-center w-full h-full items-center">
+          <Loader />
+        </div>
+      </>
+    );
   }else{
     return (
       <>

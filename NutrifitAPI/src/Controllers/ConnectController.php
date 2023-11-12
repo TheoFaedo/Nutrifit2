@@ -41,9 +41,10 @@ class ConnectController extends Controller{
 
         if(($user = $authhelper->authentify($pseudo, $password)) !== false){
             $res = [
-                'success' => true,
-                'pseudo' => $user->pseudo,
-                'idToken' => $user->token
+                'username' => $user->pseudo,
+                'mail'=> $user->mail,
+                'gender' => $user->gender,
+                'token'=> $user->token
             ];
 
             $rs->getBody()->write(json_encode($res));

@@ -1,28 +1,25 @@
 
-import { FunctionComponent, memo, useContext } from 'react';
+import { FunctionComponent, memo } from 'react';
 import Button from '../Button';
-import { logout } from "../../services/api-service";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from '../../context/UserContext';
+import { useAuth } from '../../hooks/useAuth';
+import { useAccount } from '../../hooks/useAccount';
 
 
 const LogoutTile: FunctionComponent = memo(() => {
 
     const navigate = useNavigate();
-    const userContext = useContext(UserContext);
+    const { logout } = useAuth();
+    const { account } = useAccount();
 
     const logoutHandler = () => {
-        logout().then((res) => {
-            if(res.success){
-                userContext.logoutContext();
-                navigate("/");
-            } 
-        })
+        logout();
+        navigate("/login");
     }
 
     return (
         <div className='logout_tile'>
-            <div>You are logged as <span className="font-bold">{userContext.pseudo}</span></div>
+            <div>You are logged as <span className="font-bold">{account.username}</span></div>
             <Button name="Logout" onClick={logoutHandler}/>
         </div>
     );

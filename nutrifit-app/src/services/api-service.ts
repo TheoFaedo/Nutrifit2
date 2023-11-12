@@ -202,14 +202,13 @@ export const changeConsumable = (consumable: Consumable): Promise<any> => {
         });
 }
 
-export const isAuthenticated = (consumable: Consumable): Promise<any> => {
+export const isAuthenticated = (): Promise<any> => {
     return fetch(`${apiDomain}/me`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify(consumable)
         }).then(response => {
             return response.json();
         });

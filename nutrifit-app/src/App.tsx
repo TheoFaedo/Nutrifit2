@@ -9,11 +9,9 @@ import Profile from './pages/Profile';
 import Diary from './pages/Diary';
 import CreateMeal from './pages/CreateMeal';
 import { NavBarContextProvider } from './context/NavBarContext';
-import { UserContextProvider } from './context/UserContext';
+import { AuthContextProvider } from './context/AuthContext';
 import Register from './pages/Register';
-import Toast from './components/Toast';
 import { ToastContextProvider } from './context/ToastContext';
-import { isAuthenticated } from './services/api-service';
 
 function App() {
 
@@ -33,7 +31,7 @@ function App() {
     <Router>
       <ToastContextProvider>
         <div className="containerr" id="container">
-          <UserContextProvider defaultValue={{loggedIn: false}}>
+          <AuthContextProvider defaultValue={{account: undefined, setAccount: () => {}}}>
             <Header />
             <RewardBar />
             <NavBarContextProvider defaultValue={{ hideNavBar, showNavBar }}>
@@ -57,7 +55,7 @@ function App() {
               </div>
             </NavBarContextProvider>
             <NavBar hidden={!navBarVisibility}/>
-          </UserContextProvider>
+          </AuthContextProvider>
         </div>
       </ToastContextProvider>
     </Router>

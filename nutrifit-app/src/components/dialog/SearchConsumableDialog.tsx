@@ -1,14 +1,14 @@
-import { FunctionComponent, useContext, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import TextInput from "../TextInput";
 import Consumable from "../../models/Consumable";
 import { consumables, consumablesOfAuthor, removeConsumable } from "../../services/api-service";
 import ListSelectorButton from "../ListSelectorButton";
-import { UserContext } from "../../context/UserContext";
 import EditConsumableDialog from "./EditConsumableDialog";
 import Loader from "../Loader";
 import LeftArrowButton from "../LeftArrowButton";
 import TrashCanButton from "../TrashCanButton";
+import { useAccount } from "../../hooks/useAccount";
 
 type Props = {
     type?: "adding" | "edit";
@@ -20,11 +20,11 @@ type Props = {
 
 const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", addToList = () => {}, quitDialog = () => {}, active, dialogName = "Search" }) => {
 
-    const { idToken } = useContext(UserContext);
+    const { account } = useAccount();
 
     const [loading, setLoading] = useState(false);
 
-    const idTokenOfUser = idToken ? idToken : "";
+    const idTokenOfUser = account.token;
 
     const [consumableToEdit, setConsumableToEdit] = useState<Consumable>(
         new Consumable(-1,"",0,0,0,0,"",true,"MEAL",-1,[])

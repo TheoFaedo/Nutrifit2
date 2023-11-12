@@ -6,6 +6,8 @@ use App\Helpers\AuthHelper;
 
 use App\Controllers\Controller;
 
+use App\Models\User;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -32,7 +34,13 @@ class IsAuthenticatedController extends Controller{
             return $rs->withHeader('Content-Type', 'application/json');
         }
 
-        $res['success'] = true;
+        $user = User::find($authhelper->getIdUserAuthentified());
+        $res = [
+            'username' => $user->pseudo,
+            'mail'=> $user->mail,
+            'gender' => $user->gender,
+            'token'=> $user->token
+        ];
         $rs->getBody()->write(json_encode($res));
         $rs= $rs->withStatus(200);
         return $rs->withHeader('Content-Type', 'application/json');

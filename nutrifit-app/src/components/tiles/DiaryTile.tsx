@@ -1,13 +1,13 @@
 
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import Consumption from '../../models/Consumption';
 import { addConsumption, changeConsumption, consumptionListAtDate, removeConsumption } from '../../services/api-service';
 import NumberInput from '../NumberInput';
 import Button from '../Button';
 import SearchConsumableDialog from '../dialog/SearchConsumableDialog';
 import Consumable from '../../models/Consumable';
-import { UserContext } from '../../context/UserContext';
 import Loader from '../Loader';
+import { useAccount } from '../../hooks/useAccount';
 
 type Props = {
     date: Date;
@@ -17,8 +17,7 @@ type Props = {
 
 const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consumptionList} ) => {
 
-    const { idToken } = useContext(UserContext);
-
+    const { account } = useAccount();
     const [loading, setLoading] = useState(false);
 
     const [dialogActive, setDialogActive] = useState(false);
@@ -31,7 +30,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
         setLoading(true);
         addConsumption({
             consumable: cons,
-            idUser: idToken,
+            idUser: account.token,
             last_update: new Date(),
             consumed_on: date,
             proportion: 1
@@ -42,7 +41,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
                     {
                         idConsumption: response.idConsumption,
                         consumable: cons,
-                        idUser: idToken,
+                        idUser: account.token,
                         last_update: new Date(),
                         consumed_on: date,
                         proportion: 1

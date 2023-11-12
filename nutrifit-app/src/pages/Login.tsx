@@ -1,11 +1,10 @@
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import Button from './../components/Button';
 import TextInput from '../components/TextInput';
-import { connect } from '../services/api-service';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { NavBarContext } from '../context/NavBarContext';
-import { UserContext } from '../context/UserContext';
+import { useAuth } from '../hooks/useAuth';
 
 type Field = {
   value?: any;
@@ -21,7 +20,7 @@ type Form = {
 const Login: FunctionComponent = () => {
 
     const { hideNavBar } = useContext(NavBarContext);
-    const { loginContext } = useContext(UserContext);
+    const { login } = useAuth();
 
     useEffect(() => {
       hideNavBar();
@@ -50,28 +49,8 @@ const Login: FunctionComponent = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
       e.preventDefault();
-      connect(form.username.value, form.password.value).then((res) => {
-        if(res.success){
-          loginContext(res.pseudo, res.idToken);
-          navigate('/profile');
-        }else{
-          if(res.error){
-            res.error.type ? setErrorMessage("Server error") : setErrorMessage(res.error);
-            setForm(
-              {
-                username: {
-                  ...form.username,
-                  isValid: true
-                },
-                password: {
-                  ...form.password,
-                  isValid: true
-                }
-              }
-            )
-          }
-        }
-      })
+      login(form.username.value, form.password.value);
+      navigate("/profile");
     };
 
     return (
