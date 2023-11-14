@@ -10,7 +10,7 @@ const CreateMeal: FunctionComponent = () => {
     useEffect(() => {
         setActiveTab(2);
         showNavBar();
-    }, [showNavBar])
+    }, [showNavBar, setActiveTab])
 
     return (
         <>

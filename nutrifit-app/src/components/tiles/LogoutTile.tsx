@@ -19,7 +19,7 @@ const LogoutTile: FunctionComponent = memo(() => {
 
     return (
         <div className='logout_tile'>
-            <div>You are logged as <span className="font-bold">{account.username}</span></div>
+            <output>You are logged as <b>{account.username}</b></output>
             <Button name="Logout" onClick={logoutHandler}/>
         </div>
     );

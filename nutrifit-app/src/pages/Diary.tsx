@@ -27,7 +27,7 @@ const Diary: FunctionComponent = () => {
     useEffect(() => {
         showNavBar();
         setActiveTab(0);
-    }, [showNavBar])
+    }, [showNavBar, setActiveTab])
 
     return (
         <>

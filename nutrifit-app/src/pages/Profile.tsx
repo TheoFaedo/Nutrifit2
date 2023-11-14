@@ -10,7 +10,7 @@ const Profile: FunctionComponent = () => {
     useEffect(() => {
         setActiveTab(1);
         showNavBar();
-    }, [showNavBar])
+    }, [showNavBar, setActiveTab])
 
     return (
         <>
