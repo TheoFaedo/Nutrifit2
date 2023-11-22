@@ -1,6 +1,5 @@
 import LogoutTile from "../../tiles/LogoutTile"
 import { BrowserRouter } from "react-router-dom";
-import { useAuth } from '../../../hooks/useAuth';
 import { render, screen } from "../../../test-utils";
 import userEvent from "@testing-library/user-event";
 

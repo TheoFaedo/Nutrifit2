@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { doughnutChartPercentToProportions, doughnutChartProportionsToProportions } from "../helpers/chartDataHelper";
+import { doughnutChartProportionsToProportions } from "../helpers/chartDataHelper";
 
 type NutriData = {
     carbos_percents: number;

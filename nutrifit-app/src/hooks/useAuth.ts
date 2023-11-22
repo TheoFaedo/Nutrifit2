@@ -27,13 +27,14 @@ export function useAuth(){
     }
 
     const login = useCallback((username: string, password: string) => {
-        connect(username, password).then((data) => {
+        return connect(username, password).then((data) => {
                 if(data.error){
                     setAccount(null);
                 }else{
                     setAccount(data);
                     navigate("/profile");
                 }
+                return data;
             }
         ).catch((err) => {
             setAccount(null);

@@ -14,7 +14,7 @@ export const AuthContextProvider = ({defaultValue, children} : {defaultValue: Au
 
   useEffect(() => {
     isAuthenticated().then((data) => {
-      if(data.error){
+      if(!data || data.error){
         setAccount(null);
       }else{
         setAccount(data);

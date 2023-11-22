@@ -211,5 +211,7 @@ export const isAuthenticated = (): Promise<any> => {
         credentials: 'include',
         }).then(response => {
             return response.json();
+        }).catch((err) => {
+            return {error: "Connection problem"};
         });
 }

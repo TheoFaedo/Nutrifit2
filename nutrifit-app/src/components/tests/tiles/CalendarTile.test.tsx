@@ -10,10 +10,6 @@ describe("CalendarTile component rendered correctly", () => {
     .setSystemTime(new Date('2020-01-02'));
   })
 
-  afterAll(() => {
-  });
-
-
   test("renders the date correctly", () => {
     const date = new Date("2020-2-20");
     render(<CalendarTile date={date} nextHandler={() => {}} prevHandler={() => {}} />);

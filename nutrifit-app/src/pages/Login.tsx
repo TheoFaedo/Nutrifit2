@@ -45,12 +45,18 @@ const Login: FunctionComponent = () => {
       const newField: Field = { [fieldName]: { value: fieldValue } };
 
       setForm({ ...form, ...newField });
+      //setErrorMessage("");
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
       e.preventDefault();
-      login(form.username.value, form.password.value);
-      navigate("/profile");
+      login(form.username.value, form.password.value).then((data: any) => {
+        if(data && data.error){
+          setErrorMessage((data.error));
+        }else{
+          navigate("/profile");
+        }
+      });
     };
 
     return (
