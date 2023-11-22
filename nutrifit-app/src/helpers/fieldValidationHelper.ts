@@ -19,7 +19,7 @@ export function validPassword(password: string) : boolean {
 }
 
 export function validGender(gender: string) : boolean {
-    return /^(M|W)$/.test(gender);
+    return /^(M|F)$/.test(gender);
 }
 
 export function validGoal(goal: string) : boolean {

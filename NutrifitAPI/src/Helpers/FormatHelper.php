@@ -35,7 +35,7 @@ class FormatHelper{
      * @return boolean true if verified, false otherwise
      */
     public static function verify_gender($gender){
-        return preg_match('/^(M|W)$/', $gender) ? true : false;
+        return preg_match('/^(M|F)$/', $gender) ? true : false;
     }
 
     /**

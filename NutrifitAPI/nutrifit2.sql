@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 07 juil. 2023 à 23:18
--- Version du serveur : 10.4.22-MariaDB
--- Version de PHP : 8.1.0
+-- Généré le : mer. 22 nov. 2023 à 17:34
+-- Version du serveur : 10.10.2-MariaDB
+-- Version de PHP : 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,18 +35,10 @@ CREATE TABLE `consumable` (
   `carbohydrates` float NOT NULL,
   `proteins` float NOT NULL,
   `quantity_label` varchar(20) NOT NULL,
-  `public` int(1) NOT NULL,
+  `is_public` int(1) NOT NULL,
   `type` enum('RECIPE','MEAL') NOT NULL,
   `author` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `consumable`
---
-
-INSERT INTO `consumable` (`idConsumable`, `name`, `energy`, `fats`, `carbohydrates`, `proteins`, `quantity_label`, `public`, `type`, `author`) VALUES
-(1, 'test1', 200, 10, 50, 20, '1g', 1, 'MEAL', 1),
-(2, 'test2', 320, 25, 50, 30, '1g', 0, 'MEAL', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -61,7 +53,7 @@ CREATE TABLE `consumption` (
   `consumed_on` datetime NOT NULL,
   `last_update` datetime NOT NULL,
   `proportion` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -70,10 +62,11 @@ CREATE TABLE `consumption` (
 --
 
 CREATE TABLE `recipecomposition` (
+  `id` bigint(20) NOT NULL,
   `idRecipe` int(11) NOT NULL,
   `idIngredient` int(11) NOT NULL,
   `proportion` float NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -85,7 +78,7 @@ CREATE TABLE `user` (
   `idUser` int(11) NOT NULL,
   `pseudo` varchar(20) NOT NULL,
   `pwdhash` text NOT NULL,
-  `gender` varchar(1) NOT NULL DEFAULT 'M',
+  `gender` enum('M','F') NOT NULL DEFAULT 'M',
   `token` text NOT NULL,
   `tokenValidation` text NOT NULL,
   `mail` varchar(60) NOT NULL,
@@ -93,16 +86,7 @@ CREATE TABLE `user` (
   `fats_goal` float NOT NULL DEFAULT 79,
   `carbohydrates_goal` float NOT NULL DEFAULT 249,
   `proteins_goal` float NOT NULL DEFAULT 165
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `user`
---
-
-INSERT INTO `user` (`idUser`, `pseudo`, `pwdhash`, `gender`, `token`, `tokenValidation`, `mail`, `energy_goal`, `fats_goal`, `carbohydrates_goal`, `proteins_goal`) VALUES
-(0, 'test5', 'test5', '', '', '', 'fdfsfs', 0, 0, 0, 0),
-(1, 'test', 'test', 'H', 'etze', 'tretert', 'zsfgsdf', 2367, 79, 249, 165),
-(100, 'test10', '$2y$10$K1zhjTbelrGWqdC.VXBm5.9iRuuv/vzyjCy2xiOTeZhzOP9uY7ebm', 'M', '9579256dbf68cdb7444948b9fe7483794ea7f996', 'ed4ec22e8bcf11f315e5f10385f3941b21089314', 'test.d@gmail.com', 2600, 80, 330, 140);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Index pour les tables déchargées
@@ -127,6 +111,7 @@ ALTER TABLE `consumption`
 -- Index pour la table `recipecomposition`
 --
 ALTER TABLE `recipecomposition`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `fk_recipecomposition_recipe` (`idRecipe`),
   ADD KEY `fk_recipecomposition_ingredient` (`idIngredient`);
 
@@ -146,7 +131,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `consumable`
 --
 ALTER TABLE `consumable`
-  MODIFY `idConsumable` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idConsumable` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `consumption`
@@ -155,10 +140,16 @@ ALTER TABLE `consumption`
   MODIFY `idConsumption` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `recipecomposition`
+--
+ALTER TABLE `recipecomposition`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000012;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées

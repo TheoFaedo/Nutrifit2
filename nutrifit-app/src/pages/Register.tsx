@@ -105,7 +105,7 @@ const Register: FunctionComponent = () => {
           newForm = { ...newForm, username: newField };
       }
 
-      if(validGender((newForm.gender.value === 0 ? "M" : "W"))){
+      if(validGender((newForm.gender.value === 0 ? "M" : "F"))){
           const newField = { value: newForm.gender.value, error: "", isValid: true };
           newForm = { ...newForm, gender: newField };
       }else{
