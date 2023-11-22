@@ -109,7 +109,6 @@ const ChangingGoalTile: FunctionComponent = () => {
                         {
                             energy:form.energy,
                             energy_unit:"kcal",
-                            energy_goal:2200,
                             carbos_percents: form.carbos*4,
                             fats_percents: form.fats*9,
                             proteins_percents: form.proteins*4

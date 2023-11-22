@@ -7,7 +7,6 @@ type NutriData = {
     carbos_percents: number;
     fats_percents: number;
     proteins_percents: number;
-    energy_goal: number;
     energy_unit: string;
     energy: number;
 }
