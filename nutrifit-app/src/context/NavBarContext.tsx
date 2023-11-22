@@ -5,9 +5,10 @@ type NavBarContextType = {
     showNavBar: Function;
     activeTab: number;
     setActiveTab: Function;
+    navBarVisible: boolean;
 }
 
-export const NavBarContext = createContext<NavBarContextType>({hideNavBar: () => {}, showNavBar: () => {}, activeTab: 1, setActiveTab: () => {}});
+export const NavBarContext = createContext<NavBarContextType>({hideNavBar: () => {}, showNavBar: () => {}, activeTab: 1, setActiveTab: () => {}, navBarVisible: true});
 
 export const NavBarContextProvider = ({children} : { children: ReactNode }) => {
 
@@ -40,7 +41,7 @@ export const NavBarContextProvider = ({children} : { children: ReactNode }) => {
     }, []);
 
     return (
-        <NavBarContext.Provider value={ { hideNavBar, showNavBar, activeTab: navBarState.activeTab, setActiveTab } }>
+        <NavBarContext.Provider value={ { hideNavBar, showNavBar, activeTab: navBarState.activeTab, setActiveTab, navBarVisible: navBarState.visible } }>
             {children}
         </NavBarContext.Provider>
     )

@@ -9,7 +9,7 @@ type Props = {
 const NavBar: FunctionComponent<Props> = (props) => {
     
     const [sizeEllipse, setSizeEllipse] = useState(2);
-    const {activeTab, setActiveTab} = useContext(NavBarContext);
+    const {activeTab, setActiveTab, navBarVisible} = useContext(NavBarContext);
 
     const increaseSize = () => {
         if(window.innerWidth > 1024) {
@@ -28,7 +28,7 @@ const NavBar: FunctionComponent<Props> = (props) => {
     const hidden = props.hidden ? "hidden" : "";
 
     return (
-        <div className={'relative z-10 ' + hidden} onMouseEnter={increaseSize} onMouseLeave={decreaseSize}>
+        navBarVisible ? <div className={'relative z-10 ' + hidden} onMouseEnter={increaseSize} onMouseLeave={decreaseSize}>
             <svg viewBox="0 0 100 10" className='navbar-svg'>
                 <ellipse cx="50" cy="5" rx="51" ry={sizeEllipse} className="transition-all duration-300"></ellipse>
             </svg>
@@ -38,6 +38,9 @@ const NavBar: FunctionComponent<Props> = (props) => {
                 <NavBarIcon active={activeTab === 2 ? true : false} svgname="whitehat" text="Meals" href="/createmeal" onClick={() => setActiveTabHandler(2)}/>
             </div>
         </div>
+        :
+        <>
+        </>
     );
 }
 
