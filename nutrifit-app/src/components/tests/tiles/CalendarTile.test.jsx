@@ -1,32 +1,42 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import CalendarTile from "./../../tiles/CalendarTile";
+import CalendarTile from "../../tiles/CalendarTile";
 
 describe("CalendarTile component rendered correctly", () => {
+
+
+  beforeAll(() => {
+    jest
+    .useFakeTimers()
+    .setSystemTime(new Date('2020-01-02'));
+  })
+
+  afterAll(() => {
+  });
+
+
   test("renders the date correctly", () => {
-    const date = new Date("2022-02-15");
+    const date = new Date("2020-2-20");
     render(<CalendarTile date={date} nextHandler={() => {}} prevHandler={() => {}} />);
-    const dateElement = screen.getByText("Tue Feb 15, 2022");
+    const dateElement = screen.getByText("Thu Feb 20, 2020");
     expect(dateElement).toBeInTheDocument();
   });
 
   test("renders the date correctly for today", () => {
-    const date = new Date();
+    const date = new Date('2020-01-02');
     render(<CalendarTile date={date} nextHandler={() => {}} prevHandler={() => {}} />);
     const dateElement = screen.getByText("Today");
     expect(dateElement).toBeInTheDocument();
   });
 
   test("renders the date correctly for yesterday", () => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
+    const date = new Date('2020-01-01');
     render(<CalendarTile date={date} nextHandler={() => {}} prevHandler={() => {}} />);
     const dateElement = screen.getByText("Yesterday");
     expect(dateElement).toBeInTheDocument();
   });
 
   test("renders the date correctly for tomorrow", () => {
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
+    const date = new Date('2020-01-03');
     render(<CalendarTile date={date} nextHandler={() => {}} prevHandler={() => {}} />);
     const dateElement = screen.getByText("Tomorrow");
     expect(dateElement).toBeInTheDocument();
