@@ -26,9 +26,9 @@ export function useAuth(){
             break;
     }
 
-    const login = useCallback((username: string, password: string) => {
+    const login = useCallback(async (username: string, password: string) => {
         return connect(username, password).then((data) => {
-                if(data.error){
+                if("error" in data){
                     setAccount(null);
                 }else{
                     setAccount(data);
@@ -38,7 +38,9 @@ export function useAuth(){
             }
         ).catch((err) => {
             setAccount(null);
+            throw err;
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const logout = useCallback(() => {
@@ -46,6 +48,7 @@ export function useAuth(){
             if(data.success) setAccount(null);
         });
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return {

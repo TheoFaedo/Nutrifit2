@@ -56,6 +56,9 @@ const Login: FunctionComponent = () => {
         }else{
           navigate("/profile");
         }
+      }).catch((err: Error) => {
+        console.error(err.message);
+        setErrorMessage(err.message);
       });
     };
 

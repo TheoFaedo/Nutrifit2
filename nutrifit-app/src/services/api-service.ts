@@ -1,217 +1,144 @@
 import Consumable from "../models/Consumable";
 import { formatDate } from "../helpers/dateHelper";
 import Consumption from "../models/Consumption";
+import Mail from "../models/valueObjects/Mail";
+import User from "../models/User";
+import { AccountProblemError, ServerDontRespondError, ServerResponseError } from "../errors/Errors";
 
 const apiDomain = "http://localhost:8080";
 
+type ErrorResponse =  {
+    error: {
+        message: string,
+    };
+}
 
-export const connect = (username: string, password: string): Promise<any> => {
-    return fetch(`${apiDomain}/connect?pseudo=${username}&password=${password}`, {credentials: 'include'}).then(response => {
+type ErrorsResponse = {
+    errors: any
+}
+
+type SuccessResponse = {
+    success: boolean
+}
+
+function executeQuery(url: string, method: string = 'GET', {...options}: any = {}) {
+    return fetch(apiDomain+url, {
+        ...options,
+        method: method,
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(response => {
         return response.json();
-    }).catch(error => {
-        throw error;
+    }).catch(() => {
+        throw new ServerDontRespondError();
+    })
+}
+
+
+export const connect = (username: string, password: string): Promise<User|ErrorResponse> => {
+    return executeQuery(`/connect?pseudo=${username}&password=${password}`).then(response => {
+        if(response.error) {
+            throw new Error(response.error);
+        }
+        if(response.username && response.mail && response.gender && response.token){
+            try{
+                const mail: Mail = Mail.create(response.mail);
+                return new User(response.username, response.gender, response.token, mail);
+            }catch(err){
+                throw new AccountProblemError();
+            }
+        }
+        throw new ServerResponseError();
+    })
+}
+
+export const register = (user: { pseudo: string, password: string, mail: Mail, gender: string, goal: number }): Promise<ErrorsResponse|SuccessResponse> => {
+    return executeQuery("/register/", 'POST', {
+        body: JSON.stringify({
+            ...user,
+            mail: user.mail.value
+        }),
+    }).then(response => {
+        return response;
     });
 }
 
-export const register = (user: any): Promise<any> => {
-    return fetch(`${apiDomain}/register/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(user),
-        }).then(response => {
-            return response.json();
-        }).catch(() => {
-            return {error: "Connection problem"};
-        });
-}
-
 export const logout = (): Promise<any> => {
-    return fetch(`${apiDomain}/disconnect`, {credentials: 'include'}).then(response => {
-        return response.json();
-    }).catch(error => {
-        return {error: "Connection problem"};
+    return executeQuery("/disconnect").then(response => {
+        return response;
     });
 }
 
 export const getnutritionalgoal = (): Promise<any> => {
-    return fetch(`${apiDomain}/nutritionalgoal`, {credentials: 'include'}).then(response => {
-        return response.json();
-    }).catch(error => {
-        return {error: "Connection problem"};
+    return executeQuery("/nutritionalgoal").then(response => {
+        return response;
     });
 }
 
 export const changenutritionalgoal = (newGoal: any): Promise<any> => {
-    return fetch(`${apiDomain}/changenutritionalgoal`, {
-    method: 'PUT',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(newGoal),
-    }).then(response => {
-        return response.json();
-    }).catch(() => {
-        return {error: "Connection problem"};
+    return executeQuery("/changenutritionalgoal", 'PUT', {
+        body: JSON.stringify(newGoal)
     });
 }
 
 export const addConsumable = (consumable: Consumable): Promise<any> => {
-    return fetch(`${apiDomain}/addconsumable`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(consumable),
-    }).then(response => {
-        return response.json();
-    }).catch(() => {
-        return {error: "Connection problem"};
-    });
+    return executeQuery("/addconsumable", 'POST', {
+        body: JSON.stringify(consumable)
+    })
 }
 
 export const consumables = (keyword: string): Promise<any> => {
-    return fetch(`${apiDomain}/consumables/?q=${keyword}`, {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    }).then(response => {
-        return response.json();
-    }).catch(() => {
-        return {error: "Connection problem"};
-    });
+    return executeQuery("/consumables/?q="+keyword);
 }
 
 export const consumablesOfAuthor = (keyword: string, idToken: string): Promise<any> => {
-    return fetch(`${apiDomain}/consumables/${idToken}/?q=${keyword}`, {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    }).then(response => {
-        return response.json();
-    }).catch(() => {
-        return {error: "Connection problem"};
-    });
+    return executeQuery(`/consumables/${idToken}/?q=${keyword}`);
 }
 
 export const consumptionListAtDate = (date: Date): Promise<any> => {
-
     const formatedDate = formatDate(date);
-
-    return fetch(`${apiDomain}/consumptionatdate/?date=${formatedDate}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        }).then(response => {
-            return response.json();
-        }).catch(() => {
-            return {error: "Connection problem"};
-        });
+    return executeQuery(`/consumptionatdate/?date=${formatedDate}`);
 }
 
 export const removeConsumption = (idConsumption: number): Promise<any> => {
-
-    return fetch(`${apiDomain}/removeconsumption/${idConsumption}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        }).then(response => {
-            return response.json();
-        }).catch(() => {
-            return {error: "Connection problem"};
-        });
+    return executeQuery(`/removeconsumption/${idConsumption}`, 'DELETE');
 }
 
-export const changeConsumption = (consumption: Consumption): Promise<any> => {
-
-    return fetch(`${apiDomain}/changeconsumption/${consumption.idConsumption}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+export const changeConsumption = (consumption: Consumption): Promise<any> => {    
+    return executeQuery(`/changeconsumption/${consumption.idConsumption}`, 'PUT', {
         body: JSON.stringify({
             idConsumable: consumption.consumable.idConsumable,
             proportion: consumption.proportion
         })
-        }).then(response => {
-            return response.json();
-        }).catch(() => {
-            return {error: "Connection problem"};
-        });
+    })
 }
 
 export const addConsumption = (consumption: Consumption): Promise<any> => {
-    return fetch(`${apiDomain}/consume/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+    return executeQuery("/consume/", 'POST', {
         body: JSON.stringify({
             idConsumable: consumption.consumable.idConsumable,
             proportion: consumption.proportion,
             consumed_on: formatDate(consumption.consumed_on)
         })
-        }).then(response => {
-            return response.json();
-        }).catch(() => {
-            return {error: "Connection problem"};
-        });
+    })
 }
 
 export const removeConsumable = (idConsumable: number): Promise<any> => {
-
-    return fetch(`${apiDomain}/removeconsumable/${idConsumable}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        }).then(response => {
-            return response.json();
-        }).catch(() => {
-            return {error: "Connection problem"};
-        });
+    return executeQuery("/removeconsumable/"+idConsumable, 'DELETE').then(response => {
+        return response;
+    });
 }
 
 export const changeConsumable = (consumable: Consumable): Promise<any> => {
-    return fetch(`${apiDomain}/changeconsumable/${consumable.idConsumable}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+    return executeQuery("/changeconsumable/"+consumable.idConsumable, 'PUT', {
         body: JSON.stringify(consumable)
-        }).then(response => {
-            return response.json();
-        }).catch((error) => {
-            throw error;
-        });
+    })
 }
 
 export const isAuthenticated = (): Promise<any> => {
-    return fetch(`${apiDomain}/me`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        }).then(response => {
-            return response.json();
-        }).catch((err) => {
-            throw err;
-        });
+    return executeQuery("/me").then(response => {
+        return response;
+    })
 }

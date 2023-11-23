@@ -7,6 +7,7 @@ import TiledSelectorButton from '../components/TiledSelectorButton';
 import { register } from '../services/api-service';
 import { validEmail, validGender, validGoal, validPassword, validUsername } from '../helpers/fieldValidationHelper';
 import { useToasts } from '../context/ToastContext';
+import Mail from '../models/valueObjects/Mail';
 
 type Field = {
   value?: any;
@@ -157,27 +158,25 @@ const Register: FunctionComponent = () => {
       if(!validateForm()){
         return
       }
-
+      
       const userToRegister = {
         pseudo: form.username.value,
         password: form.password.value,
-        mail: form.email.value,
+        mail: Mail.create(form.email.value),
         gender: form.gender.value === 0 ? "M" : "F",
         goal: (form.goal.value+1)
       }
 
       register(userToRegister).then(
         (response) => {
-          if(response.success){
+          if("success" in response){
             pushToast({
               type: "success",
               content: "Account created successfully",
             })
             navigate('/login');
-          }else{
-            if(response.error){
-              response.error.type ? setErrorMessage("Server error") : setErrorMessage(response.error);
-            }
+          }else if("errors" in response){
+              setErrorMessage(response.errors);
           }
         }
       );
