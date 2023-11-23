@@ -9,7 +9,7 @@ export const connect = (username: string, password: string): Promise<any> => {
     return fetch(`${apiDomain}/connect?pseudo=${username}&password=${password}`, {credentials: 'include'}).then(response => {
         return response.json();
     }).catch(error => {
-        return {error: "Connection problem"};
+        throw error;
     });
 }
 
@@ -197,8 +197,8 @@ export const changeConsumable = (consumable: Consumable): Promise<any> => {
         body: JSON.stringify(consumable)
         }).then(response => {
             return response.json();
-        }).catch(() => {
-            return {error: "Connection problem"};
+        }).catch((error) => {
+            throw error;
         });
 }
 
@@ -212,6 +212,6 @@ export const isAuthenticated = (): Promise<any> => {
         }).then(response => {
             return response.json();
         }).catch((err) => {
-            return {error: "Connection problem"};
+            throw err;
         });
 }

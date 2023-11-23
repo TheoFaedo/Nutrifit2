@@ -11,40 +11,44 @@ import { NavBarContextProvider } from './context/NavBarContext';
 import { AuthContextProvider } from './context/AuthContext';
 import Register from './pages/Register';
 import { ToastContextProvider } from './context/ToastContext';
+import ErrorBoundary from './components/error/ErrorBoundary';
 
 function App() {
   return (
-    <Router>
-      <ToastContextProvider>
-        <div className="containerr" id="container">
-          <AuthContextProvider defaultValue={{account: undefined, setAccount: () => {}}}>
-            <NavBarContextProvider>
-              <Header />
-              <RewardBar />
-                <div className='flex-grow overflow-y-scroll scrollbar-hide'>
-                  <Routes>
-                    <Route path="/" element={
-                      <Navigate to="/profile" />
-                    }/>
-                    <Route path="/login" element={<Login/>} />
-                    <Route path="/register" element={<Register/>} />
-                    <Route path="/profile" element={
-                      <PrivateRoute children={<Profile/>} />
-                    } />
-                    <Route path="/diary" element={
-                      <PrivateRoute children={<Diary/>} />
-                    } />
-                    <Route path="/createmeal" element={
-                      <PrivateRoute children={<CreateMeal/>} />
-                    } />
-                  </Routes>
-                </div>
-              <NavBar />
-            </NavBarContextProvider>
-          </AuthContextProvider>
-        </div>
-      </ToastContextProvider>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <ToastContextProvider>
+          <div className="containerr" id="container">
+            <AuthContextProvider defaultValue={{account: undefined, setAccount: () => {}}}>
+              <NavBarContextProvider>
+                <Header />
+                <RewardBar />
+                  <div className='flex-grow overflow-y-scroll scrollbar-hide'>
+                    <Routes>
+                      <Route path="/" element={
+                        <Navigate to="/profile" />
+                      }/>
+                      <Route path="/login" element={<Login/>} />
+                      <Route path="/register" element={<Register/>} />
+                      <Route path="/profile" element={
+                        <PrivateRoute children={<Profile/>} />
+                      } />
+                      <Route path="/diary" element={
+                        <PrivateRoute children={<Diary/>} />
+                      } />
+                      <Route path="/createmeal" element={
+                        <PrivateRoute children={<CreateMeal/>} />
+                      } />
+                      <Route path="*" element={<Navigate to="/profile" />}/>
+                    </Routes>
+                  </div>
+                <NavBar />
+              </NavBarContextProvider>
+            </AuthContextProvider>
+          </div>
+        </ToastContextProvider>
+      </Router>
+    </ErrorBoundary>
     
     
   );
