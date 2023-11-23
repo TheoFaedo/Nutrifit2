@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import Button from "../../Button";
 import SearchConsumableDialog from "../../dialog/SearchConsumableDialog";
 import Consumable from "../../../models/Consumable";
@@ -251,8 +251,7 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
                         carbos_percents: totalCarbos(),
                         fats_percents: totalFats(),
                         proteins_percents: totalProteins(),
-                        energy_unit: "kcal",
-                        energy_goal: 0
+                        energy_unit: "kcal"
                     }
                 }
                 />

@@ -277,8 +277,7 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
                         fats_percents: form.fats.value*9,
                         proteins_percents: form.proteins.value*4,
                         energy: form.energy.value,
-                        energy_unit: "kcal",
-                        energy_goal: 2200
+                        energy_unit: "kcal"
                     }
                 } className='w-32 h-32 mt-6'/>
             </div>
