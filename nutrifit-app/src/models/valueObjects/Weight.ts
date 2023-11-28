@@ -1,7 +1,14 @@
+import { Energy, EnergyInKcal } from "./Energy";
 import Quantity from "./Quantity";
 
-export abstract class Weight extends Quantity{
+export enum MACRO_TYPES {
+    CARBOHYDRATE = 1,
+    PROTEIN = 2,
+    FAT = 3
+}
 
+
+export abstract class Weight extends Quantity{
     protected constructor(value: number){
         super(value);
     }
@@ -16,12 +23,32 @@ export abstract class Weight extends Quantity{
         }
         return false;
     }
+
+    public toKcal(macroType: MACRO_TYPES): Energy{
+        switch(macroType){
+            case MACRO_TYPES.CARBOHYDRATE:
+                return EnergyInKcal.create(this.toGrams * 4);
+            case MACRO_TYPES.PROTEIN:
+                return EnergyInKcal.create(this.toGrams * 4);
+            case MACRO_TYPES.FAT:
+                return EnergyInKcal.create(this.toGrams * 9);
+            default:
+                throw new Error('Invalid macro type');
+        }
+    }
+
+    get value(): number{
+        if(this._value > 999){
+            return 999;
+        }
+        return this._value;
+    }
 }
 
 export class WeightInGrams extends Weight{
 
     public static create(weightValue: number): WeightInGrams{
-        if(weightValue>=0 && weightValue<=999){
+        if(!isNaN(weightValue) && weightValue>=0){
             return new WeightInGrams(weightValue);
         }
         throw new Error('Invalid quantity (must be between 0 and 999)');
@@ -51,7 +78,7 @@ export class WeightInGrams extends Weight{
 export class WeightInOnce extends Weight{
 
     public static create(weightValue: number): WeightInOnce{
-        if(weightValue>=0 && weightValue<=999){
+        if(!isNaN(weightValue) && weightValue>=0){
             return new WeightInOnce(weightValue);
         }
         throw new Error('Invalid quantity (must be between 0 and 999)');

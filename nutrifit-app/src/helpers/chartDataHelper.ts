@@ -1,10 +1,16 @@
-import { zeroIfIsNaN } from "./nanHelper";
+import { Energy } from "../models/valueObjects/Energy";
 
-export const doughnutChartPercentToProportions = (data: any) => {
+type MacrosEnergySet = {
+    carbos: Energy,
+    fats: Energy,
+    proteins: Energy
+}
 
-    const carbos = zeroIfIsNaN(data.carbos);
-    const fats = zeroIfIsNaN(data.fats);
-    const proteins = zeroIfIsNaN(data.proteins);
+export const doughnutChartPercentToProportions = (data: MacrosEnergySet) => {
+
+    const carbos = data.carbos.value;
+    const fats = data.fats.value;
+    const proteins = data.proteins.value;
 
     let sum = carbos + fats + proteins;
     if(sum > 100){
@@ -13,10 +19,10 @@ export const doughnutChartPercentToProportions = (data: any) => {
     return [0, carbos, fats, proteins, 100-sum];
 }
 
-export const doughnutChartProportionsToProportions = (data: any) => {
-    const carbos = zeroIfIsNaN(data.carbos);
-    const fats = zeroIfIsNaN(data.fats);
-    const proteins = zeroIfIsNaN(data.proteins);
+export const doughnutChartProportionsToProportions = (data: MacrosEnergySet) => {
+    const carbos = data.carbos.value;
+    const fats = data.fats.value;
+    const proteins = data.proteins.value;
 
     let sum = carbos + fats + proteins;
     if(sum > 0){

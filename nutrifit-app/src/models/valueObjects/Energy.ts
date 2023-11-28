@@ -1,4 +1,5 @@
 import Quantity from "./Quantity";
+import { Weight } from "./Weight";
 
 export abstract class Energy extends Quantity{
 
@@ -25,6 +26,10 @@ export class EnergyInKcal extends Energy {
             return new EnergyInKcal(energyValue);
         }
         throw new Error('Energy value must be positive');
+    }
+
+    public static fromMacros(carbos: Weight, proteins: Weight, fats: Weight): EnergyInKcal {
+        return new EnergyInKcal(carbos.toGrams * 4 + proteins.toGrams * 4 + fats.toGrams * 9);
     }
 
     public remains<EnergyInKcal>(quantity: EnergyInKcal): Quantity {

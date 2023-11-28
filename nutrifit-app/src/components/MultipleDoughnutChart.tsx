@@ -2,13 +2,14 @@ import { FunctionComponent } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { doughnutChartProportionsToProportions } from "../helpers/chartDataHelper";
+import { Energy } from '../models/valueObjects/Energy';
 
 type NutriData = {
-    carbos_percents: number;
-    fats_percents: number;
-    proteins_percents: number;
+    carbos: Energy;
+    fats: Energy;
+    proteins: Energy;
     energy_unit: string;
-    energy: number;
+    energy: Energy;
 }
 
 type Props = {
@@ -22,12 +23,12 @@ const MultipleDoughnutChart: FunctionComponent<Props> = (props) => {
 
     ChartJS.register(ArcElement, Tooltip, Legend);
 
-    const data = doughnutChartProportionsToProportions({proteins: nutriData.proteins_percents, fats: nutriData.fats_percents, carbos: nutriData.carbos_percents})
+    const data = doughnutChartProportionsToProportions({proteins: nutriData.proteins, fats: nutriData.fats, carbos: nutriData.carbos})
 
     const center = 
         (<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-            <span className={'text-2xl font-bold text-white'}>{isNaN(nutriData.energy) ? "-" : nutriData.energy}</span>
-            <div className={'text-md text-white'}>{nutriData.energy_unit}</div>
+            <span className={'text-2xl font-bold text-white'}>{nutriData.energy.value}</span>
+            <div className={'text-md text-white'}>{nutriData.energy.unitLabel}</div>
         </div>)
         
     return (

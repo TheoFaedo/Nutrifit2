@@ -18,7 +18,7 @@ type Props = {
 const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consumptionList} ) => {
 
     const { account } = useAccount();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const [dialogActive, setDialogActive] = useState(false);
 
@@ -27,7 +27,6 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
     }
 
     const addConsumable = (cons: Consumable) => {
-        setLoading(true);
         addConsumption({
             consumable: cons,
             idUser: account.token,
@@ -76,7 +75,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
         <div key={cons.idConsumption !== undefined ? cons.idConsumption : ""+Math.floor(Math.random()*1000)} className={"bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center"}>
             <div>
                 <div className="h-full text-left text-white w-36 overflow-hidden text-ellipsis">{cons.consumable.name ? cons.consumable.name : "undefined"}</div>
-                <div className="h-full text-left text-neutral-400 font-normal">{cons.consumable.energy*cons.proportion} kcal, {(cons.proportion === 1 ? "" : (cons.proportion + "x")) + cons.consumable.quantity_label}</div>
+                <div className="h-full text-left text-neutral-400 font-normal">{cons.consumable.energy.value*cons.proportion} kcal, {(cons.proportion === 1 ? "" : (cons.proportion + "x")) + cons.consumable.quantity_label}</div>
             </div>
             <div className="flex items-center gap-6">
                 <NumberInput value={cons.proportion} name={cons.idConsumption+""} onChange={handleChangeProportion} onBlur={() => handleBlurSaveConsumption(cons)} backgroundColor="bg-neutral-600" textColor="text-white" />

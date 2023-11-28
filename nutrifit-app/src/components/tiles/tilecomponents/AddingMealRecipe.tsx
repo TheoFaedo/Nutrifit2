@@ -8,9 +8,11 @@ import NumberInput from "../../NumberInput";
 import MultipleDoughnutChart from "../../MultipleDoughnutChart";
 import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
 import { useToasts } from "../../../context/ToastContext";
+import { EnergyInKcal } from "../../../models/valueObjects/Energy";
+import { MACRO_TYPES, WeightInGrams } from "../../../models/valueObjects/Weight";
 
 type Field = {
-    value?: any;
+    value: string;
     error?: string;
     isValid?: boolean;
 }
@@ -86,33 +88,33 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
     const totalEnergy = () => {
         let energy = 0;
         ingredients.forEach((cons) => {
-            energy += (cons.proportion ? cons.proportion : 1) * cons.energy;
+            energy += (cons.proportion ? cons.proportion : 1) * cons.energy.value;
         });
-        return energy;
+        return EnergyInKcal.create(energy);
     }
 
     const totalCarbos = () => {
         let carbos = 0;
         ingredients.forEach((cons) => {
-            carbos += (cons.proportion ? cons.proportion : 1) * cons.carbohydrates;
+            carbos += (cons.proportion ? cons.proportion : 1) * cons.carbohydrates.value;
         });
-        return carbos;
+        return WeightInGrams.create(carbos);
     }
 
     const totalFats = () => {
         let fats = 0;
         ingredients.forEach((cons) => { 
-            fats += (cons.proportion ? cons.proportion : 1) * cons.fats;
+            fats += (cons.proportion ? cons.proportion : 1) * cons.fats.value;
         });
-        return fats;
+        return WeightInGrams.create(fats);
     }
 
     const totalProteins = () => {
         let proteins = 0;
         ingredients.forEach((cons) => {
-            proteins += (cons.proportion ? cons.proportion : 1) * cons.proteins;
+            proteins += (cons.proportion ? cons.proportion : 1) * cons.proteins.value;
         });
-        return proteins;
+        return WeightInGrams.create(proteins);
     }
 
     const quitDialog = () => {
@@ -178,14 +180,16 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
             ...cons,
             proportion: cons.proportion
         }));
+
+        console.log(ingredientsToSend);
         
         const consumable = {
             name: form.name.value,
             quantity_label: form.serving_size.value,
-            energy: 0,
-            carbohydrates: 0,
-            fats: 0,
-            proteins: 0,
+            energy: EnergyInKcal.create(0),
+            carbohydrates: WeightInGrams.create(0),
+            fats: WeightInGrams.create(0),
+            proteins: WeightInGrams.create(0),
             type : "RECIPE",
             is_public: true,
             ingredients: ingredientsToSend
@@ -216,7 +220,7 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
         <div key={cons.idConsumable + "-" + Math.floor(Math.random()*100000)} className="bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center">
             <div>
                 <div className="h-full text-left text-white w-36 overflow-hidden text-ellipsis">{cons.name ? cons.name : "undefined"}</div>
-                <div className="h-full text-left text-neutral-400 font-normal">{cons.energy} kcal, {cons.quantity_label}</div>
+                <div className="h-full text-left text-neutral-400 font-normal">{cons.energy.value} {cons.energy.unitLabel}, {cons.quantity_label}</div>
             </div>
             <div className="flex items-center gap-6">
                 <NumberInput value={cons.proportion ? cons.proportion : 0} name={cons.idConsumable+""} onChange={handleChangeProportion} backgroundColor="bg-neutral-600" textColor="text-white" />
@@ -248,9 +252,9 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
                 <MultipleDoughnutChart className="mt-6" nutriData={
                     {
                         energy: totalEnergy(),
-                        carbos_percents: totalCarbos(),
-                        fats_percents: totalFats(),
-                        proteins_percents: totalProteins(),
+                        carbos: totalCarbos().toKcal(MACRO_TYPES.CARBOHYDRATE),
+                        fats: totalFats().toKcal(MACRO_TYPES.FAT),
+                        proteins: totalProteins().toKcal(MACRO_TYPES.PROTEIN),
                         energy_unit: "kcal"
                     }
                 }
@@ -263,21 +267,21 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
                         <span className="dot" style={{ backgroundColor: "#38D386" }}></span>
                         <label htmlFor='energy'>Carbohydrates (g)</label>
                     </div>
-                    <span className="font-semibold mx-4">{totalCarbos()}</span>
+                    <span className="font-semibold mx-4">{totalCarbos().value}</span>
                 </div>
                 <div className='text-white flex items-center justify-center'>
                     <div className='text-left text-white font-medium text-sm flex items-center h-full w-40 mx-4'>
                         <span className="dot" style={{ backgroundColor: "#CC57F5" }}></span>
                         <label htmlFor='energy'>Fats (g)</label>
                     </div>
-                    <span className="font-semibold mx-4">{totalFats()}</span>
+                    <span className="font-semibold mx-4">{totalFats().value}</span>
                 </div>
                 <div className='text-white flex items-center justify-center'>
                     <div className='text-left text-white font-medium text-sm flex items-center h-full w-40 mx-4'>
                         <span className="dot" style={{ backgroundColor: "#EEBD30" }}></span>
                         <label htmlFor='energy'>Proteins (g)</label>
                     </div>
-                    <span className="font-semibold mx-4">{totalProteins()}</span>
+                    <span className="font-semibold mx-4">{totalProteins().value}</span>
                 </div>
             </div>
 

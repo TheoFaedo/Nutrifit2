@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 export function validConsumableName(name: string) : boolean {
     return name.length > 0 && name.length <= 20;
 }

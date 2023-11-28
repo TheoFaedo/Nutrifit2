@@ -1,7 +1,7 @@
 import ValueObject from "./ValueObject";
 
 export default abstract class Quantity implements ValueObject<Number> {
-    private readonly _value: number = 0;
+    protected readonly _value: number = 0;
 
     protected constructor(value: number){
         this._value = value;

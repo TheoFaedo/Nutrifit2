@@ -1,12 +1,15 @@
+import { Energy, EnergyInKcal } from "./valueObjects/Energy";
+import { Weight, WeightInGrams } from "./valueObjects/Weight";
+
 export default class Consumable{
 
 
     idConsumable?: number;
     name: string;
-    energy: number;
-    fats: number;
-    carbohydrates: number;
-    proteins: number;
+    energy: Energy;
+    fats: Weight;
+    carbohydrates: Weight;
+    proteins: Weight;
     quantity_label: string;
     is_public: boolean;
     type: string;
@@ -17,15 +20,15 @@ export default class Consumable{
     constructor(
         idConsumable: number = -1,
         name: string = "undefined",
-        energy: number = 0,
-        fats: number = 0,
-        carbohydrates: number = 0,
-        proteins: number = 0,
+        energy: Energy = EnergyInKcal.create(0),
+        fats: Weight = WeightInGrams.create(0),
+        carbohydrates: Weight = WeightInGrams.create(0),
+        proteins: Weight = WeightInGrams.create(0),
         quantity_label: string = "1g",
         is_public: boolean = true,
         type: string = "MEAL",
         author: number = -1,
-        ingredients: Consumable[] = []
+        ingredients: (Consumable&Number)[] = []
     ){
         this.idConsumable = idConsumable;
         this.name = name;

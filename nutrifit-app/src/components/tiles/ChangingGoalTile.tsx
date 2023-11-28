@@ -4,32 +4,32 @@ import Button from '../Button';
 import MultipleDoughnutChart from '../MultipleDoughnutChart';
 import NumberInput from '../NumberInput';
 import { getnutritionalgoal, changenutritionalgoal } from '../../services/api-service';
-import { zeroIfIsNaN } from '../../helpers/nanHelper';
 import { useToasts } from '../../context/ToastContext';
 import Loader from '../Loader';
+import { Energy, EnergyInKcal } from '../../models/valueObjects/Energy';
+import { MACRO_TYPES, Weight, WeightInGrams } from '../../models/valueObjects/Weight';
 
 type Form = {
-    energy: number;
-    carbos: number;
-    fats: number;
-    proteins: number;
+    energy: Energy;
+    carbos: Weight;
+    fats: Weight;
+    proteins: Weight;
 }
 
 const ChangingGoalTile: FunctionComponent = () => {
 
     const { pushToast } = useToasts();
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const [form, setForm] = useState<Form>({
-        energy: 0,
-        carbos: 0,
-        fats: 0,
-        proteins: 0
+        energy: EnergyInKcal.create(0),
+        carbos: WeightInGrams.create(0),
+        fats: WeightInGrams.create(0),
+        proteins: WeightInGrams.create(0)
     })
 
     useEffect(() => {
-        setLoading(true);
         getnutritionalgoal().then((res) => {
             setForm({
                 energy: res.energy_goal,
@@ -45,38 +45,34 @@ const ChangingGoalTile: FunctionComponent = () => {
         const name = e.target.name;
         const value = parseFloat(e.target.value);
 
-        const energy = zeroIfIsNaN(form.energy);
-        const carbos = zeroIfIsNaN(form.carbos);
-        const fats = zeroIfIsNaN(form.fats);
-        const proteins = zeroIfIsNaN(form.proteins);
-
-        let updatedEnergy = energy;
-        let updatedCarbos = carbos;
-        let updatedFats = fats;
-        let updatedProteins = proteins;
-
+        let updatedEnergy = form.energy;
+        let updatedCarbos = form.carbos;
+        let updatedFats = form.fats;
+        let updatedProteins = form.proteins;
+        
         if (name === 'energy') {
-            updatedEnergy = value;
+            updatedEnergy = EnergyInKcal.create(value);
             const coef = value/25;
-            updatedCarbos = coef*2;
-            updatedFats = coef;
-            updatedProteins = coef*2;
+            updatedCarbos = WeightInGrams.create(coef*2);
+            updatedFats = WeightInGrams.create(coef);
+            updatedProteins = WeightInGrams.create(coef*2);
         } else if (name === 'carbos') {
-            updatedCarbos = value;
-            updatedEnergy = (zeroIfIsNaN(value) * 4) + (fats * 9) + (proteins * 4);
+            updatedCarbos = WeightInGrams.create(value);
+            updatedEnergy = EnergyInKcal.fromMacros(updatedCarbos, updatedProteins, updatedFats);
         } else if (name === 'fats') {
-            updatedFats = value;
-            updatedEnergy = (carbos * 4) + (zeroIfIsNaN(value) * 9) + (proteins * 4);
+            updatedFats = WeightInGrams.create(value);
+            updatedEnergy = EnergyInKcal.fromMacros(updatedCarbos, updatedProteins, updatedFats);
         } else if (name === 'proteins') {
-            updatedProteins = value;
-            updatedEnergy = (carbos * 4) + (fats * 9) + (zeroIfIsNaN(value) * 4);
+            updatedProteins = WeightInGrams.create(value);;
+            updatedEnergy = EnergyInKcal.fromMacros(updatedCarbos, updatedProteins, updatedFats);
         }
+
         setForm({
             ...form,
-            energy: Math.round(updatedEnergy),
-            carbos: Math.round(updatedCarbos),
-            fats: Math.round(updatedFats),
-            proteins: Math.round(updatedProteins)
+            energy: EnergyInKcal.create(Math.round(updatedEnergy.value)),
+            carbos: WeightInGrams.create(Math.round(updatedCarbos.value)),
+            fats: WeightInGrams.create(Math.round(updatedFats.value)),
+            proteins: WeightInGrams.create(Math.round(updatedProteins.value))
         });
     }
 
@@ -107,11 +103,11 @@ const ChangingGoalTile: FunctionComponent = () => {
                 <div className="flex justify-evenly items-center changing_goal_tile_inside">
                     <MultipleDoughnutChart nutriData={
                         {
-                            energy:form.energy,
-                            energy_unit:"kcal",
-                            carbos_percents: form.carbos*4,
-                            fats_percents: form.fats*9,
-                            proteins_percents: form.proteins*4
+                            energy: form.energy,
+                            energy_unit: "kcal",
+                            carbos: form.carbos.toKcal(MACRO_TYPES.CARBOHYDRATE),
+                            fats: form.fats.toKcal(MACRO_TYPES.FAT),
+                            proteins: form.proteins.toKcal(MACRO_TYPES.PROTEIN)
                         }}/>
                     <div className="ml-2 text-white ">
                         <div>
@@ -121,7 +117,7 @@ const ChangingGoalTile: FunctionComponent = () => {
                                     <span>Energy</span>
                                 </div>
                                 <div className="flex items-center">
-                                    <NumberInput name="energy" value={form.energy} maxlength={4} placeholder="kcal" onChange={handleChangeGoal}/>
+                                    <NumberInput name="energy" value={form.energy.value} maxlength={4} placeholder="kcal" onChange={handleChangeGoal}/>
                                     <span className='w-8'>kcal</span>
                                 </div>
                             </div>
@@ -131,7 +127,7 @@ const ChangingGoalTile: FunctionComponent = () => {
                                     <span className='overflow-hidden'>Carbohydrates</span>
                                 </div>
                                 <div className="flex items-center">
-                                    <NumberInput name="carbos" value={form.carbos} maxlength={4} placeholder="g" onChange={handleChangeGoal}/>
+                                    <NumberInput name="carbos" value={form.carbos.value} maxlength={4} placeholder="g" onChange={handleChangeGoal}/>
                                     <span className='w-8'>g</span>
                                 </div>
                             </div>
@@ -141,7 +137,7 @@ const ChangingGoalTile: FunctionComponent = () => {
                                     Fats
                                 </div>
                                 <div className="flex items-center">
-                                    <NumberInput name="fats" value={form.fats} maxlength={4} placeholder="g" onChange={handleChangeGoal}/>
+                                    <NumberInput name="fats" value={form.fats.value} maxlength={4} placeholder="g" onChange={handleChangeGoal}/>
                                     <span className='w-8'>g</span>
                                 </div>
                             </div>
@@ -151,7 +147,7 @@ const ChangingGoalTile: FunctionComponent = () => {
                                     Proteins
                                 </div>
                                 <div className="flex items-center">
-                                    <NumberInput name="proteins" value={form.proteins} maxlength={4} placeholder="g" onChange={handleChangeGoal}/>
+                                    <NumberInput name="proteins" value={form.proteins.value} maxlength={4} placeholder="g" onChange={handleChangeGoal}/>
                                     <span className='w-8'>g</span>
                                 </div>
                             </div>

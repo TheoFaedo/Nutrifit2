@@ -1,4 +1,6 @@
 import Consumption from "../models/Consumption";
+import { EnergyInKcal } from "../models/valueObjects/Energy";
+import { WeightInGrams } from "../models/valueObjects/Weight";
 
 export function consumptionsValNutSum(consumptionList: Consumption[]){
     const res = {
@@ -9,11 +11,19 @@ export function consumptionsValNutSum(consumptionList: Consumption[]){
     };
 
     consumptionList.forEach(consumption => {
-        res.proteins += consumption.proportion * consumption.consumable.proteins;
-        res.fats += consumption.proportion * consumption.consumable.fats;
-        res.carbohydrates += consumption.proportion * consumption.consumable.carbohydrates;
-        res.energy += consumption.proportion * consumption.consumable.energy;
+        console.log(consumption);
+        res.proteins += consumption.proportion * consumption.consumable.proteins.value;
+        res.fats += consumption.proportion * consumption.consumable.fats.value;
+        res.carbohydrates += consumption.proportion * consumption.consumable.carbohydrates.value;
+        res.energy += consumption.proportion * consumption.consumable.energy.value;
     })
 
-    return res;
+    
+
+    return {
+        proteins: WeightInGrams.create(res.proteins),
+        fats: WeightInGrams.create(res.fats),
+        carbohydrates: WeightInGrams.create(res.carbohydrates),
+        energy: EnergyInKcal.create(res.energy),
+    };
 }

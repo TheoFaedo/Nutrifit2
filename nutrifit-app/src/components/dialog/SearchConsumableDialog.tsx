@@ -9,6 +9,8 @@ import Loader from "../Loader";
 import LeftArrowButton from "../LeftArrowButton";
 import TrashCanButton from "../TrashCanButton";
 import { useAccount } from "../../hooks/useAccount";
+import { EnergyInKcal } from "../../models/valueObjects/Energy";
+import { WeightInGrams } from "../../models/valueObjects/Weight";
 
 type Props = {
     type?: "adding" | "edit";
@@ -27,7 +29,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     const idTokenOfUser = account.token;
 
     const [consumableToEdit, setConsumableToEdit] = useState<Consumable>(
-        new Consumable(-1,"",0,0,0,0,"",true,"MEAL",-1,[])
+        new Consumable(-1, "", EnergyInKcal.create(0), WeightInGrams.create(0), WeightInGrams.create(0), WeightInGrams.create(0), "1g", true, "MEAL", -1, [])
     );
     const [editActive, setEditActive] = useState(false);
 
@@ -39,18 +41,19 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
         if(type === "adding"){
             return categActiveParam === 0 ? 
             consumablesOfAuthor(keywords, idTokenOfUser).then((res) => {
-                setConsumablesList(res["consumables"]);
+                setConsumablesList(res);
             })
             : 
             consumables(keywords).then((res) => {
-                setConsumablesList(res["consumables"]);
+                setConsumablesList(res);
             })
         }else{
             return consumablesOfAuthor(keywords, idTokenOfUser).then((res) => {
-                setConsumablesList(res["consumables"]);
+                setConsumablesList(res);
             })
         }
     }
+
 
     const handleEdit = (consumable: Consumable) => {
         setConsumableToEdit(consumable);
@@ -90,7 +93,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
         <div key={cons.idConsumable} className={"bg-neutral-800 my-2 rounded-lg py-2 px-4 flex justify-between items-center " + (type === "edit" ? "cursor-pointer" : "")} onClick={() => { handleEdit(cons) }}>
             <div>
                 <div className="h-full text-left">{cons.name ? cons.name : "undefined"}</div>
-                <div className="h-full text-left text-neutral-400 font-normal">{cons.energy} kcal, {cons.quantity_label}</div>
+                <div className="h-full text-left text-neutral-400 font-normal">{cons.energy.value} {cons.energy.unitLabel}, {cons.quantity_label}</div>
             </div>
             {
                 type === "adding" 
@@ -108,7 +111,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
             setLoading(true);
             consumablesOfAuthor(keyword, idTokenOfUser).then((res) => {
                 setLoading(false);
-                setConsumablesList(res["consumables"]);
+                setConsumablesList(res);
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

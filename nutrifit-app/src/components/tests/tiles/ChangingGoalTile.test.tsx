@@ -3,6 +3,8 @@ import { act, render, screen } from "@testing-library/react";
 import ChangingGoalTile from "../../tiles/ChangingGoalTile";
 import { ToastContextProvider } from "../../../context/ToastContext";
 import * as apiService from "../../../services/api-service";
+import { EnergyInKcal } from "../../../models/valueObjects/Energy";
+import { WeightInGrams } from "../../../models/valueObjects/Weight";
 
 
 //Mocks
@@ -24,11 +26,10 @@ beforeEach(() => {
     const spyGetNutritionalGoal = jest.spyOn(apiService, "getnutritionalgoal");
     spyGetNutritionalGoal.mockReturnValue(new Promise((resolve) => {
         resolve({
-            idUser: 1,
-            energy_goal: 340,
-            carbohydrates_goal: 30,
-            fats_goal: 20,
-            proteins_goal: 10
+            energy_goal: EnergyInKcal.create(340),
+            carbohydrates_goal: WeightInGrams.create(30),
+            fats_goal: WeightInGrams.create(20),
+            proteins_goal: WeightInGrams.create(10)
         })
     }))
 });

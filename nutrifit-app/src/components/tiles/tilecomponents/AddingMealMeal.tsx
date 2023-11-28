@@ -7,20 +7,22 @@ import { addConsumable, changeConsumable } from '../../../services/api-service';
 import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
 import Consumable from "../../../models/Consumable";
 import { useToasts } from "../../../context/ToastContext";
+import { Energy, EnergyInKcal } from "../../../models/valueObjects/Energy";
+import { MACRO_TYPES, Weight, WeightInGrams } from "../../../models/valueObjects/Weight";
 
-type Field = {
-    value?: any;
+type Field<T> = {
+    value: T;
     error?: string;
     isValid?: boolean;
 }
   
 type Form = {
-    name: Field;
-    serving_size: Field;
-    energy: Field;
-    carbos: Field;
-    fats: Field;
-    proteins: Field;
+    name: Field<string>;
+    serving_size: Field<string>;
+    energy: Field<Energy>;
+    carbos: Field<Weight>;
+    fats: Field<Weight>;
+    proteins: Field<Weight>;
 }
 
 const initialForm = {
@@ -35,22 +37,22 @@ const initialForm = {
         isValid: true
     },
     energy: {
-        value: 0,
+        value: EnergyInKcal.create(0),
         error: "",
         isValid: true
     },
     carbos: {
-        value: 0,
+        value: WeightInGrams.create(0),
         error: "",
         isValid: true
     },
     fats: {
-        value: 0,
+        value: WeightInGrams.create(0),
         error: "",
         isValid: true
     },
     proteins: {
-        value: 0,
+        value: WeightInGrams.create(0),
         error: "",
         isValid: true
     }
@@ -102,32 +104,32 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
 
     const beginForm = type === "adding" ? initialForm : {
         name: {
-            value: consumableToEdit?.name,
+            value: consumableToEdit ? consumableToEdit.name : "",
             error: "",
             isValid: true
         },
         serving_size: {
-            value: consumableToEdit?.quantity_label,
+            value: consumableToEdit ? consumableToEdit.quantity_label : "",
             error: "",
             isValid: true
         },
         energy: {
-            value: consumableToEdit?.energy,
+            value: consumableToEdit ? consumableToEdit.energy : EnergyInKcal.create(0),
             error: "",
             isValid: true
         },
         carbos: {
-            value: consumableToEdit?.carbohydrates,
+            value: consumableToEdit ? consumableToEdit.carbohydrates : WeightInGrams.create(0),
             error: "",
             isValid: true
         },
         fats: {
-            value: consumableToEdit?.fats,
+            value: consumableToEdit ? consumableToEdit.fats : WeightInGrams.create(0),
             error: "",
             isValid: true
         },
         proteins: {
-            value: consumableToEdit?.proteins,
+            value: consumableToEdit ? consumableToEdit.proteins : WeightInGrams.create(0),
             error: "",
             isValid: true
         }
@@ -158,39 +160,39 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
         let updatedProteins = form.proteins.value;
         
         if (name === 'energy') {
-            updatedEnergy = value;
+            updatedEnergy = EnergyInKcal.create(value);
             const coef = value/25;
-            updatedCarbos = coef*2;
-            updatedFats = coef;
-            updatedProteins = coef*2;
+            updatedCarbos = WeightInGrams.create(coef*2);
+            updatedFats = WeightInGrams.create(coef);
+            updatedProteins = WeightInGrams.create(coef*2);
         } else if (name === 'carbos') {
-            updatedCarbos = value;
-            updatedEnergy = (value * 4) + (form.fats.value * 9) + (form.proteins.value * 4);
+            updatedCarbos = WeightInGrams.create(value);
+            updatedEnergy = EnergyInKcal.fromMacros(updatedCarbos, updatedProteins, updatedFats);
         } else if (name === 'fats') {
-            updatedFats = value;
-            updatedEnergy = (form.carbos.value * 4) + (value * 9) + (form.proteins.value * 4);
+            updatedFats = WeightInGrams.create(value);
+            updatedEnergy = EnergyInKcal.fromMacros(updatedCarbos, updatedProteins, updatedFats);
         } else if (name === 'proteins') {
-            updatedProteins = value;
-            updatedEnergy = (form.carbos.value * 4) + (form.fats.value * 9) + (value * 4);
+            updatedProteins = WeightInGrams.create(value);;
+            updatedEnergy = EnergyInKcal.fromMacros(updatedCarbos, updatedProteins, updatedFats);
         }
-
+    
         setForm({
             ...form,
             energy: {
                 ...form.energy,
-                value: Math.round(updatedEnergy)
+                value: EnergyInKcal.create(Math.round(updatedEnergy.value))
             },
             carbos: {
                 ...form.carbos,
-                value: Math.round(updatedCarbos)
+                value: WeightInGrams.create(Math.round(updatedCarbos.value))
             },
             fats: {
                 ...form.fats,
-                value: Math.round(updatedFats)
+                value: WeightInGrams.create(Math.round(updatedFats.value))
             },
             proteins: {
                 ...form.proteins,
-                value: Math.round(updatedProteins)
+                value: WeightInGrams.create(Math.round(updatedProteins.value))
             }
         });
     }
@@ -273,9 +275,9 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
             <div className='w-full flex items-center justify-center'>
                 <MultipleDoughnutChart nutriData={
                     {
-                        carbos_percents: form.carbos.value*4,
-                        fats_percents: form.fats.value*9,
-                        proteins_percents: form.proteins.value*4,
+                        carbos: form.carbos.value.toKcal(MACRO_TYPES.CARBOHYDRATE),
+                        fats: form.carbos.value.toKcal(MACRO_TYPES.FAT),
+                        proteins: form.carbos.value.toKcal(MACRO_TYPES.PROTEIN),
                         energy: form.energy.value,
                         energy_unit: "kcal"
                     }
@@ -287,28 +289,28 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
                         <span className="dot" style={{ backgroundColor: "#FFFFFF" }}></span>
                         <label htmlFor='energy'>Energy (kcal)</label>
                     </div>
-                    <NumberInput name="energy" placeholder="kcal" value={form.energy.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
+                    <NumberInput name="energy" placeholder="kcal" value={form.energy.value.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
                 <div className='text-white grid grid-cols-2'>
                     <div className='text-left text-white font-medium text-sm flex items-center h-full'>
                         <span className="dot" style={{ backgroundColor: "#38D386" }}></span>
                         <label htmlFor='energy'>Carbohydrates (g)</label>
                     </div>
-                    <NumberInput name="carbos" placeholder="g" value={form.carbos.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
+                    <NumberInput name="carbos" placeholder="g" value={form.carbos.value.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
                 <div className='text-white grid grid-cols-2'>
                     <div className='text-left text-white font-medium text-sm flex items-center h-full'>
                         <span className="dot" style={{ backgroundColor: "#CC57F5" }}></span>
                         <label htmlFor='energy'>Fats (g)</label>
                     </div>
-                    <NumberInput name="fats" placeholder="g" value={form.fats.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
+                    <NumberInput name="fats" placeholder="g" value={form.fats.value.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
                 <div className='text-white grid grid-cols-2'>
                     <div className='text-left text-white font-medium text-sm flex items-center h-full'>
                         <span className="dot" style={{ backgroundColor: "#EEBD30" }}></span>
                         <label htmlFor='energy'>Proteins (g)</label>
                     </div>
-                    <NumberInput name="proteins" placeholder="g" value={form.proteins.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
+                    <NumberInput name="proteins" placeholder="g" value={form.proteins.value.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
             </div>
             {
