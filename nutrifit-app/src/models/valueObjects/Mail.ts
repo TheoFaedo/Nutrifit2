@@ -1,4 +1,6 @@
-export default class Mail{
+import ValueObject from "./ValueObject";
+
+export default class Mail implements ValueObject<String>{
 
     private readonly _value: string;
     // eslint-disable-next-line no-useless-escape
@@ -17,8 +19,11 @@ export default class Mail{
         }
     }
 
-    public equals(anotherMail: Mail): boolean{
-        return this._value === anotherMail.value
+    public equals<Mail>(anotherMail: Mail): boolean{
+        if(anotherMail instanceof Mail){
+            return this._value === anotherMail.value;
+        }
+        return false;        
     }
 
     get value(): string{
