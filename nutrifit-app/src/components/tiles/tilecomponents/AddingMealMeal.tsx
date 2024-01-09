@@ -9,6 +9,8 @@ import Consumable from "../../../models/Consumable";
 import { useToasts } from "../../../context/ToastContext";
 import { Energy, EnergyInKcal } from "../../../models/valueObjects/Energy";
 import { MACRO_TYPES, Weight, WeightInGrams } from "../../../models/valueObjects/Weight";
+import barcode from '../../../img/barcode.png';
+import BarcodeScannerDialog from "../../dialog/BarcodeScannerDialog";
 
 type Field<T> = {
     value: T;
@@ -134,7 +136,47 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
             isValid: true
         }
     }
-    const [form, setForm] = useState<Form>( { ...beginForm})
+
+    const [form, setForm] = useState<Form>( { ...beginForm});
+    const [barCodeActive, setBarCodeActive] = useState<boolean>(false);
+
+    const handleBarCodeScan = (data: any) => {
+        if(!data) return;
+
+        setForm({
+            ...form,
+            name: {
+                value: data.name,
+                error: "",
+                isValid: true
+            },
+            serving_size: {
+                value: "100g",
+                error: "",
+                isValid: true
+            },
+            energy: {
+                value: EnergyInKcal.create(data["energy-kcal_100g"]),
+                error: "",
+                isValid: true
+            },
+            carbos: {
+                value: WeightInGrams.create(data["carbohydrates_100g"]),
+                error: "",
+                isValid: true
+            },
+            fats: {
+                value: WeightInGrams.create(data["fat_100g"]),
+                error: "",
+                isValid: true
+            },
+            proteins: {
+                value: WeightInGrams.create(data["proteins_100g"]),
+                error: "",
+                isValid: true
+            }
+        });
+    }
     
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -312,12 +354,21 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
                     </div>
                     <NumberInput name="proteins" placeholder="g" value={form.proteins.value.value} styleWidth="w-full" rightAlign onChange={handleChangeNutVal}/>
                 </div>
+                <button className="button w-1/2 flex justify-center items-center text-center flex-col" onClick={(e) => {e.preventDefault(); setBarCodeActive(true)}}>
+                    <img className="w-14 h-14" src={barcode} alt="barcode scanning icon"/>
+                    <div className="mt-2 font-inter font-medium text-md">Scan a Barcode</div>
+                </button>
             </div>
             {
                 type === "adding" ?
                 <Button name="Add" submit/>
                 :
                 <Button name="Save" submit/>
+            }
+            {barCodeActive ?
+                <BarcodeScannerDialog quitDialog={(res: any) => {setBarCodeActive(false); handleBarCodeScan(res);}}/>
+                :
+                <></>
             }
         </form>
     );

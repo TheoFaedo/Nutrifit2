@@ -8,6 +8,16 @@
 
 .dialog{
     @apply fixed inset-0 bg-neutral-800 h-full text-center flex flex-col mx-auto max-h-screen;
+    animation: dialog_apparence 1s timing-function;
+}
+
+@keyframes dialog_apparence {
+    from{
+        transform: translateY(100%);
+    }
+    to{
+        transform: translateY(0);
+    }
 }
 
 .gradient-bg{
