@@ -3,12 +3,14 @@ import Scanner from "./../Scanner";
 import { useState, useRef, useEffect, useCallback } from "react";
 import Button from "../Button";
 import { enqueueBarCodeRequest } from "../../services/api-service";
+import CameraSwitchButton from "../CameraSwitchButton";
+import LeftArrowButton from "../LeftArrowButton";
+import { drawPhotoSquare } from "../../helpers/canvasHelper";
 
 const BarcodeScannerDialog = ({ quitDialog }) => {
   const [scanning, setScanning] = useState(false); // toggleable state for "should render scanner"
   const [cameras, setCameras] = useState([]); // array of available cameras, as returned by Quagga.CameraAccess.enumerateVideoDevices()
   const [cameraId, setCameraId] = useState(null); // id of the active camera device
-  // eslint-disable-next-line no-unused-vars
   const [cameraError, setCameraError] = useState(null); // error message from failing to access the camera
   const [result, setResult] = useState(null); // list of scanned results
   const scannerRef = useRef(null); // reference to the scanner element in the DOM
@@ -32,6 +34,9 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
    * @return {string} The next camera ID.
    */
   const next = useCallback((cameraIds, currentId) => {
+    if (!currentId) {
+      return cameraIds.length > 1 ? cameraIds[1] : cameraIds[0];
+    }
     const currentIndex = cameraIds.findIndex((id) => id === currentId);
     const nextIndex = (currentIndex + 1) % cameraIds.length;
 
@@ -55,50 +60,58 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
       .then(enumerateCameras)
       .then((cameras) => setCameras(cameras))
       .catch((err) => setCameraError(err));
+
     return () => disableCamera();
   }, []);
+
   return (
-    <div className="dialog z-40 font-inter flex flex-col justify-center h-full transition-transform duration-1000 ease-in-out relative">
+    <div className="dialog z-40 font-inter flex flex-col h-full transition-transform duration-1000 ease-in-out">
+      <div className="h-12 gradient-bg flex items-center relative">
+          <div className="font-inter font-semibold text-lg pt-1 absolute ml-auto mr-auto top-[20%] left-0 right-0 bottom-0 w-fit">{"Scan barcode"}</div>
+          <LeftArrowButton quitDialog={() => quitDialog(null)}/>
+      </div>
+      <div className="flex flex-col justify-center flex-grow relative">
       {inCameraChoosing ? (
+        cameraError ?
+        (
         <>
-          <Button
-            onClick={() => {
-              setScanning(true);
-              setInCameraChoosing(false);
-            }}
-            name="Start reading"
-          />
+          <p className="text-2xl font-inter m-8 text-white font-medium">
+            {`Error: ${cameraError}`}
+          </p>
         </>
+        )
+        :
+        (
+        <>
+          <p className="text-2xl font-inter m-8 text-white font-medium">
+            The application will open the camera
+          </p>
+          <div className="ml-4 mr-4">
+            <Button
+              onClick={() => {
+                setScanning(true);
+                setInCameraChoosing(false);
+              }}
+              name="Start reading"
+            />
+          </div>
+        </>
+        )
+        
       ) : (
         <>
-          <div className="ml-4 mr-4">
-            <Button
-              onClick={() => {
-                setCameraId(
-                  next(
-                    cameras.map((cam) => cam.deviceId),
-                    cameraId
-                  )
-                );
-              }}
-              name="Change camera"
-            />
-          </div>
-          <div className="ml-4 mr-4">
-            <Button
-              className={"button z-50 absolute bottom-8"}
-              onClick={() => {
-                setScanning(false);
-                quitDialog(result);
-              }}
-              name="Confirm"
-            />
-          </div>
-          <div>{result ? result.name : ""}</div>
-          <div
-            ref={scannerRef}
-            style={{ position: "relative", border: "3px solid red" }}
-          >
+          <CameraSwitchButton
+            action={(e) => {
+              e.preventDefault();
+              setCameraId(
+                next(
+                  cameras.map((cam) => cam.deviceId),
+                  cameraId
+                )
+              );
+            }}
+          />
+          <div ref={scannerRef} style={{ position: "relative" }}>
             {/* <video style={{ width: window.innerWidth, height: 480, border: '3px solid orange' }}/> */}
             <canvas
               className="drawingBuffer"
@@ -108,31 +121,44 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
                 // left: '0px',
                 height: "100%",
                 width: "100%",
-                border: "3px solid green",
               }}
+
             />
             {scanning ? (
               <Scanner
                 scannerRef={scannerRef}
                 cameraId={cameraId}
+                onScannerReady={() => {
+                  const context = Quagga.canvas.ctx.overlay;
+                  const canvas = Quagga.canvas.dom.overlay;
+
+                  drawPhotoSquare(context, canvas);
+                }}
                 onDetected={(_scanned) => {
                   enqueueBarCodeRequest(_scanned).then((res) => {
                     if (res.status === 1) {
                       const product = res.product;
 
+                      const name = product.abbreviated_product_name_fr
+                        ? product.abbreviated_product_name_fr : product.product_name_fr
+                        ? product.product_name_fr : product.product_name
+                        ? product.product_name : "Name not found";
+
                       const _result = {
-                        name: product.abbreviated_product_name_fr.substring(
-                          0,
-                          30
-                        ),
+                        name: name,
                         "energy-kcal_100g":
                           product.nutriments["energy-kcal_100g"],
-                        carbohydrates_100g:
-                          product.nutriments["carbohydrates_100g"],
-                        fat_100g: product.nutriments["fat_100g"],
-                        "saturated-fat_100g":
-                          product.nutriments["saturated-fat_100g"],
-                        proteins_100g: product.nutriments["proteins_100g"],
+                        carbohydrates_100g: product.nutriments[
+                          "carbohydrates_100g"
+                        ]
+                          ? product.nutriments["carbohydrates_100g"]
+                          : 0,
+                        fat_100g: product.nutriments["fat_100g"]
+                          ? product.nutriments["fat_100g"]
+                          : 0,
+                        proteins_100g: product.nutriments["proteins_100g"]
+                          ? product.nutriments["proteins_100g"]
+                          : 0,
                       };
 
                       setResult(_result);
@@ -142,8 +168,32 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
               />
             ) : null}
           </div>
+          <div
+            className={
+              "z-50 absolute right-2 left-2 rounded-xl bg-stone-700 transform transition-all duration-500 ease-in-out " +
+              (result ? "bottom-8" : "-bottom-full")
+            }
+          >
+            <div className="w-full text-center m-1">
+              <span className="title">Product Found</span>
+            </div>
+            <span className="text-white font-inter font-medium text-xl mb-1 mx-1">
+              {result ? result.name : ""}
+            </span>
+            <div className="mx-4 mb-4">
+              <Button
+                className={"button"}
+                onClick={() => {
+                  setScanning(false);
+                  quitDialog(result);
+                }}
+                name="Confirm"
+              />
+            </div>
+          </div>
         </>
       )}
+      </div>
     </div>
   );
 };

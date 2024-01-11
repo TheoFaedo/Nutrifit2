@@ -146,7 +146,7 @@ const AddingMealMeal : FunctionComponent<Props> = ({ type = "adding", consumable
         setForm({
             ...form,
             name: {
-                value: data.name,
+                value: data.name.substring(0, 30),
                 error: "",
                 isValid: true
             },

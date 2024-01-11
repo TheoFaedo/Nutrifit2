@@ -31,16 +31,18 @@ const NumberInput: FunctionComponent<Props> = (props) => {
     }
 
     return (
-        <input className={ inputWidth + " ml-2 py-1 px-0.5 " + rightAl + " " + inputBackgroundColor + " " + inputTextColor} 
-        min={0} 
-        name={name}
-        title={name} 
-        type="number" 
-        placeholder={inputPlaceholder}
-        value={value} 
-        maxLength={inputMaxLength} 
-        onChange={onChangeHandler} 
-        onBlur={(e) => onBlur?.(e)}/>
+        <input className={ inputWidth + " ml-2 py-1 px-1 " + rightAl + " " + inputBackgroundColor + " " + inputTextColor} 
+            min={0} 
+            name={name}
+            title={name} 
+            type="number" 
+            placeholder={inputPlaceholder}
+            value={value} 
+            maxLength={inputMaxLength} 
+            onChange={onChangeHandler} 
+            step="any"
+            onBlur={(e) => onBlur?.(e)}
+        />
     );
 }
 
