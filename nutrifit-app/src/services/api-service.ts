@@ -56,7 +56,7 @@ export const connect = (
   return executeQuery(`/connect?pseudo=${username}&password=${password}`).then(
     (response) => {
       if (response.error) {
-        throw new Error(response.error);
+        throw new Error(typeof response.error == "string" ? response.error : "Server error");
       }
       if (
         response.username &&

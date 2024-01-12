@@ -10,37 +10,34 @@ class Consumable extends \Illuminate\Database\Eloquent\Model{
     protected $table = 'consumable';
     protected $primaryKey = 'idConsumable';
 
+    public function consumptions(){
+        return $this->hasMany(Consumption::class, 'idConsumable');
+    }
+
+    public function ingredients(){
+        return $this->hasMany(RecipeComposition::class, 'idRecipe');
+    }
+
+    public function ingredientOf(){
+        return $this->belongsTo(RecipeComposition::class, 'idIngredient');
+    }
+
     /**
-     * Deletes all recipe ingredients for a given ID.
-     *
-     * @param int $id The ID of the recipe.
-     * @throws \Exception If there is an error deleting the recipe ingredients.
-     * @return true if successful or false if not
+     * Deletes all ingredient relations for the specified consumable.
      */
-    public function deleteAllRecipeIngredients(){
-        if($this->idConsumable != null){
-            $recipeIngredients = RecipeComposition::where('idRecipe', $this->idConsumable)->get();
-            foreach ($recipeIngredients as $recipeIngredient) {
-                $recipeIngredient->delete();
-            }
-            return true;
-        }
-        return false;
+    public function deleteAllIngredientsRelations(){
+        RecipeComposition::where('idRecipe', $this->idConsumable)->orWhere('idIngredient', $this->idConsumable)->delete();
     }
 
     public function deleteAllConsumptions(){
         if($this->idConsumable != null){
-            $consumptions = Consumption::where('idConsumable', $this->idConsumable)->get();
+            $consumptions = $this->consumptions();
             foreach ($consumptions as $consumption) {
                 $consumption->delete();
             }
             return true;
         }
         return false;
-    }
-
-    public function ingredients(){
-        return $this->hasMany(RecipeComposition::class, 'idRecipe');
     }
 
 }

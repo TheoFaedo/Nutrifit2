@@ -18,9 +18,10 @@ type Props = {
     quitDialog: Function;
     active: boolean;
     dialogName?: string;
+    level?: string;
 }
 
-const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", addToList = () => {}, quitDialog = () => {}, active, dialogName = "Search" }) => {
+const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", addToList = () => {}, quitDialog = () => {}, active, dialogName = "Search", level="z-30" }) => {
 
     const { account } = useAccount();
 
@@ -66,6 +67,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
             removeConsumable(id).then((res) => {
                 if(res.success){
                     setConsumablesList(consumablesList.filter((cons) => cons.idConsumable !== id));
+                    if(editActive) setEditActive(false);
                 }
             })
         }
@@ -120,7 +122,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     const translation = active ? "translate-y-0" : "translate-y-full";
 
     return createPortal(
-        <div className={"dialog z-30 font-inter flex flex-col h-full transition-transform duration-500 ease-in-out " + translation} >
+        <div className={"dialog font-inter flex flex-col h-full transition-transform duration-500 ease-in-out " + translation + " " + level} >
             <div className="h-12 gradient-bg flex items-center relative">
                 <div className="font-inter font-semibold text-lg pt-1 absolute ml-auto mr-auto top-[20%] left-0 right-0 bottom-0 w-fit">{dialogName}</div>
                 <LeftArrowButton quitDialog={quitDialog}/>

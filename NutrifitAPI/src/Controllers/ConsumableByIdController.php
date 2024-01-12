@@ -30,6 +30,11 @@ class ConsumableByIdController extends Controller{
 
         if($authhelper->authentified()){
             $consumable = Consumable::where('idConsumable', $args['id'])->first();
+            if($consumable === null){
+                $res['error'] = "Consumable not found";
+                $rs= $rs->withStatus(404);
+            }
+
             $returnedConsumable = $consumable->toArray();
             
             if($consumable->type == "RECIPE"){
@@ -45,7 +50,7 @@ class ConsumableByIdController extends Controller{
             if($consumable !== null && $consumable !== false){
                 $idUser = $authhelper->getIdUserAuthentified();
 
-                if($idUser !== $consumable->author){
+                if($idUser !== $consumable->author && $consumable["is_public"] == 0){
                     $res['error'] = "Not authorized";
                     $rs= $rs->withStatus(401);
                 }else{

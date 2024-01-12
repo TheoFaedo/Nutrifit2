@@ -241,7 +241,7 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
             <TextInput name="serving_size" placeholder="Serving size" value={form.serving_size.value} onChange={handleChange} errorBorder={!form.serving_size.isValid} errorMessage={form.serving_size.error}/>
 
             <div className="font-inter font-medium text-white text-lg text-left mt-6">Ingredient(s)</div>
-            <SearchConsumableDialog addToList={addIngredient} active={dialogActive} quitDialog={quitDialog}/>
+            <SearchConsumableDialog addToList={addIngredient} active={dialogActive} quitDialog={quitDialog} level="z-50"/>
 
             {ingredientNode}
             

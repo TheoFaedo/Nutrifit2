@@ -35,7 +35,7 @@ class RemoveConsumableController extends Controller{
 
             if($consumable !== null){
                 $consumable->deleteAllConsumptions();
-                $consumable->deleteAllRecipeIngredients();
+                $consumable->deleteAllIngredientsRelations();
                 $consumable->delete();
 
                 $res['success'] = true;
@@ -53,6 +53,4 @@ class RemoveConsumableController extends Controller{
         $rs->getBody()->write(json_encode($res));
         return $rs->withHeader('Content-Type', 'application/json');
     }
-
-    
 }
