@@ -13,6 +13,8 @@ import Register from './pages/Register';
 import { ToastContextProvider } from './context/ToastContext';
 import ErrorBoundary from './components/error/ErrorBoundary';
 
+import "./fonts/Britannic.ttf";
+
 function App() {
   return (
     <ErrorBoundary>

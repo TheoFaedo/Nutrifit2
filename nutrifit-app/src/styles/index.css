@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Britannic";   /*Can be any text*/
+  src: local("Britannic"),
+    url("./../fonts/Britannic.ttf") format("truetype");
+}
+
 .containerr {
   @apply bg-neutral-950 h-full text-center shadow-lg shadow-black flex flex-col mx-auto max-h-screen;
 }
