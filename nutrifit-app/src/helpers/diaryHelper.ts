@@ -19,10 +19,17 @@ export function consumptionsValNutSum(consumptionList: Consumption[]) {
     res.energy += consumption.proportion * consumption.consumable.energy.value;
   });
 
+  console.log({
+    proteins: WeightInGrams.create(Math.round(res.proteins)),
+    fats: WeightInGrams.create(Math.round(res.fats)),
+    carbohydrates: WeightInGrams.create(Math.round(res.carbohydrates)),
+    energy: EnergyInKcal.create(Math.round(res.energy)),
+  })
+
   return {
-    proteins: WeightInGrams.create(res.proteins),
-    fats: WeightInGrams.create(res.fats),
-    carbohydrates: WeightInGrams.create(res.carbohydrates),
-    energy: EnergyInKcal.create(res.energy),
+    proteins: WeightInGrams.create(Math.round(res.proteins)),
+    fats: WeightInGrams.create(Math.round(res.fats)),
+    carbohydrates: WeightInGrams.create(Math.round(res.carbohydrates)),
+    energy: EnergyInKcal.create(Math.round(res.energy)),
   };
 }
