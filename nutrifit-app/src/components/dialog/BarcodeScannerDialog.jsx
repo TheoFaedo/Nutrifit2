@@ -100,18 +100,18 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
         
       ) : (
         <>
-          <CameraSwitchButton
-            action={(e) => {
-              e.preventDefault();
-              setCameraId(
-                next(
-                  cameras.map((cam) => cam.deviceId),
-                  cameraId
-                )
-              );
-            }}
-          />
           <div ref={scannerRef} style={{ position: "relative" }}>
+            <CameraSwitchButton
+              action={(e) => {
+                e.preventDefault();
+                setCameraId(
+                  next(
+                    cameras.map((cam) => cam.deviceId),
+                    cameraId
+                  )
+                );
+              }}
+            />
             {/* <video style={{ width: window.innerWidth, height: 480, border: '3px solid orange' }}/> */}
             <canvas
               className="drawingBuffer"

@@ -8,7 +8,7 @@ type Props = {
 
 const CameraSwitchButton: FunctionComponent<Props> = ( { action, color } ) => {
 
-    return <button className="left_arrow_button absolute top-8 right-4 gradient-bg" onClick={(e) => {action(e)}}>
+    return <button className="left_arrow_button absolute top-8 right-4 gradient-bg z-50" onClick={(e) => {action(e)}}>
         <img src={switch_camera} className="h-7 w-7 m-1" alt="switch camera"/>
     </button>
 }

@@ -11,7 +11,7 @@ class Consumable extends \Illuminate\Database\Eloquent\Model{
     protected $primaryKey = 'idConsumable';
 
     public function consumptions(){
-        return $this->hasMany(Consumption::class, 'idConsumable');
+        return $this->hasMany('App\Models\Consumption', 'idConsumable');
     }
 
     public function ingredients(){
@@ -31,10 +31,7 @@ class Consumable extends \Illuminate\Database\Eloquent\Model{
 
     public function deleteAllConsumptions(){
         if($this->idConsumable != null){
-            $consumptions = $this->consumptions();
-            foreach ($consumptions as $consumption) {
-                $consumption->delete();
-            }
+            $consumptions = $this->consumptions()->delete();
             return true;
         }
         return false;
