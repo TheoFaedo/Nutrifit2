@@ -4,12 +4,12 @@ import SearchConsumableDialog from "../../dialog/SearchConsumableDialog";
 import Consumable from "../../../models/Consumable";
 import TextInput from "../../TextInput";
 import { addConsumable, changeConsumable } from "../../../services/api-service";
-import NumberInput from "../../NumberInput";
 import MultipleDoughnutChart from "../../MultipleDoughnutChart";
-import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldValidationHelper";
+import { validConsumableName, validConsumableServingSize } from "../../../helpers/fieldHelper";
 import { useToasts } from "../../../context/ToastContext";
 import { EnergyInKcal } from "../../../models/valueObjects/Energy";
 import { MACRO_TYPES, WeightInGrams } from "../../../models/valueObjects/Weight";
+import { ConsumableQuantityCard } from "../../ConsumableQuantityCard";
 
 type Field = {
     value: string;
@@ -217,16 +217,16 @@ const AddingMealRecipe : FunctionComponent<Props> = ({ type = "adding", consumab
     }
 
     const ingredientNode = ingredients.map((cons) => (
-        <div key={cons.idConsumable + "-" + Math.floor(Math.random()*100000)} className="bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center">
-            <div>
-                <div className="h-full text-left text-white w-36 overflow-hidden text-ellipsis">{cons.name ? cons.name : "undefined"}</div>
-                <div className="h-full text-left text-neutral-400 font-normal">{cons.energy.value} {cons.energy.unitLabel}, {cons.quantity_label}</div>
-            </div>
-            <div className="flex items-center gap-6">
-                <NumberInput value={cons.proportion ? cons.proportion : 0} name={cons.idConsumable+""} onChange={handleChangeProportion} backgroundColor="bg-neutral-600" textColor="text-white" />
-                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl text-white" onClick={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable))}}>-</button>
-            </div>
-        </div>
+        <ConsumableQuantityCard
+            idCons={cons.idConsumable ?? -1}
+            name={cons.name}
+            proportion={cons.proportion ?? 1}
+            quantity_label={cons.quantity_label}
+            consumableEnergy={cons.energy.value}
+            handleChangeProportion={handleChangeProportion} 
+            handleBlurSaveConsumption={() => {}} 
+            handleRemoveConsumption={() => {setIngredients(ingredients.filter(cons2 => cons2.idConsumable !== cons.idConsumable))}}
+        />
     ))
 
     return (

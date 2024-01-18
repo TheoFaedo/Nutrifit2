@@ -128,7 +128,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
                 <LeftArrowButton quitDialog={quitDialog}/>
             </div>
             <div className="text-white flex flex-col flex-grow">
-                <TextInput className="my-4 px-6" name="searchfield" value={keyword} placeholder="Search consumable" onChange={handleChange} />
+                <TextInput className="my-4 px-6" name="searchfield" value={keyword} placeholder="Search food" onChange={handleChange} />
                 { type === "adding" ? <ListSelectorButton names={["My own meals", "Public meals"]} active={categActive} onClick={handleChangeListSelector}/> : <></> }
                 <div className="bg-neutral-900 px-4 pt-4 h-0 flex-grow overflow-y-scroll scrollbar-hide">
                     <div className="text-lg font-medium text-left">{categActive === 0 ? "My own" : "Public"}</div>

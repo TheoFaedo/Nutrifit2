@@ -28,9 +28,9 @@ const NavBar: FunctionComponent<Props> = (props) => {
     const hidden = props.hidden ? "hidden" : "";
 
     return (
-        navBarVisible ? <div className={'relative z-10 ' + hidden} onMouseEnter={increaseSize} onMouseLeave={decreaseSize}>
-            <svg viewBox="0 0 100 10" className='navbar-svg'>
-                <ellipse cx="50" cy="5" rx="51" ry={sizeEllipse} className="transition-all duration-300"></ellipse>
+        navBarVisible ? <div className={'relative z-[5]' + hidden} onMouseEnter={increaseSize} onMouseLeave={decreaseSize}>
+            <svg viewBox="0 0 100 10" className='navbar-svg' fill='none'>
+                <ellipse cx="50" cy="10" rx="52" ry={sizeEllipse} className="transition-all duration-300"></ellipse>
             </svg>
             <div className="navbar">
                 <NavBarIcon active={activeTab === 0 ? true : false} svgname="clipboard" text="Diary" href="/diary" onClick={() => setActiveTabHandler(0)}/>

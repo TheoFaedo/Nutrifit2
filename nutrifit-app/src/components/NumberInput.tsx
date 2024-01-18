@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react';
+import { NumericFormat } from 'react-number-format';
 
 type Props = {
     value: number;
@@ -6,6 +7,7 @@ type Props = {
     onChange?: Function;
     onBlur?: Function;
     maxlength?: number;
+    decimalLength?: number;
     placeholder?: string;
     className?: string;
     rightAlign?: boolean;
@@ -16,32 +18,44 @@ type Props = {
 
 const NumberInput: FunctionComponent<Props> = (props) => {
 
-    const {value, name, onChange, onBlur, maxlength, placeholder, rightAlign, backgroundColor, textColor, styleWidth} = props;
+    const {value, name, onChange, onBlur, maxlength, placeholder, rightAlign, backgroundColor, textColor, styleWidth, decimalLength} = props;
 
-    const inputPlaceholder = placeholder ? placeholder : "";
-    const inputMaxLength = maxlength ? maxlength : 4;
+    const inputPlaceholder = placeholder ?? "";
+    const inputMaxLength = maxlength ?? 3;
+    const inputDecimalLength =  decimalLength ?? 0;
     const rightAl = rightAlign ? "text-right" : "";
-    const inputBackgroundColor = backgroundColor ? backgroundColor : "bg-neutral-700";
-    const inputTextColor = textColor ? textColor : "";
-    const inputWidth = styleWidth ? styleWidth : "w-[4rem]";
+    const inputBackgroundColor = backgroundColor ?? "bg-neutral-700";
+    const inputTextColor = textColor ?? "";
+    const inputWidth = styleWidth ?? "w-[4rem]";
 
-
-    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(e);
+    const onChangeHandler = (e: any) => {
+        onChange?.(e.event);
     }
 
     return (
-        <input className={ inputWidth + " ml-2 py-1 px-1 " + rightAl + " " + inputBackgroundColor + " " + inputTextColor} 
-            min={0} 
+        <NumericFormat className={ inputWidth + " ml-2 py-1 px-1 " + rightAl + " " + inputBackgroundColor + " " + inputTextColor} 
             name={name}
-            title={name} 
-            type="number" 
+            value={value === 0 ? "" : value}
+
+            isAllowed={(values) => {
+                const { floatValue } = values;
+                return (floatValue ?? 0) <= Math.pow(10, inputMaxLength)-1;
+            }}
+
+            type='text'
+            decimalSeparator="."
+            allowedDecimalSeparators={[',']}
+            allowLeadingZeros={false}
+            allowNegative={false}
+            decimalScale={inputDecimalLength}
+            inputMode='decimal'
             placeholder={inputPlaceholder}
-            value={value} 
-            maxLength={inputMaxLength} 
-            onChange={onChangeHandler} 
-            step="any"
-            onBlur={(e) => onBlur?.(e)}
+            maxLength={inputMaxLength+(inputDecimalLength + (inputDecimalLength > 0 ? 1 : 0))}
+            onBlur={onBlur?.()}
+
+            onValueChange={(values, sourceInfo) => {
+                onChangeHandler(sourceInfo);
+            }}
         />
     );
 }

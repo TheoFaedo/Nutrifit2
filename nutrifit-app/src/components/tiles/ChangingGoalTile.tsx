@@ -8,6 +8,7 @@ import { useToasts } from '../../context/ToastContext';
 import Loader from '../Loader';
 import { Energy, EnergyInKcal } from '../../models/valueObjects/Energy';
 import { MACRO_TYPES, Weight, WeightInGrams } from '../../models/valueObjects/Weight';
+import { stringToNumberFormat } from '../../helpers/fieldHelper';
 
 type Form = {
     energy: Energy;
@@ -43,7 +44,7 @@ const ChangingGoalTile: FunctionComponent = () => {
 
     const handleChangeGoal = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
-        const value = parseFloat(e.target.value);
+        const value = stringToNumberFormat(e.target.value);
 
         let updatedEnergy = form.energy;
         let updatedCarbos = form.carbos;
@@ -63,7 +64,7 @@ const ChangingGoalTile: FunctionComponent = () => {
             updatedFats = WeightInGrams.create(value);
             updatedEnergy = EnergyInKcal.fromMacros(updatedCarbos, updatedProteins, updatedFats);
         } else if (name === 'proteins') {
-            updatedProteins = WeightInGrams.create(value);;
+            updatedProteins = WeightInGrams.create(value);
             updatedEnergy = EnergyInKcal.fromMacros(updatedCarbos, updatedProteins, updatedFats);
         }
 
@@ -109,7 +110,7 @@ const ChangingGoalTile: FunctionComponent = () => {
                             fats: form.fats.toKcal(MACRO_TYPES.FAT),
                             proteins: form.proteins.toKcal(MACRO_TYPES.PROTEIN)
                         }}/>
-                    <div className="ml-2 text-white ">
+                    <div className="ml-2 text-white">
                         <div>
                             <div className="flex items-center justify-between mb-1">
                                 <div className='flex items-center'>

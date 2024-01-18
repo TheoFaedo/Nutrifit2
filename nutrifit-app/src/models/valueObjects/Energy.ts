@@ -48,7 +48,7 @@ export class EnergyInKcal extends Energy {
     }
 
     get toKcals(){
-        return this.value;
+        return Number(this.value.toFixed(1));
     }
 
 }

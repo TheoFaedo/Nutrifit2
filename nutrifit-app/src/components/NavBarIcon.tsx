@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import WhiteHatSVG from '../svg/WhiteHatSVG';
 import ClipBoardSVG from '../svg/ClipBoardSVG';
 import ProfileSVG from '../svg/ProfileSVG';

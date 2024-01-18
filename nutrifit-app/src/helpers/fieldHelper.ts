@@ -26,3 +26,16 @@ export function validGender(gender: string): boolean {
 export function validGoal(goal: string): boolean {
   return /^(1|2|3)$/.test(goal);
 }
+
+export function numberFieldFormat(fieldValue: number, exponent: number = 3): string {
+  console.log(fieldValue, exponent);
+  if(fieldValue === 0) return '';
+  if(fieldValue >= Math.pow(10, exponent)) return (Math.pow(10, exponent)-1).toString();
+  return fieldValue.toString();
+}
+
+export function stringToNumberFormat(fieldValue: string): number {
+  if(fieldValue.length === 0) return 0;
+  if(isNaN(Number(fieldValue))) return 0;
+  return parseFloat(fieldValue);
+}

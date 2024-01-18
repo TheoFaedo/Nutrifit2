@@ -2,12 +2,12 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import Consumption from '../../models/Consumption';
 import { addConsumption, changeConsumption, consumptionListAtDate, removeConsumption } from '../../services/api-service';
-import NumberInput from '../NumberInput';
 import Button from '../Button';
 import SearchConsumableDialog from '../dialog/SearchConsumableDialog';
 import Consumable from '../../models/Consumable';
 import Loader from '../Loader';
 import { useAccount } from '../../hooks/useAccount';
+import { ConsumableQuantityCard } from '../ConsumableQuantityCard';
 
 type Props = {
     date: Date;
@@ -72,16 +72,16 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
     }
 
     const consumptionListNode = consumptionList && consumptionList.map((cons) => (
-        <div key={cons.idConsumption !== undefined ? cons.idConsumption : ""+Math.floor(Math.random()*1000)} className={"bg-neutral-700 my-2 rounded-lg py-2 px-4 flex justify-between items-center"}>
-            <div>
-                <div className="h-full text-left text-white w-36 overflow-hidden text-ellipsis">{cons.consumable.name ? cons.consumable.name : "undefined"}</div>
-                <div className="h-full text-left text-neutral-400 font-normal">{cons.consumable.energy.value*cons.proportion} kcal, {(cons.proportion === 1 ? "" : (cons.proportion + "x")) + cons.consumable.quantity_label}</div>
-            </div>
-            <div className="flex items-center gap-6">
-                <NumberInput value={cons.proportion} name={cons.idConsumption+""} onChange={handleChangeProportion} onBlur={() => handleBlurSaveConsumption(cons)} backgroundColor="bg-neutral-600" textColor="text-white" />
-                <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl text-white" onClick={() => {handleRemoveConsumption(cons.idConsumption)}}>-</button>
-            </div>
-        </div>
+        <ConsumableQuantityCard 
+            idCons={cons.idConsumption ?? -1}
+            name={cons.consumable.name}
+            proportion={cons.proportion}
+            quantity_label={cons.consumable.quantity_label}
+            consumableEnergy={cons.consumable.energy.value}
+            handleChangeProportion={handleChangeProportion} 
+            handleBlurSaveConsumption={() => {handleBlurSaveConsumption(cons)}} 
+            handleRemoveConsumption={() => handleRemoveConsumption(cons.idConsumption)} 
+        />
     ));
 
     useEffect(() => {

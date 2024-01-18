@@ -41,7 +41,7 @@ class ChangeConsumableController extends Controller{
                 $user = $authhelper->getIdUserAuthentified();
 
                 $consumable = Consumable::where('idConsumable', $args['id_cons'])->first();
-                $consumable->deleteAllRecipeIngredients();
+                $consumable->deleteAllIngredientsRelations();
                 
                 if($consumable->author == $user){
                     $consumable->name = $params['name'];

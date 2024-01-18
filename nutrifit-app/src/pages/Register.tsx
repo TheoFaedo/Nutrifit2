@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SelectorButton from '../components/SelectorButton';
 import TiledSelectorButton from '../components/TiledSelectorButton';
 import { register } from '../services/api-service';
-import { validEmail, validGender, validGoal, validPassword, validUsername } from '../helpers/fieldValidationHelper';
+import { validEmail, validGender, validGoal, validPassword, validUsername } from '../helpers/fieldHelper';
 import { useToasts } from '../context/ToastContext';
 import Mail from '../models/valueObjects/Mail';
 

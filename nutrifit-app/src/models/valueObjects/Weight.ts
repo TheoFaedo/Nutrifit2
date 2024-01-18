@@ -41,7 +41,7 @@ export abstract class Weight extends Quantity{
         if(this._value > 999){
             return 999;
         }
-        return this._value;
+        return Number(this._value.toFixed(1));
     }
 }
 
@@ -96,7 +96,7 @@ export class WeightInOnce extends Weight{
     }
 
     get toGrams(): number {
-        return this.value * 28.3495;
+        return Number((this.value * 28.3495).toFixed(1));
     }
 
     get unitLabel(): string{

@@ -75,7 +75,6 @@ const Scanner = ({
         const width = drawingCanvas.getAttribute("width");
         const height = drawingCanvas.getAttribute("height");
         
-        const fillStyle = drawingCtx.fillStyle;
         drawingCtx.fillStyle = "rgba(0, 0, 0, 0.7)";
         const squareSize = height/2;
         drawingCtx.fillRect((width-squareSize)/2, (height-squareSize)/2, squareSize, squareSize);

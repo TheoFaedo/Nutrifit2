@@ -12,8 +12,6 @@ import { EnergyInKcal } from "../models/valueObjects/Energy";
 import { WeightInGrams } from "../models/valueObjects/Weight";
 import NutritionalGoal from "../models/NutritionalGoal";
 
-const apiDomain = "http://localhost:8080";
-
 type ErrorResponse = {
   error: {
     message: string;
@@ -28,12 +26,14 @@ type SuccessResponse = {
   success: boolean;
 };
 
+const api_url = process.env.REACT_APP_API_URI;
+
 function executeQuery(
   url: string,
   method: string = "GET",
   { ...options }: any = {}
 ) {
-  return fetch(apiDomain + url, {
+  return fetch(api_url + url, {
     ...options,
     method: method,
     credentials: "include",
