@@ -110,7 +110,7 @@
 }
 
 .navbar {
-  @apply bg-main h-16 text-2xl w-full flex justify-evenly;
+  @apply bg-main h-20 text-2xl w-full flex justify-evenly;
 }
 
 .navbar-icon {

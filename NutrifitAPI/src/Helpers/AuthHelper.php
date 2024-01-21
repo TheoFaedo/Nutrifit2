@@ -9,6 +9,8 @@ use App\Application\StaticExecutor;
 
 class AuthHelper{
 
+    const AUTH_COOKIE_EXPIRE = 3600 * 24 * 30; // 30 days
+
     private $session, $staticexecutor;
 
     public function __construct($session, $staticexecutor = null){
@@ -28,6 +30,8 @@ class AuthHelper{
     public function authentify($pseudo, $password){
         $user = $this->staticexecutor->execute('App\Models\User', 'authentify', $pseudo, $password);
         if($user){
+            setcookie('auth',$user['idUser'] . ":::::" . sha1($user->pseudo . $user->pwdhash . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'])
+            , time() + self::AUTH_COOKIE_EXPIRE, '/', '', false, true);
             $this->session->setItem('user', $user->toArray());
             return $user;
         }
@@ -63,6 +67,19 @@ class AuthHelper{
      * @return bool True if a user is connected, false otherwise.
      */
     public function authentified(){
+        if(isset($_COOKIE['auth']) && !$this->session->has('user')){
+            $auth = $_COOKIE['auth'];
+            $auth = explode(':::::', $auth);
+            $user = $this->staticexecutor->execute('App\Models\User', 'find', $auth[0]);
+
+            if(!$user) return false;
+
+            if(sha1($user->pseudo . $user->pwdhash . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']) === $auth[1]){
+                echo('fsdfsdfs');
+                $this->session->setItem('user', $user->toArray());
+                return true;
+            }
+        }
         return $this->session->has('user') ? true : false;
     }
 
@@ -72,6 +89,8 @@ class AuthHelper{
      */
     public function logout(){
         if($this->authentified()){
+            unset($_COOKIE['auth']);
+            setcookie('auth', '', -1, '/');
             $this->session->unset('user')->end();
             return true;
         }

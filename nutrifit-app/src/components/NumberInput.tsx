@@ -35,6 +35,8 @@ const NumberInput: FunctionComponent<Props> = (props) => {
     return (
         <NumericFormat className={ inputWidth + " ml-2 py-1 px-1 " + rightAl + " " + inputBackgroundColor + " " + inputTextColor} 
             name={name}
+            title={name}
+            
             value={value === 0 ? "" : value}
 
             isAllowed={(values) => {

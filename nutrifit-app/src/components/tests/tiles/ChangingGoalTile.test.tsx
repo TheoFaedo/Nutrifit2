@@ -45,21 +45,21 @@ describe("ChangingGoalTile component rendering testing", () => {
     test("Inputs rendered correctly", async () => {
             await act( async () => render(<ChangingGoalTile/>));
 
-            const energyElmnt = await screen.findByRole("spinbutton", {name: "energy"});
+            const energyElmnt = await screen.findByRole("textbox", {name: "energy"});
             expect(energyElmnt).toBeInTheDocument();
-            expect(energyElmnt).toHaveValue(340);
+            expect(energyElmnt).toHaveValue('340');
 
-            const carbosElmnt = await screen.findByRole("spinbutton", {name: "carbos"});
+            const carbosElmnt = await screen.findByRole("textbox", {name: "carbos"});
             expect(carbosElmnt).toBeInTheDocument();
-            expect(carbosElmnt).toHaveValue(30);
+            expect(carbosElmnt).toHaveValue('30');
 
-            const fatsElmnt = await screen.findByRole("spinbutton", {name: "fats"});
+            const fatsElmnt = await screen.findByRole("textbox", {name: "fats"});
             expect(fatsElmnt).toBeInTheDocument();
-            expect(fatsElmnt).toHaveValue(20);
+            expect(fatsElmnt).toHaveValue('20');
 
-            const proteinsElmnt = await screen.findByRole("spinbutton", {name: "proteins"});
+            const proteinsElmnt = await screen.findByRole("textbox", {name: "proteins"});
             expect(proteinsElmnt).toBeInTheDocument();
-            expect(proteinsElmnt).toHaveValue(10);
+            expect(proteinsElmnt).toHaveValue('10');
     })
 });
 

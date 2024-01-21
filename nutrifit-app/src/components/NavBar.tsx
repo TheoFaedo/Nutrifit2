@@ -8,7 +8,7 @@ type Props = {
 
 const NavBar: FunctionComponent<Props> = (props) => {
     
-    const [sizeEllipse, setSizeEllipse] = useState(2);
+    const [sizeEllipse, setSizeEllipse] = useState(3);
     const {activeTab, setActiveTab, navBarVisible} = useContext(NavBarContext);
 
     const increaseSize = () => {
@@ -18,7 +18,7 @@ const NavBar: FunctionComponent<Props> = (props) => {
     }
 
     const decreaseSize = () => {
-        setSizeEllipse(2);
+        setSizeEllipse(3);
     }
 
     const setActiveTabHandler = (index: number) => {
