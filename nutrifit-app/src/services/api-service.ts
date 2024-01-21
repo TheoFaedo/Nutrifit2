@@ -256,6 +256,7 @@ export const addConsumption = (consumption: Consumption): Promise<any> => {
       idConsumable: consumption.consumable.idConsumable,
       proportion: consumption.proportion,
       consumed_on: formatDate(consumption.consumed_on),
+      meal: consumption.meal
     }),
   });
 };

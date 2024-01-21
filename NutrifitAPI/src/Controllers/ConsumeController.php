@@ -41,6 +41,13 @@ class ConsumeController extends Controller{
                 $consumption->proportion = $params['proportion'];
                 $consumption->consumed_on = $params['consumed_on'];
                 $consumption->last_update = date('Y-m-d H:i:s');
+
+                if(isset($params['meal'])){
+                    $consumption->meal = $params['meal'];
+                }else{
+                    $consumption->meal = 'LUNCH';
+                }
+
                 $consumption->save();
 
                 $res['success'] = true;

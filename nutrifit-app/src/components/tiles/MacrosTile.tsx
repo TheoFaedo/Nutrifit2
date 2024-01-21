@@ -53,7 +53,7 @@ const MacrosTile: FunctionComponent<Props> = ( { consumptionList } ) => {
             <div className="tile_title text-left">Macros</div>
             <div className='flex justify-evenly items-center'>
                 <div className='flex flex-col items-center w-28 mx-1'>
-                    <div className='mb-4 text-carbohydrates font-semibold text-md'>Carbohydrates</div>
+                    <div className='mb-4 text-carbohydrates font-semibold text-md'>Carbos</div>
                     <DoughnutChart className="h-24 w-24" label={'Carbohydrates'} color={'#38D386'} value={nutritionalSum.carbohydrates.value} goal={nutritionalgoal.carbohydrates_goal.value} />
                     <div className={'mt-2 '+ (carbsDif >= 0 ? "text-neutral-400" : "text-red-500")}>
                         {(carbsDif >= 0 ? carbsDif : -1*carbsDif) +"g "+ (carbsDif >= 0 ? "left" : "over")} 

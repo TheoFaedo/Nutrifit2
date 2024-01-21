@@ -1,6 +1,6 @@
 
 import { FunctionComponent, useEffect, useState } from 'react';
-import Consumption from '../../models/Consumption';
+import Consumption, { Meal } from '../../models/Consumption';
 import { addConsumption, changeConsumption, consumptionListAtDate, removeConsumption } from '../../services/api-service';
 import Button from '../Button';
 import SearchConsumableDialog from '../dialog/SearchConsumableDialog';
@@ -20,10 +20,16 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
     const { account } = useAccount();
     const [loading, setLoading] = useState(true);
 
-    const [dialogActive, setDialogActive] = useState(false);
+    const [dialogActive, setDialogActive] = useState({
+        active: false,
+        meal: Meal.LUNCH
+    });
 
     const quitDialog = () => {
-        setDialogActive(false);
+        setDialogActive({
+            active: false,
+            meal: Meal.LUNCH
+        });
     }
 
     const addConsumable = (cons: Consumable) => {
@@ -32,7 +38,8 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
             idUser: account.token,
             last_update: new Date(),
             consumed_on: date,
-            proportion: 1
+            proportion: 1,
+            meal: dialogActive.meal
         }).then((response) => {
             if(response.success){
                 setLoading(false);
@@ -43,7 +50,8 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
                         idUser: account.token,
                         last_update: new Date(),
                         consumed_on: date,
-                        proportion: 1
+                        proportion: 1,
+                        meal: dialogActive.meal
                     }
                 ]);
             }
@@ -71,7 +79,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
         if(idConsumption) removeConsumption(idConsumption);
     }
 
-    const consumptionListNode = consumptionList && consumptionList.map((cons) => (
+    const consumptionListNode = (meal: Meal) => { return consumptionList && consumptionList.filter((cons) => {return cons.meal === meal}).map((cons) => (
         <ConsumableQuantityCard 
             idCons={cons.idConsumption ?? -1}
             name={cons.consumable.name}
@@ -82,7 +90,7 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
             handleBlurSaveConsumption={() => {handleBlurSaveConsumption(cons)}} 
             handleRemoveConsumption={() => handleRemoveConsumption(cons.idConsumption)} 
         />
-    ));
+    ))}
 
     useEffect(() => {
         setLoading(true);
@@ -95,16 +103,57 @@ const DiaryTile: FunctionComponent<Props> = ( {date, setConsumptionList, consump
     return (
         <div className='diary_tile'>
             <div className="tile_title text-left">Diary</div>
-            <div>
-                {loading ? 
+            <div className=' bg-neutral-700 text-left mt-8 mb-2 font-inter text-white text-xl px-2 py-4 font-semibold'>Breakfast</div>
+            {loading ? 
                 <div className="w-full flex items-center justify-center my-6">
                     <Loader/> 
                 </div>
                 :
-                consumptionListNode}
-            </div>
-            <div className="mx-6"><Button name="Add food" inverted onClick={() => {setDialogActive(true)}}/></div>
-            <SearchConsumableDialog active={dialogActive} quitDialog={quitDialog} addToList={addConsumable} dialogName='Search food to add'/>
+                consumptionListNode(Meal.BREAKFAST)}
+            <div className="mx-6"><Button name="Add food" inverted onClick={() => {setDialogActive({
+                active: true,
+                meal: Meal.BREAKFAST
+            })}}/></div>
+
+            <div className=' bg-neutral-700 text-left mt-8 mb-2 font-inter text-white text-xl px-2 py-4 font-semibold'>Lunch</div>
+            {loading ? 
+                <div className="w-full flex items-center justify-center my-6">
+                    <Loader/> 
+                </div>
+                :
+                consumptionListNode(Meal.LUNCH)}
+            <div className="mx-6"><Button name="Add food" inverted onClick={() => {setDialogActive({
+                active: true,
+                meal: Meal.LUNCH
+            })}}/></div>
+
+
+            <div className=' bg-neutral-700 text-left mt-8 mb-2 font-inter text-white text-xl px-2 py-4 font-semibold'>Dinner</div>
+            {loading ? 
+                <div className="w-full flex items-center justify-center my-6">
+                    <Loader/> 
+                </div>
+                :
+                consumptionListNode(Meal.DINNER)}
+            <div className="mx-6"><Button name="Add food" inverted onClick={() => {setDialogActive({
+                active: true,
+                meal: Meal.DINNER
+            })}}/></div>
+
+
+            <div className=' bg-neutral-700 text-left mt-6 mb-2 font-inter text-white text-xl px-2 py-4 font-semibold'>Snacks</div>
+            {loading ? 
+                <div className="w-full flex items-center justify-center my-6">
+                    <Loader/> 
+                </div>
+                :
+                consumptionListNode(Meal.SNACKS)}
+             <div className="mx-6"><Button name="Add food" inverted onClick={() => {setDialogActive({
+                active: true,
+                meal: Meal.SNACKS
+            })}}/></div>
+
+            <SearchConsumableDialog active={dialogActive.active} quitDialog={quitDialog} addToList={addConsumable} dialogName='Search food to add'/>
         </div>
     );
 }

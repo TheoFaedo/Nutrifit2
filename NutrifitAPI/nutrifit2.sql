@@ -52,7 +52,8 @@ CREATE TABLE `consumption` (
   `idUser` int(11) NOT NULL,
   `consumed_on` datetime NOT NULL,
   `last_update` datetime NOT NULL,
-  `proportion` float NOT NULL
+  `proportion` float NOT NULL,
+  `meal` enum('BREAKFAST','LUNCH','DINNER','SNACKS') NOT NULL DEFAULT 'LUNCH'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
