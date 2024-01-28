@@ -4,6 +4,7 @@ import Button from '../Button';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../hooks/useAuth';
 import { useAccount } from '../../hooks/useAccount';
+import { useTranslation } from 'react-i18next';
 
 
 const LogoutTile: FunctionComponent = memo(() => {
@@ -17,9 +18,11 @@ const LogoutTile: FunctionComponent = memo(() => {
         navigate("/login");
     }
 
+    const { t } = useTranslation();
+
     return (
         <div className='logout_tile'>
-            <output>You are logged as <b>{account.username}</b></output>
+            <output>{t('You are logged as')} <b>{account.username}</b></output>
             <Button name="Logout" onClick={logoutHandler}/>
         </div>
     );

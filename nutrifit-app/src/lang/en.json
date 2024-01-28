@@ -1,0 +1,137 @@
+{ 
+    "translation": {
+        "Nutrifit": "Nutrifit",
+
+        "Settings": "Settings",
+        "Language": "Language",
+        "Theme": "Theme",
+
+        "LoginPage": {
+            "TileTitle": "Log in",
+            "UsernameFieldTitle": "Username",
+            "UsernameFieldPlaceholder": "Enter username",
+            "PasswordFieldTitle": "Password",
+            "PasswordFieldPlaceholder": "Enter password",
+            "InvalidIdentifiersError": "Invalid username or password",
+            "LoginButton": "Log in",
+            "NoAccount?": "Don't have an account?",
+            "RegisterHereLink": "Register here"
+        },
+
+        "RegisterPage":{
+            "TileTitle": "Sign up",
+            "UsernameFieldLabel": "Username",
+            "UsernameFieldPlaceholder": "Enter username",
+            "InvalidUsernameFieldError": "Invalid username",
+            "GenderFieldLabel": "Gender",
+            "MaleSelectButton": "Male",
+            "FemaleSelectButton": "Female",
+            "InvalidGenderFieldError": "Invalid gender",
+            "PasswordFieldLabel": "Password",
+            "PasswordFieldPlaceholder": "Enter password",
+            "InvalidPasswordFieldError": "Invalid password",
+            "RepeatPasswordFieldLabel": "Confirm password",
+            "RepeatPasswordFieldPlaceholder": "Re-enter password",
+            "PasswordDontMatchFieldError": "Passwords do not match",
+            "EmailFieldLabel": "Mail",
+            "EmailFieldPlaceholder": "Enter email adress",
+            "InvalidEmailFieldError": "Invalid email",
+            "GoalFieldLabel": "Your goal",
+            "LoseGoalSelectButton": "Lose",
+            "MaintainGoalSelectButton": "Maintain",
+            "GainGoalSelectButton": "Gain",
+            "InvalidGoalFieldError": "Invalid goal",
+            "Button": "Sign up",
+            "HaveAccount?": "Already have an account?",
+            "LoginHereLink": "Log in here"
+        },
+
+        "DiaryPage": {
+            "DiaryPageTitle": "Diary",
+            "MacrosTileTitle": "Macros",
+            "left": "left",
+            "over": "over",
+            "DiaryTileTitle": "Diary",
+            "Breakfast": "Breakfast",
+            "Lunch": "Lunch",
+            "Dinner": "Dinner",
+            "Snacks": "Snacks",
+            "AddFoodButton": "Add food",
+            "Today": "Today",
+            "Yesterday": "Yesterday",
+            "Tomorow": "Tomorow",
+            "SearchFoodDialogTitle": "Search food to add"
+        },
+
+        "ProfilePage": {
+            "ProfilePageTitle": "Profile",
+            "You are logged as": "You are logged as",
+            "LogoutButton": "Logout",
+            "ChangeDailyGoalTileTitle": "Change daily goal",
+            "SaveGoalButton": "Save",
+            "GoalSavedSuccessToast": "Goal changed successfully",
+            "GoalSavedFailedToast": "Failed to change goal"
+        },
+
+        "MealsPage": {
+            "MealsPageTitle": "Meals",
+            "EditMealTileTitle": "Edit meal",
+            "SearchFoodToEditDialogTitle": "Search food to edit",
+            "EditMealButton": "Edit meal",
+            "AddingMealTileTitle": "Adding meal",
+            "MealSelectButton": "Meal",
+            "RecipeSelectButton": "Recipe",
+            "NameFieldTitle": "Name",
+            "NameFieldPlaceholder": "Name",
+            "InvalidNameFieldError": "Invalid food name",
+            "ServingSizeFieldTitle": "Serving size",
+            "ServingSizeFieldPlaceholder": "Serving size",
+            "InvalidServingSizeFieldError": "Invalid serving size",
+            "ScanBarcodeButton": "Scan a barcode",
+            "IngredientsFieldTitle": "Ingredient(s)",
+            "NutritionnalValuesTitle": "Nutritionnal values",
+            "AddIngredientButton": "Add ingredient",
+            "AddMealButton": "Add",
+            "SaveMealButton": "Save",
+            "MealAddedSuccesfullyToast": "Added successfully",
+            "MealEditedSuccesfullyToast": "Edited successfully",
+            "MealInvalidFormatToast": "Invalid format",
+            "MealFailedToAddToast": "Failed to add",
+            "MealFailedToEditToast": "Failed to edit",
+            "InvalidConsumableNameError": "Invalid consumable name",
+            "InvalidServingSizeError": "Invalid serving size",
+            "InformationInvalidFormatToast": "Enter information in the valid format"
+        },
+
+        "SearchFoodDialog": {
+            "SearchFoodToEditDialogTitle": "Search food to edit",
+            "SearchFoodPlaceholderDialog": "Search food",
+            "MyOwnTitleDialog": "My own",
+            "PublicTitleDialog": "Public",
+            "OwnMealsSelectButtonDialog": "My own meals",
+            "PublicMealsSelectButtonDialog": "Public meals"
+        },
+
+        "EditMealDialog": {
+            "DialogTitle": "Editing {{name}}"
+        },
+
+        "BarcodeScanDialog": {
+            "DialogTitle": "Scan a barcode",
+            "CameraOpeningAdvert": "The application will open the camera",
+            "StartReadingButton": "Start reading",
+            "ProductFoundMessage": "Product Found",
+            "ConfirmProductButton": "Confirm"
+        },
+
+        "Macros": {
+            "Carbohydrate": "Carbo",
+            "Protein": "Protein",
+            "Fat": "Fat",
+            "Carbohydrates": "Carbos",
+            "Proteins": "Proteins",
+            "Fats": "Fats",
+            "Energy": "Energy"
+        }
+    }
+}

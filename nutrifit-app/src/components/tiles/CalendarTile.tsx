@@ -1,4 +1,6 @@
+import i18next from 'i18next';
 import { FunctionComponent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 type Props = {
@@ -7,14 +9,14 @@ type Props = {
     prevHandler: Function;
 }
 
-const formatDate = (date: Date) => {
+const formatDate = (date: Date, todayLabel: string, yesterdayLabel: string, tomorowLabel: string, langage: string) => {
 
     if(date.toDateString() === new Date().toDateString()) {
-        return 'Today';
+        return todayLabel;
     }else if(date.toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
-        return 'Yesterday';
+        return yesterdayLabel;
     }else if(date.toDateString() === new Date(new Date().setDate(new Date().getDate() + 1)).toDateString()) {
-        return 'Tomorrow';
+        return tomorowLabel;
     }
 
     const options: Intl.DateTimeFormatOptions = {
@@ -35,10 +37,12 @@ const formatDate = (date: Date) => {
 
 const CalendarTile: FunctionComponent<Props> = ({date, nextHandler, prevHandler}) => {
 
+    const { t } = useTranslation();
+
     return (
         <div className='calendar_tile'>
             <button className='rounded-full text-2xl gradient-bg font-medium mx-4 w-8 h-8 pr-[2px]' onClick={() => prevHandler()}>&lt;</button>
-            <div className='text-base font-medium w-40'>{formatDate(date)}</div>
+            <div className='text-base font-medium w-40'>{formatDate(date, t('Today'), t('Yesterday'), t('Tomorrow'), i18next.language === 'fr' ? 'fr-FR' : 'en-US')}</div>
             <button className='rounded-full text-2xl gradient-bg font-medium mx-4 w-8 h-8 pl-[2px]' onClick={() => nextHandler()}>&gt;</button>
         </div>
     );

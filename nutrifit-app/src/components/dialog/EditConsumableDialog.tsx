@@ -5,6 +5,7 @@ import Consumable from "../../models/Consumable";
 import AddingMealRecipe from "../tiles/tilecomponents/AddingMealRecipe";
 import LeftArrowButton from "../LeftArrowButton";
 import TrashCanButton from "../TrashCanButton";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     consumableToEdit: Consumable;
@@ -22,13 +23,15 @@ const EditForm = ({ consumableToEdit } : { consumableToEdit: Consumable }) => {
 
 const EditConsumableDialog : FunctionComponent<Props> = ({ consumableToEdit, quitDialog, active, handleRemove }) => {
 
+    const { t } = useTranslation("translation", { keyPrefix: "EditMealDialog" });
+
     const transition = active ? "translate-y-0" : "translate-y-full";
 
     return createPortal(
-        <div className={"dialog z-40 font-inter flex flex-col h-full transition-transform duration-500 ease-in-out " + transition}>
+        <div className={"dialog z-40 font-inter flex flex-col h-full transition-transform duration-500 ease-in-out overflow-y-scroll scrollbar-hide " + transition}>
             <div className="h-12 gradient-bg flex items-center justify-between">
                 <LeftArrowButton quitDialog={quitDialog}/>
-                <div className="font-inter font-semibold text-lg pt-1">Editing {consumableToEdit.name}</div>
+                <div className="font-inter font-semibold text-lg pt-1">{t('DialogTitle', { name: consumableToEdit.name})}</div>
                 <div className="px-2 pt-1"><TrashCanButton action={handleRemove} idConsumable={(consumableToEdit.idConsumable ?? -1)} /></div>
             </div>
             <div className="text-white flex flex-col flex-grow p-4">

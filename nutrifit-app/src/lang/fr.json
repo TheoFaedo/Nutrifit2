@@ -1,0 +1,138 @@
+{ 
+    "translation": {
+        "Nutrifit": "Nutrifit",
+
+        "Settings": "Paramètres",
+        "Language": "Language",
+        "Theme": "Thème",
+
+        "LoginPage": {
+            "TileTitle": "Connexion",
+            "UsernameFieldTitle": "Pseudo",
+            "UsernameFieldPlaceholder": "Entrer votre pseudo",
+            "PasswordFieldTitle": "Mot de passe",
+            "PasswordFieldPlaceholder": "Entrer votre mot de passe",
+            "InvalidIdentifiersError": "Pseudo ou mot de passe invalide",
+            "LoginButton": "Se connecter",
+            "NoAccount?": "Pas encore de compte ?",
+            "RegisterHereLink": "S'inscrire ici"
+        },
+
+        "RegisterPage": {
+            "TileTitle": "Inscription",
+            "UsernameFieldLabel": "Pseudo",
+            "UsernameFieldPlaceholder": "Entrer votre pseudo",
+            "InvalidUsernameFieldError": "Pseudo invalide",
+            "GenderFieldLabel": "Genre",
+            "MaleSelectButton": "Homme",
+            "FemaleSelectButton": "Femme",
+            "InvalidGenderFieldError": "Genre invalide",
+            "PasswordFieldLabel": "Mot de passe",
+            "PasswordFieldPlaceholder": "Entrer votre mot de passe",
+            "InvalidPasswordFieldError": "Mot de passe invalide",
+            "RepeatPasswordFieldLabel": "Confirmer le mot de passe",
+            "RepeatPasswordFieldPlaceholder": "Ré-entrer le mot de passe",
+            "PasswordDontMatchFieldError": "Les mots de passe ne correspondent pas",
+            "EmailFieldLabel": "Email",
+            "EmailFieldPlaceholder": "Entrer votre adresse e-mail",
+            "InvalidEmailFieldError": "Adresse e-mail invalide",
+            "GoalFieldLabel": "Votre objectif",
+            "LoseGoalSelectButton": "Perdre",
+            "MaintainGoalSelectButton": "Maintenir",
+            "GainGoalSelectButton": "Prendre",
+            "InvalidGoalFieldError": "Objectif invalide",
+            "Button": "S'inscrire",
+            "HaveAccount?": "Vous avez déjà un compte ?",
+            "LoginHereLink": "Connectez-vous ici"
+        },
+
+        "DiaryPage": {
+            "DiaryPageTitle": "Journal",
+            "MacrosTileTitle": "Macros",
+            "left": "restant(s)",
+            "over": "en trop",
+            "DiaryTileTitle": "Journal",
+            "Breakfast": "Petit-déjeuner",
+            "Lunch": "Déjeuner",
+            "Dinner": "Dîner",
+            "Snacks": "Collations",
+            "AddFoodButton": "Ajouter un aliment",
+            "Today": "Aujourd'hui",
+            "Yesterday": "Hier",
+            "Tomorow": "Demain",
+            "SearchFoodDialogTitle": "Rechercher un aliment à ajouter"
+        },
+
+        
+        "ProfilePage": {
+            "ProfilePageTitle": "Profil",
+            "You are logged as": "Vous êtes connecté en tant que",
+            "LogoutButton": "Déconnexion",
+            "ChangeDailyGoalTileTitle": "Modifier l'objectif quotidien",
+            "SaveGoalButton": "Enregistrer",
+            "GoalSavedSuccessToast": "Objectif modifié avec succès",
+            "GoalSavedFailedToast": "Échec de la modification de l'objectif"
+        },
+
+        "MealsPage": {
+            "MealsPageTitle": "Repas",
+            "EditMealTileTitle": "Modifier le repas",
+            "SearchFoodToEditDialogTitle": "Rechercher un aliment à modifier",
+            "EditMealButton": "Modifier le repas",
+            "AddingMealTileTitle": "Ajout de repas",
+            "MealSelectButton": "Repas",
+            "RecipeSelectButton": "Recette",
+            "NameFieldTitle": "Nom",
+            "NameFieldPlaceholder": "Nom",
+            "InvalidNameFieldError": "Nom d'aliment non valide",
+            "ServingSizeFieldTitle": "Taille de la portion",
+            "ServingSizeFieldPlaceholder": "Taille de la portion",
+            "InvalidServingSizeFieldError": "Taille de portion non valide",
+            "ScanBarcodeButton": "Scanner un code-barres",
+            "IngredientsFieldTitle": "Ingrédient(s)",
+            "NutritionnalValuesTitle": "Valeurs nutritionnelles",
+            "AddIngredientButton": "Ajouter un ingrédient",
+            "AddMealButton": "Ajouter",
+            "SaveMealButton": "Enregistrer",
+            "MealAddedSuccesfullyToast": "Ajouté avec succès",
+            "MealEditedSuccesfullyToast": "Modifié avec succès",
+            "MealInvalidFormatToast": "Format non valide",
+            "MealFailedToAddToast": "Échec de l'ajout",
+            "MealFailedToEditToast": "Échec de la modification",
+            "InvalidConsumableNameError": "Nom de consommable non valide",
+            "InvalidServingSizeError": "Taille de portion non valide",
+            "InformationInvalidFormatToast": "Entrez les informations dans un format valide"
+        },
+
+        "SearchFoodDialog": {
+            "SearchFoodToEditDialogTitle": "Rechercher un aliment à modifier",
+            "SearchFoodPlaceholderDialog": "Rechercher un aliment",
+            "MyOwnTitleDialog": "Par moi",
+            "PublicTitleDialog": "Public",
+            "OwnMealsSelectButtonDialog": "Mes propres aliments",
+            "PublicMealsSelectButtonDialog": "Aliments publics"
+        },
+
+        "EditMealDialog": {
+            "DialogTitle": "Modification de {{name}}"
+        },
+
+        "BarcodeScanDialog": {
+            "DialogTitle": "Scanner un code-barres",
+            "CameraOpeningAdvert": "L'application ouvrira la caméra",
+            "StartReadingButton": "Commencer la lecture",
+            "ProductFoundMessage": "Produit trouvé",
+            "ConfirmProductButton": "Confirmer"
+        },
+
+        "Macros": {
+            "Carbohydrate": "Glucides",
+            "Protein": "Protéine",
+            "Fat": "Lipide",
+            "Carbohydrates": "Glucides",
+            "Proteins": "Protéines",
+            "Fats": "Lipides",
+            "Energy": "Énergie"
+        }
+    }
+}

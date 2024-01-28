@@ -6,8 +6,12 @@ import { enqueueBarCodeRequest } from "../../services/api-service";
 import CameraSwitchButton from "../CameraSwitchButton";
 import LeftArrowButton from "../LeftArrowButton";
 import { drawPhotoSquare } from "../../helpers/canvasHelper";
+import { useTranslation } from "react-i18next";
 
 const BarcodeScannerDialog = ({ quitDialog }) => {
+
+  const { t } = useTranslation("translation", { keyPrefix: "BarcodeScanDialog" });
+
   const [scanning, setScanning] = useState(false); // toggleable state for "should render scanner"
   const [cameras, setCameras] = useState([]); // array of available cameras, as returned by Quagga.CameraAccess.enumerateVideoDevices()
   const [cameraId, setCameraId] = useState(null); // id of the active camera device
@@ -23,8 +27,6 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
   // THEREFORE, if we're going to be running in Android, we need to first call Quagga.CameraAccess.request() to trigger the permission prompt.
   // AND THEN, we need to call Quagga.CameraAccess.release() to release the camera so that it can be used by the scanner.
   // AND FINALLY, we can call Quagga.CameraAccess.enumerateVideoDevices() to get the list of cameras.
-
-  // Normally, I would place this in an application level "initialization" event, but for this demo, I'm just going to put it in a useEffect() hook in the App component.
 
   /**
    * Chooses the next camera ID in the array.
@@ -67,7 +69,7 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
   return (
     <div className="dialog z-40 font-inter flex flex-col h-full transition-transform duration-1000 ease-in-out">
       <div className="h-12 gradient-bg flex items-center relative">
-          <div className="font-inter font-semibold text-lg pt-1 absolute ml-auto mr-auto top-[20%] left-0 right-0 bottom-0 w-fit">{"Scan barcode"}</div>
+          <div className="font-inter font-semibold text-lg pt-1 absolute ml-auto mr-auto top-[20%] left-0 right-0 bottom-0 w-fit">{t('DialogTitle')}</div>
           <LeftArrowButton quitDialog={() => quitDialog(null)}/>
       </div>
       <div className="flex flex-col justify-center flex-grow relative">
@@ -84,7 +86,7 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
         (
         <>
           <p className="text-2xl font-inter m-8 text-white font-medium">
-            The application will open the camera
+            {t('CameraOpeningAdvert')}
           </p>
           <div className="ml-4 mr-4">
             <Button
@@ -92,7 +94,7 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
                 setScanning(true);
                 setInCameraChoosing(false);
               }}
-              name="Start reading"
+              name={t('StartReadingButton')}
             />
           </div>
         </>
@@ -175,7 +177,7 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
             }
           >
             <div className="w-full text-center m-1">
-              <span className="title">Product Found</span>
+              <span className="title">{t('ProductFoundMessage')}</span>
             </div>
             <span className="text-white font-inter font-medium text-xl mb-1 mx-1">
               {result ? result.name : ""}
@@ -187,7 +189,7 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
                   setScanning(false);
                   quitDialog(result);
                 }}
-                name="Confirm"
+                name={t('ConfirmProductButton')}
               />
             </div>
           </div>

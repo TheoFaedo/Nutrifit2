@@ -11,6 +11,7 @@ import TrashCanButton from "../TrashCanButton";
 import { useAccount } from "../../hooks/useAccount";
 import { EnergyInKcal } from "../../models/valueObjects/Energy";
 import { WeightInGrams } from "../../models/valueObjects/Weight";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     type?: "adding" | "edit";
@@ -22,6 +23,8 @@ type Props = {
 }
 
 const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", addToList = () => {}, quitDialog = () => {}, active, dialogName = "Search", level="z-30" }) => {
+
+    const { t } = useTranslation("translation", { keyPrefix: "SearchFoodDialog" });
 
     const { account } = useAccount();
 
@@ -128,10 +131,10 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
                 <LeftArrowButton quitDialog={quitDialog}/>
             </div>
             <div className="text-white flex flex-col flex-grow">
-                <TextInput className="my-4 px-6" name="searchfield" value={keyword} placeholder="Search food" onChange={handleChange} />
-                { type === "adding" ? <ListSelectorButton names={["My own meals", "Public meals"]} active={categActive} onClick={handleChangeListSelector}/> : <></> }
+                <TextInput className="my-4 px-6" name="searchfield" value={keyword} placeholder={t('SearchFoodPlaceholderDialog')} onChange={handleChange} />
+                { type === "adding" ? <ListSelectorButton names={[t('OwnMealsSelectButtonDialog'), t('PublicMealsSelectButtonDialog')]} active={categActive} onClick={handleChangeListSelector}/> : <></> }
                 <div className="bg-neutral-900 px-4 pt-4 h-0 flex-grow overflow-y-scroll scrollbar-hide">
-                    <div className="text-lg font-medium text-left">{categActive === 0 ? "My own" : "Public"}</div>
+                    <div className="text-lg font-medium text-left">{categActive === 0 ? t('MyOwnTitleDialog') : t('PublicTitleDialog')}</div>
                     <ul className="mt-2">
                         {loading ? 
                         <div className="w-full flex items-center justify-center my-6">

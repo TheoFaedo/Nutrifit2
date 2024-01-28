@@ -12,10 +12,27 @@ import { AuthContextProvider } from './context/AuthContext';
 import Register from './pages/Register';
 import { ToastContextProvider } from './context/ToastContext';
 import ErrorBoundary from './components/error/ErrorBoundary';
-
 import "./fonts/Britannic.ttf";
 
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+let fr = require("./lang/fr.json");
+let en = require("./lang/en.json");
+const resources = { en, fr }
+
+i18next.use(initReactI18next).init({
+  resources,
+  lng: "en",
+  fallbackLng: "en",
+
+  interpolation: {
+    escapeValue: false
+  }
+});
+
 function App() {
+
   return (
     <ErrorBoundary>
       <Router>

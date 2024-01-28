@@ -106,7 +106,7 @@
 }
 
 .navbar-svg {
-  @apply fill-main absolute top-0 -translate-y-[99%] w-full;
+  @apply fill-main absolute top-0 -translate-y-[97%] w-full;
 }
 
 .navbar {
