@@ -55,11 +55,11 @@
             "Breakfast": "Petit-déjeuner",
             "Lunch": "Déjeuner",
             "Dinner": "Dîner",
-            "Snacks": "Collations",
+            "Snacks": "Snacks",
             "AddFoodButton": "Ajouter un aliment",
             "Today": "Aujourd'hui",
             "Yesterday": "Hier",
-            "Tomorow": "Demain",
+            "Tomorrow": "Demain",
             "SearchFoodDialogTitle": "Rechercher un aliment à ajouter"
         },
 
@@ -76,10 +76,10 @@
 
         "MealsPage": {
             "MealsPageTitle": "Repas",
-            "EditMealTileTitle": "Modifier le repas",
+            "EditMealTileTitle": "Modifier un repas",
             "SearchFoodToEditDialogTitle": "Rechercher un aliment à modifier",
-            "EditMealButton": "Modifier le repas",
-            "AddingMealTileTitle": "Ajout de repas",
+            "EditMealButton": "Modifier un repas",
+            "AddingMealTileTitle": "Ajouter un repas",
             "MealSelectButton": "Repas",
             "RecipeSelectButton": "Recette",
             "NameFieldTitle": "Nom",

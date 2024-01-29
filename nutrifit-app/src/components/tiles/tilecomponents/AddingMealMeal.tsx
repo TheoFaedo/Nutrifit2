@@ -476,7 +476,7 @@ const AddingMealMeal: FunctionComponent<Props> = ({
           }}
         >
           <img
-            className="w-14 h-14"
+            className="w-14 h-14 mt-2"
             src={barcode}
             alt="barcode scanning icon"
           />

@@ -16,6 +16,7 @@ import "./fonts/Britannic.ttf";
 
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { useEffect } from 'react';
 
 let fr = require("./lang/fr.json");
 let en = require("./lang/en.json");
@@ -32,6 +33,13 @@ i18next.use(initReactI18next).init({
 });
 
 function App() {
+
+  useEffect(() => {
+    const userLanguage = navigator.language;
+    if(userLanguage === "fr") {
+      i18next.changeLanguage("fr");
+    }
+  }, []);
 
   return (
     <ErrorBoundary>
