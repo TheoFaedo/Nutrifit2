@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import User from "../models/User";
 import { isAuthenticated } from "../services/api-service";
+import i18next from "i18next";
 
 type AuthContextType = {
   account: User | null |undefined;
@@ -18,6 +19,7 @@ export const AuthContextProvider = ({defaultValue, children} : {defaultValue: Au
         setAccount(null);
       }else{
         setAccount(data);
+        i18next.changeLanguage(data.lang);
       }
     });
   }, []);

@@ -469,7 +469,7 @@ const AddingMealMeal: FunctionComponent<Props> = ({
           />
         </div>
         <button
-          className="button w-1/2 flex justify-center items-center text-center flex-col"
+          className="button-inverted w-1/2 flex justify-center items-center text-center flex-col"
           onClick={(e) => {
             e.preventDefault();
             setBarCodeActive(true);

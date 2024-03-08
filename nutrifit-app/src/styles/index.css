@@ -215,7 +215,7 @@ button:active {
 }
 
 .logout_tile {
-  @apply _rounded_tile text-white;
+  @apply _rounded_tile text-white font-inter;
 }
 
 .edit_meal_tile {
@@ -235,7 +235,7 @@ button:active {
 }
 
 .calendar_tile {
-  @apply bg-neutral-900 flex justify-center items-center text-white font-inter py-3 mt-3 text-3xl;
+  @apply bg-neutral-900 flex justify-center items-center text-white font-inter py-3 my-6 text-3xl;
 }
 
 .adding_meal_tile {

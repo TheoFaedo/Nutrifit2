@@ -15,6 +15,8 @@ import {
 import { useToasts } from "../context/ToastContext";
 import Mail from "../models/valueObjects/Mail";
 import { useTranslation } from "react-i18next";
+import Select from "../components/Select";
+import i18next from "i18next";
 
 type Field = {
   value?: any;
@@ -33,6 +35,7 @@ type Form = {
 
 const Register: FunctionComponent = () => {
   const { t } = useTranslation("translation", { keyPrefix: "RegisterPage" });
+  const { t: t2 } = useTranslation("translation");
 
   const { pushToast } = useToasts();
 
@@ -242,99 +245,115 @@ const Register: FunctionComponent = () => {
   };
 
   return (
-    <div className="min-h-48 bg-neutral-800 my-6 mx-4 rounded-lg p-4 text-white">
-      <h2 className="text-2xl mb-2 mt-1 ml-3 font-inter font-bold">
-        {t("TileTitle")}
-      </h2>
-      <form
-        className="flex flex-col font-inter font-medium text-sm"
-        onSubmit={handleSubmit}
-      >
-        <label className="mt-2 text-left" htmlFor="username">
-          {t("UsernameFieldLabel")} :
-        </label>
-        <TextInput
-          value={form.username.value}
-          name="username"
-          placeholder={t("UsernameFieldPlaceholder")}
-          onChange={handleInputChange}
-          errorBorder={!form.username.isValid}
-          errorMessage={form.username.error}
-        />
+    <>
+      <div className="min-h-48 bg-neutral-800 my-6 mx-4 rounded-lg p-4 text-white">
+        <h2 className="text-2xl mb-2 mt-1 ml-3 font-inter font-bold">
+          {t("TileTitle")}
+        </h2>
+        <form
+          className="flex flex-col font-inter font-medium text-sm"
+          onSubmit={handleSubmit}
+        >
+          <label className="mt-2 text-left" htmlFor="username">
+            {t("UsernameFieldLabel")} :
+          </label>
+          <TextInput
+            value={form.username.value}
+            name="username"
+            placeholder={t("UsernameFieldPlaceholder")}
+            onChange={handleInputChange}
+            errorBorder={!form.username.isValid}
+            errorMessage={form.username.error}
+          />
 
-        <label className="mt-2 text-left" htmlFor="password">
-          {t("GenderFieldLabel")} :
-        </label>
-        <SelectorButton
-          names={[t("MaleSelectButton"), t("FemaleSelectButton")]}
-          active={form.gender.value}
-          onClick={handleGenderChange}
-        />
+          <label className="mt-2 text-left" htmlFor="password">
+            {t("GenderFieldLabel")} :
+          </label>
+          <SelectorButton
+            names={[t("MaleSelectButton"), t("FemaleSelectButton")]}
+            active={form.gender.value}
+            onClick={handleGenderChange}
+          />
 
-        <label className="mt-2 text-left" htmlFor="password">
-          {t("PasswordFieldLabel")} :
-        </label>
-        <TextInput
-          value={form.password.value}
-          password
-          name="password"
-          placeholder={t("PasswordFieldPlaceholder")}
-          onChange={handleInputChange}
-          errorBorder={!form.password.isValid}
-          errorMessage={form.password.error}
-        />
+          <label className="mt-2 text-left" htmlFor="password">
+            {t("PasswordFieldLabel")} :
+          </label>
+          <TextInput
+            value={form.password.value}
+            password
+            name="password"
+            placeholder={t("PasswordFieldPlaceholder")}
+            onChange={handleInputChange}
+            errorBorder={!form.password.isValid}
+            errorMessage={form.password.error}
+          />
 
-        <label className="mt-2 text-left" htmlFor="passwordConfirm">
-          {t("RepeatPasswordFieldLabel")} :
-        </label>
-        <TextInput
-          value={form.passwordConfirm.value}
-          password
-          name="passwordConfirm"
-          placeholder={t("RepeatPasswordFieldPlaceholder")}
-          onChange={handleInputChange}
-          errorBorder={!form.passwordConfirm.isValid}
-          errorMessage={form.passwordConfirm.error}
-        />
+          <label className="mt-2 text-left" htmlFor="passwordConfirm">
+            {t("RepeatPasswordFieldLabel")} :
+          </label>
+          <TextInput
+            value={form.passwordConfirm.value}
+            password
+            name="passwordConfirm"
+            placeholder={t("RepeatPasswordFieldPlaceholder")}
+            onChange={handleInputChange}
+            errorBorder={!form.passwordConfirm.isValid}
+            errorMessage={form.passwordConfirm.error}
+          />
 
-        <label className="mt-2 text-left" htmlFor="email">
-          {t("EmailFieldLabel")} :
-        </label>
-        <TextInput
-          value={form.email.value}
-          name="email"
-          placeholder={t("EmailFieldPlaceholder")}
-          onChange={handleInputChange}
-          errorBorder={!form.email.isValid}
-          errorMessage={form.email.error}
-        />
+          <label className="mt-2 text-left" htmlFor="email">
+            {t("EmailFieldLabel")} :
+          </label>
+          <TextInput
+            value={form.email.value}
+            name="email"
+            placeholder={t("EmailFieldPlaceholder")}
+            onChange={handleInputChange}
+            errorBorder={!form.email.isValid}
+            errorMessage={form.email.error}
+          />
 
-        <label className="mt-2 text-left" htmlFor="password">
-          {t("GoalFieldLabel")} :
-        </label>
-        <TiledSelectorButton
-          names={[
-            t("LoseGoalSelectButton"),
-            t("MaintainGoalSelectButton"),
-            t("GainGoalSelectButton"),
-          ]}
-          active={form.goal.value}
-          onClick={handleGoalChange}
-        />
+          <label className="mt-2 text-left" htmlFor="password">
+            {t("GoalFieldLabel")} :
+          </label>
+          <TiledSelectorButton
+            names={[
+              t("LoseGoalSelectButton"),
+              t("MaintainGoalSelectButton"),
+              t("GainGoalSelectButton"),
+            ]}
+            active={form.goal.value}
+            onClick={handleGoalChange}
+          />
 
-        <div className="mt-6">
-          <div className="error-message">{errorMessage}</div>
-        </div>
+          <div className="mt-6">
+            <div className="error-message">{errorMessage}</div>
+          </div>
 
-        <Button name="Sign up" submit />
-        <div className="mt-4 font-normal">
-          {t('HaveAccount?') + " "}
-          <Link className="text-secondary underline" to="/login">
-            {t("LoginHereLink")}
-          </Link>
-        </div>
-      </form>
-    </div>
+          <Button name={t("Button")} submit />
+          <div className="mt-4 font-normal">
+            {t('HaveAccount?') + " "}
+            <Link className="text-secondary underline" to="/login">
+              {t("LoginHereLink")}
+            </Link>
+          </div>
+        </form>
+      </div>
+      <div className="w-full my-2 flex flex-col items-center">
+        <div className="w-1/2 p-2">
+          <label className="text-white font-inter font-sm font-medium" htmlFor='languageSelector'>{t2('ProfilePage.SelectLanguage')}</label>
+          <Select 
+            name='languageSelector'
+            values={[{label: 'English', value: 'en'}, {label: 'Français', value: 'fr'}]}
+            selectedValue={i18next.language} 
+            onChange={(e: any) => {
+              i18next.changeLanguage(e.target.value);
+            }}
+          />
+       </div>
+      </div>
+    </>
+    
   );
 };
 

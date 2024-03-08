@@ -56,7 +56,6 @@
             "Lunch": "Déjeuner",
             "Dinner": "Dîner",
             "Snacks": "Snacks",
-            "AddFoodButton": "Ajouter un aliment",
             "Today": "Aujourd'hui",
             "Yesterday": "Hier",
             "Tomorrow": "Demain",
@@ -66,7 +65,8 @@
         
         "ProfilePage": {
             "ProfilePageTitle": "Profil",
-            "You are logged as": "Vous êtes connecté en tant que",
+            "You are logged as": "Connecté en tant que",
+            "SelectLanguage": "Changer la langue :",
             "LogoutButton": "Déconnexion",
             "ChangeDailyGoalTileTitle": "Modifier l'objectif quotidien",
             "SaveGoalButton": "Enregistrer",

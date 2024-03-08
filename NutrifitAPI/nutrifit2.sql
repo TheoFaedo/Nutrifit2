@@ -37,7 +37,8 @@ CREATE TABLE `consumable` (
   `quantity_label` varchar(20) NOT NULL,
   `is_public` int(1) NOT NULL,
   `type` enum('RECIPE','MEAL') NOT NULL,
-  `author` int(11) NOT NULL
+  `author` int(11) NOT NULL,
+  `creation_time` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -86,7 +87,8 @@ CREATE TABLE `user` (
   `energy_goal` float NOT NULL DEFAULT 2367,
   `fats_goal` float NOT NULL DEFAULT 79,
   `carbohydrates_goal` float NOT NULL DEFAULT 249,
-  `proteins_goal` float NOT NULL DEFAULT 165
+  `proteins_goal` float NOT NULL DEFAULT 165,
+  `lang` enum('en','fr') NOT NULL DEFAULT 'en'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

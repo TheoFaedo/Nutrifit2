@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {

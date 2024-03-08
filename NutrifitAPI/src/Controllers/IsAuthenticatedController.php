@@ -39,7 +39,8 @@ class IsAuthenticatedController extends Controller{
             'username' => $user->pseudo,
             'mail'=> $user->mail,
             'gender' => $user->gender,
-            'token'=> $user->token
+            'token' => $user->token,
+            "lang" => $user->lang
         ];
         $rs->getBody()->write(json_encode($res));
         $rs= $rs->withStatus(200);

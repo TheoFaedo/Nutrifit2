@@ -79,9 +79,9 @@ const MacrosTile: FunctionComponent<Props> = ({ consumptionList }) => {
               "mt-2 " + (carbsDif >= 0 ? "text-neutral-400" : "text-red-500")
             }
           >
-            {(carbsDif >= 0 ? carbsDif : -1 * carbsDif) +
-              "g " +
-              difTest(carbsDif)}
+            {(carbsDif >= 0 ? carbsDif : -1 * carbsDif) + "g"}
+            <br/>
+            {difTest(carbsDif)}
           </div>
         </div>
         <div className="flex flex-col items-center w-28 mx-1">
@@ -100,7 +100,9 @@ const MacrosTile: FunctionComponent<Props> = ({ consumptionList }) => {
               "mt-2 " + (fatsDif >= 0 ? "text-neutral-400" : "text-red-500")
             }
           >
-            {(fatsDif >= 0 ? fatsDif : -1 * fatsDif) + "g " + difTest(fatsDif)}
+            {(fatsDif >= 0 ? fatsDif : -1 * fatsDif) + "g"}
+            <br/>
+            {difTest(fatsDif)}
           </div>
         </div>
         <div className="flex flex-col items-center w-28 mx-1">
@@ -119,9 +121,9 @@ const MacrosTile: FunctionComponent<Props> = ({ consumptionList }) => {
               "mt-2 " + (proteinsDif >= 0 ? "text-neutral-400" : "text-red-500")
             }
           >
-            {(proteinsDif >= 0 ? proteinsDif : -1 * proteinsDif) +
-              "g " +
-              difTest(proteinsDif)}
+            {(proteinsDif >= 0 ? proteinsDif : -1 * proteinsDif) + "g"}
+            <br/>
+            {difTest(proteinsDif)}
           </div>
         </div>
       </div>

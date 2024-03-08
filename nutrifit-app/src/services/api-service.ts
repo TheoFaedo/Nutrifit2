@@ -281,6 +281,14 @@ export const isAuthenticated = (): Promise<any> => {
   });
 };
 
+export const updateProfile = (data: any): Promise<any> => {
+  return executeQuery("/updateprofile", "PUT", {
+    body: JSON.stringify(data),
+  }).then((response) => {
+    return response;
+  });
+};
+
 /**
  * Get information from barcode
  */

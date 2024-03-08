@@ -24,7 +24,7 @@ const NavBarIcon: FunctionComponent<Props> = (props) => {
 
     const svg = svgname === "whitehat" ? <WhiteHatSVG className="h-7" fillPrimary={!active ? "fill-neutral-950" : "fill-none"} fillSecondary={active ? "fill-neutral-950" : "fill-none"} /> :
             svgname === "clipboard" ? <ClipBoardSVG primary={!active ? "neutral-950" : "none"} secondary={active ? "neutral-950" : "none"} /> :
-            svgname === "profile" ? <ProfileSVG primary={!active ? "neutral-950" : "none"} secondary={active ? "neutral-950" : "none"}/> :
+            svgname === "profile" ? <ProfileSVG fillPrimary={!active ? "fill-neutral-950" : "fill-none"} fillSecondary={active ? "fill-neutral-950" : "fill-none"}/> :
             null;
     
     const onClick = () => {

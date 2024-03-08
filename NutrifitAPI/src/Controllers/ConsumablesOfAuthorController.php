@@ -33,7 +33,7 @@ class ConsumablesOfAuthorController extends Controller{
         if($authhelper->authentified()){
             $idFromIdToken = User::where('token', $args['author_id'])->first()->idUser;
 
-            $consumables = Consumable::where('author', $idFromIdToken);
+            $consumables = Consumable::where('author', $idFromIdToken)->orderBy('creation_time', 'DESC');
             if(isset($params['q'])){
                 if(strlen($params['q']) >= 3){
                     $consumables = $consumables->where('name', 'LIKE', '%'.$params['q'].'%');

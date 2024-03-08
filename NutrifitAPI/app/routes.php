@@ -30,6 +30,7 @@ use App\Controllers\RemoveConsumptionController;
 use App\Controllers\RemoveConsumableController;
 use App\Controllers\ChangeConsumptionController;
 use App\Controllers\IsAuthenticatedController;
+use App\Controllers\ChangeProfile;
 
 return function (App $app) {
 
@@ -155,4 +156,9 @@ return function (App $app) {
         return $controller->__invoke($request, $response, $args);
     });
 
+    $app->put('/updateprofile[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ChangeProfile($container);
+
+        return $controller->__invoke($request, $response, $args);
+    });
 };

@@ -36,7 +36,8 @@ function App() {
 
   useEffect(() => {
     const userLanguage = navigator.language;
-    if(userLanguage === "fr") {
+    console.log(userLanguage);
+    if(userLanguage.indexOf("fr") !== -1) {
       i18next.changeLanguage("fr");
     }
   }, []);

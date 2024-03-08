@@ -143,7 +143,7 @@ const DiaryTile: FunctionComponent<Props> = ({
       )}
       <div className="mx-6">
         <Button
-          name={t("AddFoodButton")}
+          name="+"
           inverted
           onClick={() => {
             setDialogActive({
@@ -151,6 +151,7 @@ const DiaryTile: FunctionComponent<Props> = ({
               meal: Meal.BREAKFAST,
             });
           }}
+          textSize="text-xl"
         />
       </div>
 
@@ -166,7 +167,7 @@ const DiaryTile: FunctionComponent<Props> = ({
       )}
       <div className="mx-6">
         <Button
-          name={t("AddFoodButton")}
+          name="+"
           inverted
           onClick={() => {
             setDialogActive({
@@ -174,6 +175,7 @@ const DiaryTile: FunctionComponent<Props> = ({
               meal: Meal.LUNCH,
             });
           }}
+          textSize="text-xl"
         />
       </div>
 
@@ -189,7 +191,7 @@ const DiaryTile: FunctionComponent<Props> = ({
       )}
       <div className="mx-6">
         <Button
-          name={t("AddFoodButton")}
+          name="+"
           inverted
           onClick={() => {
             setDialogActive({
@@ -197,6 +199,7 @@ const DiaryTile: FunctionComponent<Props> = ({
               meal: Meal.DINNER,
             });
           }}
+          textSize="text-xl"
         />
       </div>
 
@@ -212,7 +215,7 @@ const DiaryTile: FunctionComponent<Props> = ({
       )}
       <div className="mx-6">
         <Button
-          name={t("AddFoodButton")}
+          name="+"
           inverted
           onClick={() => {
             setDialogActive({
@@ -220,6 +223,7 @@ const DiaryTile: FunctionComponent<Props> = ({
               meal: Meal.SNACKS,
             });
           }}
+          textSize="text-xl"
         />
       </div>
 
