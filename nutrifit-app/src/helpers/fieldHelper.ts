@@ -28,7 +28,6 @@ export function validGoal(goal: string): boolean {
 }
 
 export function numberFieldFormat(fieldValue: number, exponent: number = 3): string {
-  console.log(fieldValue, exponent);
   if(fieldValue === 0) return '';
   if(fieldValue >= Math.pow(10, exponent)) return (Math.pow(10, exponent)-1).toString();
   return fieldValue.toString();
@@ -38,4 +37,16 @@ export function stringToNumberFormat(fieldValue: string): number {
   if(fieldValue.length === 0) return 0;
   if(isNaN(Number(fieldValue))) return 0;
   return parseFloat(fieldValue);
+}
+
+/**
+ * Function who format a string to an abbreviation like :
+ * Hello World => Hello Wo...
+ * @param stringToFormat : string to format
+ * @param length : length of the abbreviation
+ * @returns desired abbreviation
+ */
+export function stringAbreviationFormat(stringToFormat: string, length: number = 10): string {
+  if(stringToFormat.length <= length) return stringToFormat;
+  return stringToFormat.substring(0, length-3) + '...' ;
 }

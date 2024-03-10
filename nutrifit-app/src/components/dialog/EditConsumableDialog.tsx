@@ -6,6 +6,7 @@ import AddingMealRecipe from "../tiles/tilecomponents/AddingMealRecipe";
 import LeftArrowButton from "../LeftArrowButton";
 import TrashCanButton from "../TrashCanButton";
 import { useTranslation } from "react-i18next";
+import { stringAbreviationFormat } from "../../helpers/fieldHelper";
 
 type Props = {
     consumableToEdit: Consumable;
@@ -31,7 +32,7 @@ const EditConsumableDialog : FunctionComponent<Props> = ({ consumableToEdit, qui
         <div className={"dialog z-40 font-inter flex flex-col h-full transition-transform duration-500 ease-in-out overflow-y-scroll scrollbar-hide " + transition}>
             <div className="h-12 gradient-bg flex items-center justify-between">
                 <LeftArrowButton quitDialog={quitDialog}/>
-                <div className="font-inter font-semibold text-lg pt-1">{t('DialogTitle', { name: consumableToEdit.name})}</div>
+                <div className="font-inter font-semibold text-lg pt-1">{t('DialogTitle', { name: stringAbreviationFormat(consumableToEdit.name)})}</div>
                 <div className="px-2 pt-1"><TrashCanButton action={handleRemove} idConsumable={(consumableToEdit.idConsumable ?? -1)} /></div>
             </div>
             <div className="text-white flex flex-col flex-grow p-4">

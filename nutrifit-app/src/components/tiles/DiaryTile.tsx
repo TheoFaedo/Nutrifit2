@@ -131,7 +131,7 @@ const DiaryTile: FunctionComponent<Props> = ({
   return (
     <div className="diary_tile">
       <div className="tile_title text-left">{t("DiaryTileTitle")}</div>
-      <div className=" bg-neutral-700 text-left mt-8 mb-2 font-inter text-white text-xl px-2 py-4 font-semibold">
+      <div className=" bg-neutral-700 text-left font-inter text-white text-xl px-2 py-4 font-semibold">
         {t("Breakfast")}
       </div>
       {loading ? (
@@ -155,7 +155,7 @@ const DiaryTile: FunctionComponent<Props> = ({
         />
       </div>
 
-      <div className=" bg-neutral-700 text-left mt-8 mb-2 font-inter text-white text-xl px-2 py-4 font-semibold">
+      <div className=" bg-neutral-700 text-left mt-4 font-inter text-white text-xl px-2 py-4 font-semibold">
         {t("Lunch")}
       </div>
       {loading ? (
@@ -179,7 +179,7 @@ const DiaryTile: FunctionComponent<Props> = ({
         />
       </div>
 
-      <div className=" bg-neutral-700 text-left mt-8 mb-2 font-inter text-white text-xl px-2 py-4 font-semibold">
+      <div className=" bg-neutral-700 text-left mt-4 font-inter text-white text-xl px-2 py-4 font-semibold">
         {t("Dinner")}
       </div>
       {loading ? (
@@ -203,7 +203,7 @@ const DiaryTile: FunctionComponent<Props> = ({
         />
       </div>
 
-      <div className=" bg-neutral-700 text-left mt-6 mb-2 font-inter text-white text-xl px-2 py-4 font-semibold">
+      <div className=" bg-neutral-700 text-left mt-4 font-inter text-white text-xl px-2 py-4 font-semibold">
         {t("Snacks")}
       </div>
       {loading ? (

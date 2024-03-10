@@ -22,17 +22,20 @@ const LogoutTile: FunctionComponent = memo(() => {
   const { t } = useTranslation("translation", { keyPrefix: "ProfilePage" });
 
   return (
-    <div className="logout_tile">
+    <div className="logout_tile mb-4">
+      <div>
       <div className="w-full flex justify-center mb-2">
         <img src={profileImg} alt="Profile" className="w-24 h-24 rounded-full shadow-sm"/>
       </div>
 
-      <output className="mb-2">
+      <output className="block">
         <b>{account.username}</b>
       </output>
+      </div>
+      
 
-      <div className="w-full mb-2 text-left">
-        <label htmlFor="languageSelector" className="text-white text-sm px-1">{t('SelectLanguage')}</label>
+      <div className="w-full text-left">
+        <label htmlFor="languageSelector" className="text-white text-sm">{t('SelectLanguage')}</label>
         <Select 
           name='languageSelector' 
           values={[{label: 'English', value: 'en'}, {label: 'Français', value: 'fr'}]}

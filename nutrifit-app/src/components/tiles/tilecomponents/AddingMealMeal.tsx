@@ -394,7 +394,7 @@ const AddingMealMeal: FunctionComponent<Props> = ({
         errorBorder={!form.serving_size.isValid}
         errorMessage={form.serving_size.error}
       />
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full flex items-center justify-center mt-4">
         <MultipleDoughnutChart
           nutriData={{
             carbos: form.carbos.value.toKcal(MACRO_TYPES.CARBOHYDRATE),
@@ -403,10 +403,10 @@ const AddingMealMeal: FunctionComponent<Props> = ({
             energy: form.energy.value,
             energy_unit: "kcal",
           }}
-          className="w-32 h-32 mt-6"
+          className="w-32 h-32"
         />
       </div>
-      <div className="flex flex-col gap-2 my-4 p-4">
+      <div className="flex flex-col gap-2 mt-4 px-4">
         <div className="text-white grid grid-cols-2">
           <div className="text-left text-white font-medium text-sm flex items-center">
             <span className="dot" style={{ backgroundColor: "#FFFFFF" }}></span>
@@ -468,8 +468,10 @@ const AddingMealMeal: FunctionComponent<Props> = ({
             onChange={handleChangeNutVal}
           />
         </div>
+      </div>
+      <div className="px-3">
         <button
-          className="button-inverted w-1/2 flex justify-center items-center text-center flex-col"
+          className="button-inverted flex justify-center items-center text-center flex-col"
           onClick={(e) => {
             e.preventDefault();
             setBarCodeActive(true);
