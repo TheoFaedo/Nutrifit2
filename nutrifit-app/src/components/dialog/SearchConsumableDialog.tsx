@@ -140,7 +140,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
                 <TextInput className="my-4 px-6" name="searchfield" value={keyword} placeholder={t('SearchFoodPlaceholderDialog')} onChange={handleChange} />
                 { type === "adding" ? <ListSelectorButton names={[t('OwnMealsSelectButtonDialog'), t('PublicMealsSelectButtonDialog')]} active={categActive} onClick={handleChangeListSelector}/> : <></> }
                 <div className="bg-neutral-900 px-4 pt-4 h-0 flex-grow overflow-y-scroll scrollbar-hide">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between mb-4 items-center">
                         <div className="text-lg font-medium text-left">{categActive === 0 ? t('MyOwnTitleDialog') : t('PublicTitleDialog')}</div>
                         <div className="flex justify-between gap-2 items-center">
                             <div>{t('OrderBy')}</div>
