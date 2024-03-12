@@ -169,9 +169,10 @@ export const consumables = (keyword: string): Promise<Consumable[]> => {
 
 export const consumablesOfAuthor = (
   keyword: string,
-  idToken: string
+  idToken: string,
+  orderBy?: string
 ): Promise<Consumable[]> => {
-  return executeQuery(`/consumables/${idToken}/?q=${keyword}`)
+  return executeQuery(`/consumables/${idToken}/?q=${keyword}${orderBy ? "&orderby=" + orderBy : ""}`)
     .then((response) => {
       return response.consumables.map((consumable: any) => {
         // eslint-disable-next-line array-callback-return

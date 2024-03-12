@@ -38,7 +38,8 @@ CREATE TABLE `consumable` (
   `is_public` int(1) NOT NULL,
   `type` enum('RECIPE','MEAL') NOT NULL,
   `author` int(11) NOT NULL,
-  `creation_time` datetime NOT NULL DEFAULT current_timestamp()
+  `creation_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `update_time` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

@@ -343,7 +343,6 @@ const Register: FunctionComponent = () => {
         <div className="w-1/2 p-2">
           <label className="text-white font-inter font-sm font-medium" htmlFor='languageSelector'>{t2('ProfilePage.SelectLanguage')}</label>
           <Select 
-            name='languageSelector'
             values={[{label: 'English', value: 'en'}, {label: 'Français', value: 'fr'}]}
             selectedValue={i18next.language} 
             onChange={(e: any) => {

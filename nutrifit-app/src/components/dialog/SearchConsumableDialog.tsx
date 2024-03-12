@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import TextInput from "../TextInput";
 import Consumable from "../../models/Consumable";
@@ -12,6 +12,7 @@ import { useAccount } from "../../hooks/useAccount";
 import { EnergyInKcal } from "../../models/valueObjects/Energy";
 import { WeightInGrams } from "../../models/valueObjects/Weight";
 import { useTranslation } from "react-i18next";
+import Select from "../Select";
 
 type Props = {
     type?: "adding" | "edit";
@@ -40,11 +41,17 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     const [keyword, setKeyword] = useState("");
     const [consumablesList, setConsumablesList] = useState<Consumable[]>([]);
     const [categActive, setCategActive] = useState(0);
+    
+    const [orderBy, setOrderBy] = useState("name");
+    const onOrderChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+        setOrderBy(e.target.value);
+        updateConsumablesList(categActive, keyword, e.target.value);
+    }, [setOrderBy]);
 
-    const updateConsumablesList = (categActiveParam: number, keywords: string) => {
+    const updateConsumablesList = (categActiveParam: number, keywords: string, orderBy: string) => {
         if(type === "adding"){
             return categActiveParam === 0 ? 
-            consumablesOfAuthor(keywords, idTokenOfUser).then((res) => {
+            consumablesOfAuthor(keywords, idTokenOfUser, orderBy).then((res) => {
                 setConsumablesList(res);
             })
             : 
@@ -52,12 +59,11 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
                 setConsumablesList(res);
             })
         }else{
-            return consumablesOfAuthor(keywords, idTokenOfUser).then((res) => {
+            return consumablesOfAuthor(keywords, idTokenOfUser, orderBy).then((res) => {
                 setConsumablesList(res);
             })
         }
     }
-
 
     const handleEdit = (consumable: Consumable) => {
         setConsumableToEdit(consumable);
@@ -81,7 +87,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
 
         if(e.target.value.length >= 3 || (e.target.value.length < keyword.length && e.target.value.length <= 2)){ 
             setLoading(true);
-            updateConsumablesList(categActive, e.target.value).then(() => {
+            updateConsumablesList(categActive, e.target.value, orderBy).then(() => {
                 setLoading(false);
             });
         }
@@ -91,7 +97,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     const handleChangeListSelector = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
         setCategActive(index);
     
-        updateConsumablesList(index, keyword);
+        updateConsumablesList(index, keyword, orderBy);
     }
 
     const consumablesNode = consumablesList && consumablesList.map((cons) => (
@@ -134,7 +140,26 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
                 <TextInput className="my-4 px-6" name="searchfield" value={keyword} placeholder={t('SearchFoodPlaceholderDialog')} onChange={handleChange} />
                 { type === "adding" ? <ListSelectorButton names={[t('OwnMealsSelectButtonDialog'), t('PublicMealsSelectButtonDialog')]} active={categActive} onClick={handleChangeListSelector}/> : <></> }
                 <div className="bg-neutral-900 px-4 pt-4 h-0 flex-grow overflow-y-scroll scrollbar-hide">
-                    <div className="text-lg font-medium text-left">{categActive === 0 ? t('MyOwnTitleDialog') : t('PublicTitleDialog')}</div>
+                    <div className="flex justify-between">
+                        <div className="text-lg font-medium text-left">{categActive === 0 ? t('MyOwnTitleDialog') : t('PublicTitleDialog')}</div>
+                        <div className="flex justify-between gap-2 items-center">
+                            <div>{t('OrderBy')}</div>
+                            <div>
+                                <Select
+                                values={[
+                                    {value: "lastupdated", label: t('LastUpdated')},
+                                    {value: "mostrecent", label: t("MostRecent")},
+                                    {value: "oldest", label: t("Oldest")},
+                                    {value: "nameAZ", label: "A-Z"},
+                                    {value: "nameZA", label: "Z-A"},
+                                ]}
+                                selectedValue={orderBy}
+                                onChange={onOrderChange}
+                                fitcontent
+                                />
+                            </div>
+                        </div>
+                    </div>
                     <ul className="mt-2">
                         {loading ? 
                         <div className="w-full flex items-center justify-center my-6">

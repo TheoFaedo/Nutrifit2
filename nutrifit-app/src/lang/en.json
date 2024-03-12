@@ -109,7 +109,11 @@
             "MyOwnTitleDialog": "My own",
             "PublicTitleDialog": "Public",
             "OwnMealsSelectButtonDialog": "My own meals",
-            "PublicMealsSelectButtonDialog": "Public meals"
+            "PublicMealsSelectButtonDialog": "Public meals",
+            "OrderBy": "Order by",
+            "LastUpdated": "Last updated",
+            "MostRecent": "Most recent",
+            "Oldest": "Oldest"
         },
 
         "EditMealDialog": {

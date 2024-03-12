@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 //Models
 use App\Models\Consumable;
+use App\Models\Consumption;
 use App\Models\User;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -33,12 +34,40 @@ class ConsumablesOfAuthorController extends Controller{
         if($authhelper->authentified()){
             $idFromIdToken = User::where('token', $args['author_id'])->first()->idUser;
 
-            $consumables = Consumable::where('author', $idFromIdToken)->orderBy('creation_time', 'DESC');
+            $consumables = Consumable::where('author', $idFromIdToken);
             if(isset($params['q'])){
                 if(strlen($params['q']) >= 3){
                     $consumables = $consumables->where('name', 'LIKE', '%'.$params['q'].'%');
                 }
             }
+
+            if(isset($params['orderby'])){
+                switch ($params['orderby']) {
+                    case 'lastupdated':
+                        $consumables = $consumables->orderBy('update_time', 'DESC');
+                        break;
+                    case 'mostrecent':
+                        $consumables = $consumables->orderBy('creation_time', 'DESC');
+                        break;
+                    case 'oldest':
+                        $consumables = $consumables->orderBy('creation_time');
+                        break;
+                    case 'nameAZ':
+                        $consumables = $consumables->orderBy('name');
+                        break;
+                    case 'nameZA':
+                        $consumables = $consumables->orderBy('name', 'DESC');
+                        break;
+                    case 'recommended':
+                        //TODO
+                    default:
+                        $consumables = $consumables->orderBy('update_time', 'DESC');
+                }
+            }else{
+                $consumables = $consumables->orderBy('update_time', 'DESC');
+            }
+
+            $consumables = $consumables->skip(0)->take(10);
 
             $consumablesArray = [];
 

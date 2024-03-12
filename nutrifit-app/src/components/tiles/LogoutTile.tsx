@@ -36,8 +36,7 @@ const LogoutTile: FunctionComponent = memo(() => {
 
       <div className="w-full text-left">
         <label htmlFor="languageSelector" className="text-white text-sm">{t('SelectLanguage')}</label>
-        <Select 
-          name='languageSelector' 
+        <Select
           values={[{label: 'English', value: 'en'}, {label: 'Français', value: 'fr'}]}
           selectedValue={i18next.language} 
           onChange={(e: any) => {
