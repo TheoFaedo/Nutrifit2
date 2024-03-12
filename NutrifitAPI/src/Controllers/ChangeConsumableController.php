@@ -48,8 +48,9 @@ class ChangeConsumableController extends Controller{
                     $consumable->quantity_label = $params['quantity_label'];
                     $consumable->is_public = $params['is_public'];
                     $consumable->type = $params['type'];
+                    $consumable->update_time = date('Y-m-d H:i:s');
                     $consumable->save();
-    
+
                     $energy = 0;
                     $fats = 0;
                     $carbohydrates = 0;

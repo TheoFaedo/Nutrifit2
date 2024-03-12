@@ -112,9 +112,9 @@
             "OwnMealsSelectButtonDialog": "Mes propres aliments",
             "PublicMealsSelectButtonDialog": "Aliments publics",
             "OrderBy": "Trier par",
-            "LastUpdated": "Dernier mis à jour",
-            "MostRecent": "Plus récent",
-            "Oldest": "Plus ancien"
+            "LastUpdated": "Utilisation récente",
+            "MostRecent": "Création + recente",
+            "Oldest": "Création - récente"
         },
 
         "EditMealDialog": {

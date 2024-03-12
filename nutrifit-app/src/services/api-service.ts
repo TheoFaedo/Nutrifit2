@@ -272,7 +272,17 @@ export const removeConsumable = (idConsumable: number): Promise<any> => {
 
 export const changeConsumable = (consumable: Consumable): Promise<any> => {
   return executeQuery("/changeconsumable/" + consumable.idConsumable, "PUT", {
-    body: JSON.stringify(consumable),
+    body: JSON.stringify({
+      name: consumable.name,
+      energy: consumable.energy.toKcals,
+      fats: consumable.fats.toGrams,
+      proteins: consumable.proteins.toGrams,
+      carbohydrates: consumable.carbohydrates.toGrams,
+      quantity_label: consumable.quantity_label,
+      is_public: consumable.is_public,
+      type: consumable.type,
+      ingredients: consumable.ingredients,
+    }),
   });
 };
 

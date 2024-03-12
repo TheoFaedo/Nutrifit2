@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 //Models
 use App\Models\Consumption;
+use App\Models\Consumable;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -34,6 +35,17 @@ class ConsumeController extends Controller{
         if($authhelper->authentified()){
             if(isset($params['idConsumable']) && isset($params['proportion']) && isset($params['consumed_on'])){
                 $user = $authhelper->getIdUserAuthentified();
+
+                $consumable = Consumable::where('idConsumable', $params['idConsumable'])->first();
+                if(!$consumable){
+                    $res['error'] = "Consumable not found";
+                    $rs= $rs->withStatus(404);
+                    $rs->getBody()->write(json_encode($res));
+                    return $rs->withHeader('Content-Type', 'application/json');
+                }
+
+                $consumable->update_time = date('Y-m-d H:i:s');
+                $consumable->save();
 
                 $consumption = new Consumption();
                 $consumption->idUser = $user;
