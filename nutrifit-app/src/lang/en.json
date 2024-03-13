@@ -48,7 +48,7 @@
 
         "DiaryPage": {
             "DiaryPageTitle": "Diary",
-            "MacrosTileTitle": "Tracking",
+            "TrackingTileTitle": "Tracking",
             "left": "left",
             "over": "over",
             "DiaryTileTitle": "Diary",
