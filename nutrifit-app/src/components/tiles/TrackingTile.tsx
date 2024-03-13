@@ -7,6 +7,7 @@ import NutritionalGoal from "../../models/NutritionalGoal";
 import { Weight, WeightInGrams } from "../../models/valueObjects/Weight";
 import { Energy, EnergyInKcal } from "../../models/valueObjects/Energy";
 import { useTranslation } from "react-i18next";
+import { ProgressBar } from "../ProgressBar";
 
 type NutritionalSum = {
   carbohydrates: Weight;
@@ -19,7 +20,7 @@ type Props = {
   consumptionList: Consumption[];
 };
 
-const MacrosTile: FunctionComponent<Props> = ({ consumptionList }) => {
+const TrackingTile: FunctionComponent<Props> = ({ consumptionList }) => {
   const { t } = useTranslation();
 
   const [nutritionalgoal, setNutritionalgoal] = useState<NutritionalGoal>({
@@ -56,15 +57,16 @@ const MacrosTile: FunctionComponent<Props> = ({ consumptionList }) => {
   const fatsDif = nutritionalgoal.fats_goal.value - nutritionalSum.fats.value;
   const proteinsDif =
     nutritionalgoal.proteins_goal.value - nutritionalSum.proteins.value;
+  const energyDif = nutritionalgoal.energy_goal.value - nutritionalSum.energy.value;
 
   return (
     <div className="macros_tile">
       <div className="tile_title text-left">
-        {t("DiaryPage.MacrosTileTitle")}
+        {t("DiaryPage.TrackingTileTitle")}
       </div>
       <div className="flex justify-evenly items-start">
         <div className="flex flex-col items-center w-28 mx-1">
-          <div className="mb-4 text-carbohydrates font-semibold text-md">
+          <div className="mb-2 text-carbohydrates font-semibold text-md">
             {t("Macros.Carbohydrates")}
           </div>
           <DoughnutChart
@@ -85,7 +87,7 @@ const MacrosTile: FunctionComponent<Props> = ({ consumptionList }) => {
           </div>
         </div>
         <div className="flex flex-col items-center w-28 mx-1">
-          <div className="mb-4 text-fats font-semibold text-md">
+          <div className="mb-2 text-fats font-semibold text-md">
             {t("Macros.Fats")}
           </div>
           <DoughnutChart
@@ -106,7 +108,7 @@ const MacrosTile: FunctionComponent<Props> = ({ consumptionList }) => {
           </div>
         </div>
         <div className="flex flex-col items-center w-28 mx-1">
-          <div className="mb-4 text-proteins font-semibold text-md">
+          <div className="mb-2 text-proteins font-semibold text-md">
             {t("Macros.Proteins")}
           </div>
           <DoughnutChart
@@ -127,8 +129,16 @@ const MacrosTile: FunctionComponent<Props> = ({ consumptionList }) => {
           </div>
         </div>
       </div>
+      <div className="pt-4 mt-4 border-t-2 border-neutral-700">
+        <div className="w-full flex justify-between mb-2">
+            <div className="text-blue-400 font-semibold">Énergie</div>
+            <div><span className={"font-semibold text-xl " + (energyDif >= 0 ? "text-neutral-400" : "text-red-500")}>{nutritionalSum.energy.value}</span><span className={(energyDif >= 0 ? "text-neutral-400" : "text-red-600")}>/{nutritionalgoal.energy_goal.value}kcal</span></div>
+        </div>
+        <ProgressBar progress={nutritionalSum.energy.value/nutritionalgoal.energy_goal.value} height="h-12"/>
+        <div className={"mt-2 w-full text-center " + (energyDif >= 0 ? "text-neutral-400" : "text-red-500")} >{(energyDif >= 0 ? energyDif : -1 * energyDif)}kcal {difTest(energyDif)}</div>
+      </div>
     </div>
   );
 };
 
-export default MacrosTile;
+export default TrackingTile;

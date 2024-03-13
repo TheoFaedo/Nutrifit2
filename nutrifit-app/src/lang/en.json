@@ -48,7 +48,7 @@
 
         "DiaryPage": {
             "DiaryPageTitle": "Diary",
-            "MacrosTileTitle": "Macros",
+            "MacrosTileTitle": "Tracking",
             "left": "left",
             "over": "over",
             "DiaryTileTitle": "Diary",
@@ -59,7 +59,8 @@
             "Today": "Today",
             "Yesterday": "Yesterday",
             "Tomorrow": "Tomorow",
-            "SearchFoodDialogTitle": "Search food to add"
+            "SearchFoodDialogTitle": "Search food to add",
+            "EnergyTileTitle": "Energy"
         },
 
         "ProfilePage": {
