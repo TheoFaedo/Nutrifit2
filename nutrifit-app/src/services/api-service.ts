@@ -144,8 +144,8 @@ export const addConsumable = (consumable: Consumable): Promise<any> => {
   });
 };
 
-export const consumables = (keyword: string): Promise<Consumable[]> => {
-  return executeQuery("/consumables/?q=" + keyword)
+export const consumables = (keyword: string, orderBy?: string): Promise<Consumable[]> => {
+  return executeQuery("/consumables/?q=" + keyword + (orderBy ? "&orderby=" + orderBy : ""))
     .then((response) => {
       return response.consumables.map((consumable: any) => {
         return new Consumable(

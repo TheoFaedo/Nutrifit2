@@ -41,30 +41,9 @@ class ConsumablesOfAuthorController extends Controller{
                 }
             }
 
+            $staticExecutor = $this->container->get('staticexecutor');
             if(isset($params['orderby'])){
-                switch ($params['orderby']) {
-                    case 'lastupdated':
-                        $consumables = $consumables->orderBy('update_time', 'DESC');
-                        break;
-                    case 'mostrecent':
-                        $consumables = $consumables->orderBy('creation_time', 'DESC');
-                        break;
-                    case 'oldest':
-                        $consumables = $consumables->orderBy('creation_time');
-                        break;
-                    case 'nameAZ':
-                        $consumables = $consumables->orderBy('name');
-                        break;
-                    case 'nameZA':
-                        $consumables = $consumables->orderBy('name', 'DESC');
-                        break;
-                    case 'recommended':
-                        //TODO
-                    default:
-                        $consumables = $consumables->orderBy('update_time', 'DESC');
-                }
-            }else{
-                $consumables = $consumables->orderBy('update_time', 'DESC');
+                $consumables = $staticExecutor->execute('App\Helpers\SearchHelper', 'orderBy', $consumables, $params['orderby']);
             }
 
             $consumables = $consumables->skip(0)->take(10);

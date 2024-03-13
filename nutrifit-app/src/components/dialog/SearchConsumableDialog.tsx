@@ -41,12 +41,6 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     const [keyword, setKeyword] = useState("");
     const [consumablesList, setConsumablesList] = useState<Consumable[]>([]);
     const [categActive, setCategActive] = useState(0);
-    
-    const [orderBy, setOrderBy] = useState("name");
-    const onOrderChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-        setOrderBy(e.target.value);
-        updateConsumablesList(categActive, keyword, e.target.value);
-    }, [setOrderBy]);
 
     const updateConsumablesList = (categActiveParam: number, keywords: string, orderBy: string) => {
         if(type === "adding"){
@@ -54,8 +48,9 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
             consumablesOfAuthor(keywords, idTokenOfUser, orderBy).then((res) => {
                 setConsumablesList(res);
             })
-            : 
-            consumables(keywords).then((res) => {
+            :
+            
+            consumables(keywords, orderBy).then((res) => {
                 setConsumablesList(res);
             })
         }else{
@@ -64,6 +59,15 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
             })
         }
     }
+    
+    const [orderBy, setOrderBy] = useState("name");
+    const onOrderChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+        setOrderBy(e.target.value);
+        setLoading(true);
+        updateConsumablesList(categActive, keyword, e.target.value).then(() => {
+            setLoading(false);
+        });
+    }, [setOrderBy, setLoading, updateConsumablesList, categActive, keyword]);
 
     const handleEdit = (consumable: Consumable) => {
         setConsumableToEdit(consumable);
@@ -120,9 +124,9 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     useEffect(() => {
         if(active || (active && !editActive)){
             setLoading(true);
-            consumablesOfAuthor(keyword, idTokenOfUser).then((res) => {
+            setKeyword("");
+            updateConsumablesList(categActive, "", orderBy).then((res) => {
                 setLoading(false);
-                setConsumablesList(res);
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

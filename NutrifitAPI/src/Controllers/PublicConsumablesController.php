@@ -38,6 +38,11 @@ class PublicConsumablesController extends Controller{
                 }
             }
 
+            $staticExecutor = $this->container->get('staticexecutor');
+            if(isset($params['orderby'])){
+                $publicConsumables = $staticExecutor->execute('App\Helpers\SearchHelper', 'orderBy', $publicConsumables, $params['orderby']);
+            }
+
             $res['consumables'] = $publicConsumables->get();
 
             $rs->getBody()->write(json_encode($res));
