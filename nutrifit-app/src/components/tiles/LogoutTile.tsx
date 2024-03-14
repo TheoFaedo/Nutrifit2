@@ -40,8 +40,11 @@ const LogoutTile: FunctionComponent = memo(() => {
           values={[{label: 'English', value: 'en'}, {label: 'Français', value: 'fr'}]}
           selectedValue={i18next.language} 
           onChange={(e: any) => {
-            i18next.changeLanguage(e.target.value);
-            updateProfile({lang: e.target.value});
+            updateProfile({lang: e.target.value}).then((res) => {
+              if(res.success){
+                i18next.changeLanguage(e.target.value);
+              }
+            });
           }}
         />
       </div>
