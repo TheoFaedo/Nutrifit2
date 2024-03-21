@@ -4,8 +4,6 @@
 --
 -- Hôte : 127.0.0.1
 -- Généré le : mer. 22 nov. 2023 à 17:34
--- Version du serveur : 10.10.2-MariaDB
--- Version de PHP : 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -16,6 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+
+DROP DATABASE IF EXISTS `nutrifit`;
+CREATE DATABASE IF NOT EXISTS `nutrifit` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `nutrifit`;
 
 --
 -- Base de données : `nutrifit2`

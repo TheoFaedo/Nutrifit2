@@ -8,6 +8,7 @@ import Select from "../Select";
 import i18next from "i18next";
 import { updateProfile } from "../../services/api-service";
 import profileImg from "../../img/default_profile.png"
+import { ProgressBar } from "../ProgressBar";
 
 const LogoutTile: FunctionComponent = memo(() => {
   const navigate = useNavigate();
@@ -32,8 +33,15 @@ const LogoutTile: FunctionComponent = memo(() => {
         <b>{account.username}</b>
       </output>
       </div>
-      
 
+      <div className="w-full flex justify-center items-center mt-2 mb-4 font-inter font-medium">
+        1
+        <div className="w-28 mx-2">
+          <ProgressBar progress={0.5} height="h-1.5" />
+        </div>
+        2
+      </div>
+      
       <div className="w-full text-left">
         <label htmlFor="languageSelector" className="text-white text-sm">{t('SelectLanguage')}</label>
         <Select
