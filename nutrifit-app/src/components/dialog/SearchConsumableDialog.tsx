@@ -42,7 +42,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     const [consumablesList, setConsumablesList] = useState<Consumable[]>([]);
     const [categActive, setCategActive] = useState(0);
 
-    const updateConsumablesList = (categActiveParam: number, keywords: string, orderBy: string) => {
+    const updateConsumablesList = useCallback((categActiveParam: number, keywords: string, orderBy: string) => {
         if(type === "adding"){
             return categActiveParam === 0 ? 
             consumablesOfAuthor(keywords, idTokenOfUser, orderBy).then((res) => {
@@ -58,7 +58,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
                 setConsumablesList(res);
             })
         }
-    }
+    }, [idTokenOfUser, type]);
     
     const [orderBy, setOrderBy] = useState("name");
     const onOrderChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {

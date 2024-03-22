@@ -128,3 +128,5 @@ dist
 
 db.config*ini
 **/vendor/*
+
+**/.DS_Store

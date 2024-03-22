@@ -44,7 +44,11 @@ class ConnectController extends Controller{
                 'username' => $user->pseudo,
                 'mail'=> $user->mail,
                 'gender' => $user->gender,
-                'token'=> $user->token
+                'token'=> $user->token,
+                'level' => $user->level,
+                'exp' => $user->xp,
+                'lang' => $user->lang,
+                'pp' => $user->profile_path
             ];
 
             $rs->getBody()->write(json_encode($res));

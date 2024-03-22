@@ -91,7 +91,10 @@ CREATE TABLE `user` (
   `fats_goal` float NOT NULL DEFAULT 79,
   `carbohydrates_goal` float NOT NULL DEFAULT 249,
   `proteins_goal` float NOT NULL DEFAULT 165,
-  `lang` enum('en','fr') NOT NULL DEFAULT 'en'
+  `lang` enum('en','fr') NOT NULL DEFAULT 'en',
+  `level` int(11) NOT NULL DEFAULT 1,
+  `xp` int(11) NOT NULL DEFAULT 0,
+  `profile_path` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

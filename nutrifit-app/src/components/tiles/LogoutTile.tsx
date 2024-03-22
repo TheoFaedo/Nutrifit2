@@ -25,24 +25,24 @@ const LogoutTile: FunctionComponent = memo(() => {
   return (
     <div className="logout_tile mb-4">
       <div>
-      <div className="w-full flex justify-center mb-2">
-        <img src={profileImg} alt="Profile" className="w-24 h-24 rounded-full shadow-sm"/>
+      <div className="w-full flex justify-center">
+        <img src={account.pp === "" ? profileImg : process.env.REACT_APP_API_URI + account.pp} alt="Profile" className="w-24 h-24 rounded-full shadow-sm"/>
       </div>
 
-      <output className="block">
-        <b>{account.username}</b>
+      <div className="w-full flex justify-center items-center mt-2 b-1 font-inter font-medium">
+        {account.level}
+        <div className="w-28 mx-2">
+          <ProgressBar progress={account.exp / 70} height="h-1.5" />
+        </div>
+        {account.level+1}
+      </div>
+
+      <output className="block font-semibold text-lg text-center">
+        {account.username}
       </output>
       </div>
-
-      <div className="w-full flex justify-center items-center mt-2 mb-4 font-inter font-medium">
-        1
-        <div className="w-28 mx-2">
-          <ProgressBar progress={0.5} height="h-1.5" />
-        </div>
-        2
-      </div>
       
-      <div className="w-full text-left">
+      <div className="w-full text-left pt-4 mt-4 border-t-2 border-neutral-700">
         <label htmlFor="languageSelector" className="text-white text-sm">{t('SelectLanguage')}</label>
         <Select
           values={[{label: 'English', value: 'en'}, {label: 'Français', value: 'fr'}]}
