@@ -34,7 +34,8 @@ class ConsumeController extends Controller{
 
         if($authhelper->authentified()){
             if(isset($params['idConsumable']) && isset($params['proportion']) && isset($params['consumed_on'])){
-                $user = $authhelper->getIdUserAuthentified();
+                $idUser = $authhelper->getIdUserAuthentified();
+                $user = $authhelper->getUserAuthentified();
 
                 $consumable = Consumable::where('idConsumable', $params['idConsumable'])->first();
                 if(!$consumable){
@@ -48,7 +49,7 @@ class ConsumeController extends Controller{
                 $consumable->save();
 
                 $consumption = new Consumption();
-                $consumption->idUser = $user;
+                $consumption->idUser = $idUser;
                 $consumption->idConsumable = $params['idConsumable'];
                 $consumption->proportion = $params['proportion'];
                 $consumption->consumed_on = $params['consumed_on'];
@@ -61,6 +62,9 @@ class ConsumeController extends Controller{
                 }
 
                 $consumption->save();
+
+                $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $params['consumed_on']) && !$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $params['consumed_on']);
+                $res['canConfirm'] = $canConfirm;
 
                 $res['success'] = true;
                 $res['idConsumption'] = $consumption->idConsumption;

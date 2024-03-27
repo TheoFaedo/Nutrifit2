@@ -25,9 +25,6 @@ const MultipleDoughnutChart: FunctionComponent<Props> = (props) => {
 
     const data = doughnutChartProportionsToProportions({proteins: nutriData.proteins, fats: nutriData.fats, carbos: nutriData.carbos})
 
-    console.log("update");
-    console.log(data);
-
     const center = 
         (<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
             <span className={'text-2xl font-bold text-white'}>{nutriData.energy.value}</span>

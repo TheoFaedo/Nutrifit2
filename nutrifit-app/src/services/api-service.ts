@@ -216,7 +216,8 @@ export const consumptionListAtDate = (date: Date): Promise<any> => {
   const formatedDate = formatDate(date);
   return executeQuery(`/consumptionatdate/?date=${formatedDate}`).then(
     (response) => {
-      return response.map((consumption: any) => {
+
+      const consumptionList = response["consumableList"].map((consumption: any) => {
         return {
           ...consumption,
           consumable: {
@@ -230,6 +231,11 @@ export const consumptionListAtDate = (date: Date): Promise<any> => {
           },
         };
       });
+
+      return {
+        consumptionList: consumptionList,
+        canConfirmGoal: response["canConfirm"],
+      }
     }
   );
 };
@@ -238,14 +244,13 @@ export const removeConsumption = (idConsumption: number): Promise<any> => {
   return executeQuery(`/removeconsumption/${idConsumption}`, "DELETE");
 };
 
-export const changeConsumption = (consumption: Consumption): Promise<any> => {
+export const changeConsumption = (idConsumption: number, proportion: number): Promise<any> => {
   return executeQuery(
-    `/changeconsumption/${consumption.idConsumption}`,
+    `/changeconsumption/${idConsumption}`,
     "PUT",
     {
       body: JSON.stringify({
-        idConsumable: consumption.consumable.idConsumable,
-        proportion: consumption.proportion,
+        proportion: proportion
       }),
     }
   );
@@ -294,6 +299,14 @@ export const isAuthenticated = (): Promise<any> => {
 
 export const updateProfile = (data: any): Promise<any> => {
   return executeQuery("/updateprofile", "PUT", {
+    body: JSON.stringify(data),
+  }).then((response) => {
+    return response;
+  });
+};
+
+export const confirmdailyconsumption = (data: any): Promise<any> => {
+  return executeQuery("/confirmdailyconsumption", "POST", {
     body: JSON.stringify(data),
   }).then((response) => {
     return response;

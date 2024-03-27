@@ -30,6 +30,7 @@ class DailyConsumptionController extends Controller{
 
         if($authhelper->authentified()){
             $idUser = $authhelper->getIdUserAuthentified();
+            $user = $authhelper->getUserAuthentified();
 
             $date = date('Y-m-d');
             $consumptionToday = Consumption::whereDate('consumed_on', '=', $date)->where('idUser', $idUser)->get();
@@ -38,6 +39,10 @@ class DailyConsumptionController extends Controller{
                 $res[$consumption->idConsumption] = $consumption;
             }
 
+            $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $date) && !$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $date);
+            $res['canConfirm'] = $canConfirm;
+
+            $res['success'] = true;
             $rs= $rs->withStatus(200);
         }else{
             $res['error'] = "Not authentified";

@@ -48,7 +48,7 @@
 
         "DiaryPage": {
             "DiaryPageTitle": "Journal",
-            "TrackingTileTitle": "Suivi",
+            "TrackingTileTitle": "Tracker",
             "left": "restant(s)",
             "over": "en trop",
             "DiaryTileTitle": "Journal",

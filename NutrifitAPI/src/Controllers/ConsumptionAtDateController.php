@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Helpers\AuthHelper;
+use App\Helpers\XpHelper;
 
 use App\Controllers\Controller;
 
@@ -33,15 +34,19 @@ class ConsumptionAtDateController extends Controller{
 
         if($authhelper->authentified()){
             $idUser = $authhelper->getIdUserAuthentified();
+            $user = $authhelper->getUserAuthentified();
 
-            $date = date('Y-m-d');
             if(isset($params['date'])){
                 $consumptionAtDay = Consumption::whereDate('consumed_on', '=', $params['date'])->where('idUser', $idUser)->get();
             
+                $res["consumableList"] = [];
                 foreach($consumptionAtDay as $consumption){
                     $consumable = Consumable::where('idConsumable', $consumption->idConsumable)->first();
-                    array_push($res, [...$consumption->toArray(), 'consumable' => $consumable->toArray()]);
+                    array_push($res["consumableList"], [...$consumption->toArray(), 'consumable' => $consumable->toArray()]);
                 }
+
+                $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $params['date']) && !$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $params['date']);
+                $res['canConfirm'] = $canConfirm;
             }else{
                 $res['error'] = "Missing parameters";
                 $rs= $rs->withStatus(400);

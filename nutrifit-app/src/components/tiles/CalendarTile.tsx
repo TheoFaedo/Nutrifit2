@@ -1,12 +1,12 @@
 import i18next from "i18next";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
   date: Date;
-  nextHandler: Function;
-  prevHandler: Function;
-};
+  prevHandler: () => void;
+  nextHandler: () => void;
+}
 
 const formatDate = (
   date: Date,
@@ -48,18 +48,14 @@ const formatDate = (
   return formattedString;
 };
 
-const CalendarTile: FunctionComponent<Props> = ({
-  date,
-  nextHandler,
-  prevHandler,
-}) => {
+const CalendarTile: FunctionComponent<Props> = ({date, prevHandler, nextHandler}) => {
   const { t } = useTranslation("translation", { keyPrefix: "DiaryPage" });
 
   return (
     <div className="calendar_tile">
       <button
         className="rounded-full text-2xl gradient-bg font-medium mx-4 w-8 h-8 pr-[2px]"
-        onClick={() => prevHandler()}
+        onClick={prevHandler}
       >
         &lt;
       </button>
@@ -74,7 +70,7 @@ const CalendarTile: FunctionComponent<Props> = ({
       </div>
       <button
         className="rounded-full text-2xl gradient-bg font-medium mx-4 w-8 h-8 pl-[2px]"
-        onClick={() => nextHandler()}
+        onClick={nextHandler}
       >
         &gt;
       </button>

@@ -31,6 +31,7 @@ use App\Controllers\RemoveConsumableController;
 use App\Controllers\ChangeConsumptionController;
 use App\Controllers\IsAuthenticatedController;
 use App\Controllers\ChangeProfile;
+use App\Controllers\ConfirmDailyConsumption;
 
 return function (App $app) {
 
@@ -158,6 +159,12 @@ return function (App $app) {
 
     $app->put('/updateprofile[/]', function (Request $request, Response $response, $args) use ($container) {
         $controller = new ChangeProfile($container);
+
+        return $controller->__invoke($request, $response, $args);
+    });
+
+    $app->post('/confirmdailyconsumption[/]', function (Request $request, Response $response, $args) use ($container) {
+        $controller = new ConfirmDailyConsumption($container);
 
         return $controller->__invoke($request, $response, $args);
     });

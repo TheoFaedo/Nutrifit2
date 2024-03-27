@@ -1,4 +1,4 @@
-import { FunctionComponent, memo } from "react";
+import { FunctionComponent } from "react";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -10,7 +10,7 @@ import { updateProfile } from "../../services/api-service";
 import profileImg from "../../img/default_profile.png"
 import { ProgressBar } from "../ProgressBar";
 
-const LogoutTile: FunctionComponent = memo(() => {
+const LogoutTile: FunctionComponent = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const { account } = useAccount();
@@ -60,6 +60,6 @@ const LogoutTile: FunctionComponent = memo(() => {
       <Button name={t('LogoutButton')} onClick={logoutHandler} />
     </div>
   );
-});
+};
 
 export default LogoutTile;

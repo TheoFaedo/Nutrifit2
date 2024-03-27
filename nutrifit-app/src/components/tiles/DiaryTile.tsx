@@ -16,19 +16,16 @@ import { useTranslation } from "react-i18next";
 
 type Props = {
   date: Date;
-  setConsumptionList: React.Dispatch<React.SetStateAction<Consumption[]>>;
+  setConsumptionList: Function;
   consumptionList: Consumption[];
-};
+  setCanConfirmGoal: Function;
+}
 
-const DiaryTile: FunctionComponent<Props> = ({
-  date,
-  setConsumptionList,
-  consumptionList,
-}) => {
+const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consumptionList, setCanConfirmGoal }) => {
   const { t } = useTranslation("translation", { keyPrefix: "DiaryPage" });
 
   const { account } = useAccount();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [dialogActive, setDialogActive] = useState({
     active: false,
@@ -65,6 +62,7 @@ const DiaryTile: FunctionComponent<Props> = ({
             meal: dialogActive.meal,
           },
         ]);
+        setCanConfirmGoal(response.canConfirm);
       }
     });
   };
@@ -84,14 +82,24 @@ const DiaryTile: FunctionComponent<Props> = ({
   };
 
   const handleBlurSaveConsumption = (cons: Consumption) => {
-    changeConsumption(cons);
-  };
+    if(cons.idConsumption){
+      changeConsumption(cons.idConsumption??0, cons.proportion).then((response) => {
+        if(response.success){
+          setCanConfirmGoal(response.canConfirm);
+        }
+      });
+    }
+  }
 
   const handleRemoveConsumption = (idConsumption: number | undefined) => {
     setConsumptionList(
       consumptionList.filter((cons) => cons.idConsumption !== idConsumption)
     );
-    if (idConsumption) removeConsumption(idConsumption);
+    if (idConsumption) removeConsumption(idConsumption).then((response) => {
+      if (response.success) {
+        setCanConfirmGoal(response.canConfirm);
+      }
+    });
   };
 
   const consumptionListNode = (meal: Meal) => {
@@ -101,32 +109,31 @@ const DiaryTile: FunctionComponent<Props> = ({
         .filter((cons) => {
           return cons.meal === meal;
         })
-        .map((cons) => (
-          <ConsumableQuantityCard
+        .map((cons) => {
+          return <ConsumableQuantityCard
             idCons={cons.idConsumption ?? -1}
             name={cons.consumable.name}
             proportion={cons.proportion}
             quantity_label={cons.consumable.quantity_label}
             consumableEnergy={cons.consumable.energy.value}
             handleChangeProportion={handleChangeProportion}
-            handleBlurSaveConsumption={() => {
-              handleBlurSaveConsumption(cons);
-            }}
+            handleBlurSaveConsumption={handleBlurSaveConsumption}
             handleRemoveConsumption={() =>
               handleRemoveConsumption(cons.idConsumption)
             }
           />
-        ))
+  })
     );
   };
 
   useEffect(() => {
     setLoading(true);
     consumptionListAtDate(date).then((res) => {
-      setConsumptionList(res);
+      setCanConfirmGoal(res.canConfirmGoal);
+      setConsumptionList(res.consumptionList);
       setLoading(false);
     });
-  }, [date, setConsumptionList]);
+  }, [date, setConsumptionList, setCanConfirmGoal]);
 
   return (
     <div className="diary_tile">

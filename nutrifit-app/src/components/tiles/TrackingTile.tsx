@@ -1,13 +1,22 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import DoughnutChart from "../DoughnutChart";
-import { getnutritionalgoal } from "../../services/api-service";
-import Consumption from "../../models/Consumption";
+import { confirmdailyconsumption, getnutritionalgoal } from "../../services/api-service";
 import { consumptionsValNutSum } from "../../helpers/diaryHelper";
 import NutritionalGoal from "../../models/NutritionalGoal";
 import { Weight, WeightInGrams } from "../../models/valueObjects/Weight";
 import { Energy, EnergyInKcal } from "../../models/valueObjects/Energy";
 import { useTranslation } from "react-i18next";
 import { ProgressBar } from "../ProgressBar";
+import { formatDate } from "../../helpers/dateHelper";
+import { useAuth } from "../../hooks/useAuth";
+import Consumption from "../../models/Consumption";
+
+type Props = {
+  consumptionList: Consumption[];
+  canConfirmGoal: boolean;
+  setCanConfirmGoal: Function;
+  date: Date;
+}
 
 type NutritionalSum = {
   carbohydrates: Weight;
@@ -16,12 +25,9 @@ type NutritionalSum = {
   energy: Energy;
 };
 
-type Props = {
-  consumptionList: Consumption[];
-};
-
-const TrackingTile: FunctionComponent<Props> = ({ consumptionList }) => {
+const TrackingTile: FunctionComponent<Props> = ({consumptionList, canConfirmGoal, setCanConfirmGoal, date}) => {
   const { t } = useTranslation();
+  const { setLevelAndExp } = useAuth();
 
   const [nutritionalgoal, setNutritionalgoal] = useState<NutritionalGoal>({
     carbohydrates_goal: WeightInGrams.create(0),
@@ -36,6 +42,15 @@ const TrackingTile: FunctionComponent<Props> = ({ consumptionList }) => {
     proteins: WeightInGrams.create(0),
     energy: EnergyInKcal.create(0),
   });
+
+  const handleConfirmGoal = useCallback(() => {
+    confirmdailyconsumption({day: formatDate(date)}).then((res) => {
+      if(res.success){
+        setLevelAndExp(res.level, res.xp);
+        setCanConfirmGoal(false);
+      }
+    })
+  }, [date, setLevelAndExp, setCanConfirmGoal]);
 
   useEffect(() => {
     getnutritionalgoal().then((res) => {
@@ -137,6 +152,15 @@ const TrackingTile: FunctionComponent<Props> = ({ consumptionList }) => {
         <ProgressBar progress={nutritionalSum.energy.value/nutritionalgoal.energy_goal.value} height="h-12"/>
         <div className={"mt-2 w-full text-center " + (energyDif >= 0 ? "text-neutral-400" : "text-red-500")} >{(energyDif >= 0 ? energyDif : -1 * energyDif)}kcal {difTest(energyDif)}</div>
       </div>
+      {
+        canConfirmGoal &&
+        <div className="w-full">
+            <button className="bg-main w-full h-12 rounded-full mt-4 shake"
+                onClick={handleConfirmGoal}>
+                Confirm goal (+10xp)
+            </button>
+        </div>
+      }
     </div>
   );
 };

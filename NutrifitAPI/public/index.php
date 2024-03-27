@@ -12,6 +12,7 @@ use Slim\Factory\ServerRequestCreatorFactory;
 
 use App\Application\Session;
 use App\Application\StaticExecutor;
+use App\Helpers\XpHelper;
 
 use App\Helpers\DBConnection;
 
@@ -48,6 +49,7 @@ $container = $containerBuilder->build();
 
 $container->set('session', $session);
 $container->set('staticexecutor', $staticexecutor);
+$container->set('xpHelper', new XpHelper($session, $staticexecutor));
 
 // Instantiate the app
 AppFactory::setContainer($container);

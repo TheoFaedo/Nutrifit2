@@ -43,6 +43,29 @@
   }
 }
 
+@keyframes shake{
+  80%, 88% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  82%, 90% {
+    transform: translate3d(2px, 0, 0);
+  }
+  84%, 92% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  86%, 94% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.shake {
+  animation: shake 4s cubic-bezier(.36,.07,.19,.97) both;
+  animation-iteration-count: infinite;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 .error-message {
   @apply text-red-500 text-xs font-light mt-1;
 }

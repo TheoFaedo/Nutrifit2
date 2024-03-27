@@ -11,6 +11,7 @@ const Diary: FunctionComponent = () => {
 
     const [date, setDate] = useState(new Date());
     const [consumptionList, setconsumptionList] = useState<Consumption[]>([]);
+    const [canConfirmGoal, setCanConfirmGoal] = useState(false);
 
     const prevHandler = () => {
         const prevDate = new Date(date);
@@ -32,8 +33,8 @@ const Diary: FunctionComponent = () => {
     return (
         <>
             <CalendarTile date={date} prevHandler={() => {prevHandler()}} nextHandler={() => {nextHandler()}} />
-            <TrackingTile consumptionList={consumptionList}/>
-            <DiaryTile date={date} setConsumptionList={setconsumptionList} consumptionList={consumptionList} />
+            <TrackingTile consumptionList={consumptionList} date={date} setCanConfirmGoal={setCanConfirmGoal} canConfirmGoal={canConfirmGoal}/>
+            <DiaryTile date={date} setConsumptionList={setconsumptionList} consumptionList={consumptionList} setCanConfirmGoal={setCanConfirmGoal}/>
         </>
     );
 }

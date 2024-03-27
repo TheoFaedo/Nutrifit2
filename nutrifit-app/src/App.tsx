@@ -36,7 +36,6 @@ function App() {
 
   useEffect(() => {
     const userLanguage = navigator.language;
-    console.log(userLanguage);
     if(userLanguage.indexOf("fr") !== -1) {
       i18next.changeLanguage("fr");
     }
@@ -51,24 +50,26 @@ function App() {
               <NavBarContextProvider>
                 <Header />
                 <RewardBar />
-                  <div className='flex-grow overflow-y-scroll scrollbar-hide'>
-                    <Routes>
-                      <Route path="/" element={
-                        <Navigate to="/profile" />
-                      }/>
-                      <Route path="/login" element={<Login/>} />
-                      <Route path="/register" element={<Register/>} />
-                      <Route path="/profile" element={
-                        <PrivateRoute children={<Profile/>} />
-                      } />
-                      <Route path="/diary" element={
-                        <PrivateRoute children={<Diary/>} />
-                      } />
-                      <Route path="/createmeal" element={
-                        <PrivateRoute children={<CreateMeal/>} />
-                      } />
-                      <Route path="*" element={<Navigate to="/profile" />}/>
-                    </Routes>
+                  <div id="content" className='overflow-y-hidden flex flex-grow relative'>
+                    <div className='overflow-y-scroll scrollbar-hide flex-grow'>
+                      <Routes>
+                        <Route path="/" element={
+                          <Navigate to="/profile" />
+                        }/>
+                        <Route path="/login" element={<Login/>} />
+                        <Route path="/register" element={<Register/>} />
+                        <Route path="/profile" element={
+                          <PrivateRoute children={<Profile/>} />
+                        } />
+                        <Route path="/diary" element={
+                          <PrivateRoute children={<Diary/>} />
+                        } />
+                        <Route path="/createmeal" element={
+                          <PrivateRoute children={<CreateMeal/>} />
+                        } />
+                        <Route path="*" element={<Navigate to="/profile" />}/>
+                      </Routes>
+                    </div>
                   </div>
                 <NavBar />
               </NavBarContextProvider>

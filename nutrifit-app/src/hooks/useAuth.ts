@@ -51,10 +51,21 @@ export function useAuth(){
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const setLevelAndExp = useCallback(async (level: number, xp: number) => {
+        if(account){
+           setAccount({
+                ...account,
+                exp: xp ?? 0,
+                level: level ?? 1
+            });
+        }
+    }, [account])
+
     return {
         account,
         status,
         login,
-        logout
+        logout,
+        setLevelAndExp
     }
 }

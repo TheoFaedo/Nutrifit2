@@ -33,18 +33,23 @@ class ChangeConsumptionController extends Controller{
         $authhelper = new AuthHelper($this->container->get('session'), $this->container->get('staticexecutor'));
 
         if($authhelper->authentified()){
-            if(isset($params['idConsumable']) && isset($params['proportion'])){
+            if(isset($params['proportion']) && isset($args['id_cons'])){
 
-                $user = $authhelper->getIdUserAuthentified();
+                $idUser = $authhelper->getIdUserAuthentified();
+                $user = $authhelper->getUserAuthentified();
 
                 $consumption = Consumption::where('idConsumption', $args['id_cons'])->first();
 
-                if($consumption->idUser == $user){
+                if($consumption->idUser == $idUser){
     
-                    $consumption->idConsumable = $params['idConsumable'];
                     $consumption->proportion = $params['proportion'];
                     $consumption->last_update = date('Y-m-d H:i:s');
                     $consumption->save();
+
+                    $date = $consumption->consumed_on;
+
+                    $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $date) && !$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $date);
+                    $res['canConfirm'] = $canConfirm;
     
                     $res['success'] = true;
                     $rs= $rs->withStatus(200);
