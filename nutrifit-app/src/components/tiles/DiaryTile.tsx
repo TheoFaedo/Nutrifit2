@@ -19,9 +19,11 @@ type Props = {
   setConsumptionList: Function;
   consumptionList: Consumption[];
   setCanConfirmGoal: Function;
+  locked: boolean;
+  setLocked: Function;
 }
 
-const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consumptionList, setCanConfirmGoal }) => {
+const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consumptionList, setCanConfirmGoal, locked, setLocked }) => {
   const { t } = useTranslation("translation", { keyPrefix: "DiaryPage" });
 
   const { account } = useAccount();
@@ -117,10 +119,11 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
             quantity_label={cons.consumable.quantity_label}
             consumableEnergy={cons.consumable.energy.value}
             handleChangeProportion={handleChangeProportion}
-            handleBlurSaveConsumption={handleBlurSaveConsumption}
+            handleBlurSaveConsumption={() => handleBlurSaveConsumption(cons)}
             handleRemoveConsumption={() =>
               handleRemoveConsumption(cons.idConsumption)
             }
+            locked={locked}
           />
   })
     );
@@ -131,9 +134,10 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
     consumptionListAtDate(date).then((res) => {
       setCanConfirmGoal(res.canConfirmGoal);
       setConsumptionList(res.consumptionList);
+      setLocked(res.locked);
       setLoading(false);
     });
-  }, [date, setConsumptionList, setCanConfirmGoal]);
+  }, [date, setConsumptionList, setCanConfirmGoal, setLocked]);
 
   return (
     <div className="diary_tile">
@@ -148,7 +152,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
       ) : (
         consumptionListNode(Meal.BREAKFAST)
       )}
-      <div className="mx-6">
+      {!locked && <div className="mx-6">
         <Button
           name="+"
           inverted
@@ -160,7 +164,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
           }}
           textSize="text-xl"
         />
-      </div>
+      </div>}
 
       <div className=" bg-neutral-700 text-left mt-4 font-inter text-white text-xl px-2 py-4 font-semibold">
         {t("Lunch")}
@@ -172,7 +176,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
       ) : (
         consumptionListNode(Meal.LUNCH)
       )}
-      <div className="mx-6">
+      {!locked && <div className="mx-6">
         <Button
           name="+"
           inverted
@@ -184,7 +188,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
           }}
           textSize="text-xl"
         />
-      </div>
+      </div>}
 
       <div className=" bg-neutral-700 text-left mt-4 font-inter text-white text-xl px-2 py-4 font-semibold">
         {t("Dinner")}
@@ -196,7 +200,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
       ) : (
         consumptionListNode(Meal.DINNER)
       )}
-      <div className="mx-6">
+      {!locked && <div className="mx-6">
         <Button
           name="+"
           inverted
@@ -208,7 +212,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
           }}
           textSize="text-xl"
         />
-      </div>
+      </div>}
 
       <div className=" bg-neutral-700 text-left mt-4 font-inter text-white text-xl px-2 py-4 font-semibold">
         {t("Snacks")}
@@ -220,7 +224,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
       ) : (
         consumptionListNode(Meal.SNACKS)
       )}
-      <div className="mx-6">
+      {!locked && <div className="mx-6">
         <Button
           name="+"
           inverted
@@ -232,7 +236,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
           }}
           textSize="text-xl"
         />
-      </div>
+      </div>}
 
       <SearchConsumableDialog
         active={dialogActive.active}

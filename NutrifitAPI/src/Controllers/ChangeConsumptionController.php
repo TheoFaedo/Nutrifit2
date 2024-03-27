@@ -40,19 +40,26 @@ class ChangeConsumptionController extends Controller{
 
                 $consumption = Consumption::where('idConsumption', $args['id_cons'])->first();
 
-                if($consumption->idUser == $idUser){
-    
-                    $consumption->proportion = $params['proportion'];
-                    $consumption->last_update = date('Y-m-d H:i:s');
-                    $consumption->save();
+                if($consumption && $consumption->idUser == $idUser){
 
-                    $date = $consumption->consumed_on;
+                    if(!$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $consumption->date)){
+                        $consumption->proportion = $params['proportion'];
+                        $consumption->last_update = date('Y-m-d H:i:s');
+                        $consumption->save();
 
-                    $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $date) && !$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $date);
-                    $res['canConfirm'] = $canConfirm;
-    
-                    $res['success'] = true;
-                    $rs= $rs->withStatus(200);
+                        $date = $consumption->consumed_on;
+
+                        $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $date);
+                        $res['canConfirm'] = $canConfirm;
+        
+                        $res['success'] = true;
+                        $rs= $rs->withStatus(200);
+                    }else{
+                        $res['error'] = "Day locked";
+                        $rs->getBody()->write(json_encode($res));
+                        $rs= $rs->withStatus(401);
+                        return $rs->withHeader('Content-Type', 'application/json');
+                    }
                 }else{
                     $res['error'] = "Not authorized";
                     $rs->getBody()->write(json_encode($res));

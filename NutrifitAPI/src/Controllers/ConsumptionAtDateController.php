@@ -47,6 +47,9 @@ class ConsumptionAtDateController extends Controller{
 
                 $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $params['date']) && !$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $params['date']);
                 $res['canConfirm'] = $canConfirm;
+                $res['locked'] = $this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $params['date']);
+
+                $res['success'] = true;
             }else{
                 $res['error'] = "Missing parameters";
                 $rs= $rs->withStatus(400);

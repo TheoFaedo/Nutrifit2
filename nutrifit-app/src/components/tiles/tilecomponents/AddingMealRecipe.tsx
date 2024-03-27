@@ -280,6 +280,7 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
           )
         );
       }}
+      locked={false}
     />
   ));
 

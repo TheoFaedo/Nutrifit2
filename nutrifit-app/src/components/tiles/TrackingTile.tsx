@@ -16,6 +16,7 @@ type Props = {
   canConfirmGoal: boolean;
   setCanConfirmGoal: Function;
   date: Date;
+  setLocked: Function;
 }
 
 type NutritionalSum = {
@@ -25,7 +26,7 @@ type NutritionalSum = {
   energy: Energy;
 };
 
-const TrackingTile: FunctionComponent<Props> = ({consumptionList, canConfirmGoal, setCanConfirmGoal, date}) => {
+const TrackingTile: FunctionComponent<Props> = ({consumptionList, canConfirmGoal, setCanConfirmGoal, date, setLocked}) => {
   const { t } = useTranslation();
   const { setLevelAndExp } = useAuth();
 
@@ -48,9 +49,10 @@ const TrackingTile: FunctionComponent<Props> = ({consumptionList, canConfirmGoal
       if(res.success){
         setLevelAndExp(res.level, res.xp);
         setCanConfirmGoal(false);
+        setLocked(true);
       }
     })
-  }, [date, setLevelAndExp, setCanConfirmGoal]);
+  }, [date, setLevelAndExp, setCanConfirmGoal, setLocked]);
 
   useEffect(() => {
     getnutritionalgoal().then((res) => {

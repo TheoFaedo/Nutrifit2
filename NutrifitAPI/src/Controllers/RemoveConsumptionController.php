@@ -33,16 +33,22 @@ class RemoveConsumptionController extends Controller{
             $user = $authhelper->getUserAuthentified();
 
             $consumption = Consumption::where('idConsumption', $args['id_cons'])->where('idUser', $idUser)->first();
-            $date = $consumption->consumed_on;
-
+            
             if($consumption !== null){
-                $consumption->delete();
+                $date = $consumption->consumed_on;
+                
+                if(!$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $date)){
+                    $consumption->delete();
 
-                $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $date) && !$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $date);
-                $res['canConfirm'] = $canConfirm;
+                    $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $date);
+                    $res['canConfirm'] = $canConfirm;
 
-                $res['success'] = true;
-                $rs= $rs->withStatus(200);
+                    $res['success'] = true;
+                    $rs= $rs->withStatus(200);
+                }else{
+                    $res['error'] = "Day locked";
+                    $rs= $rs->withStatus(401);
+                }
             }else{
                 $res['error'] = "Consumption not found or user not authorized";
                 $rs= $rs->withStatus(401);

@@ -235,6 +235,7 @@ export const consumptionListAtDate = (date: Date): Promise<any> => {
       return {
         consumptionList: consumptionList,
         canConfirmGoal: response["canConfirm"],
+        locked: response["locked"],
       }
     }
   );
