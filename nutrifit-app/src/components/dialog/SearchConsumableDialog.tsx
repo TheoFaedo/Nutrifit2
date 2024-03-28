@@ -137,7 +137,7 @@ const SearchConsumableDialog : FunctionComponent<Props> = ({ type = "adding", ad
     return createPortal(
         <div className={"dialog font-inter flex flex-col h-full transition-transform duration-500 ease-in-out " + translation + " " + level} >
             <div className="h-12 gradient-bg flex items-center relative">
-                <div className="font-inter font-semibold text-lg pt-1 absolute ml-auto mr-auto top-[20%] left-0 right-0 bottom-0 w-fit">{dialogName}</div>
+                <div className="font-inter font-semibold text-lg pt-1 absolute ml-auto mr-auto top-[16%] left-0 right-0 bottom-0 w-fit">{dialogName}</div>
                 <LeftArrowButton quitDialog={quitDialog}/>
             </div>
             <div className="text-white flex flex-col flex-grow">
