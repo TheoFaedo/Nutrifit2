@@ -26,7 +26,7 @@ const LogoutTile: FunctionComponent = () => {
     <div className="logout_tile mb-4">
       <div>
       <div className="w-full flex justify-center">
-        <img src={account.pp === "" ? profileImg : process.env.REACT_APP_API_URI + account.pp} alt="Profile" className="w-24 h-24 rounded-full shadow-sm"/>
+        <img src={(!account.pp || account.pp === "" ) ? profileImg : process.env.REACT_APP_API_URI + account.pp} alt="Profile" className="w-24 h-24 rounded-full shadow-sm"/>
       </div>
 
       <div className="w-full flex justify-center items-center mt-2 b-1 font-inter font-medium">
