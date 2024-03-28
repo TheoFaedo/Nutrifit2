@@ -50,7 +50,7 @@ const LogoutTile: FunctionComponent = () => {
           onChange={(e: any) => {
             updateProfile({lang: e.target.value}).then((res) => {
               if(res.success){
-                i18next.changeLanguage(e.target.value);
+                i18next.changeLanguage(res.lang);
               }
             });
           }}

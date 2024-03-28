@@ -70,7 +70,10 @@ export const connect = (
             response.username,
             response.gender,
             response.token,
-            mail
+            mail,
+            response.exp,
+            response.level,
+            response.pp
           );
         } catch (err) {
           throw new AccountProblemError();

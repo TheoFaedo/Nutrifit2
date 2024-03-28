@@ -31,6 +31,7 @@ export function useAuth(){
                 if("error" in data){
                     setAccount(null);
                 }else{
+                    console.log(data);
                     setAccount(data);
                     navigate("/profile");
                 }

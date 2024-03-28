@@ -31,15 +31,19 @@
 }
 
 .animate-gradient-fast {
-  animation: gradient 1s ease-in-out infinite;
+  background-size: 200% 200%;
+  animation: gradient 20s infinite;
 }
 
 @keyframes gradient {
   0% {
-    background-position: 0% 50%;
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
-    background-position: 100% 50%;
+    background-position: 0% 0%;
   }
 }
 
@@ -119,7 +123,7 @@
 }
 
 .reward-bar {
-  @apply gradient-bg h-6 w-full;
+  @apply gradient-bg h-6 w-full flex justify-center items-center;
   min-height: 1.5rem;
 }
 
