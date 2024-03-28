@@ -52,8 +52,8 @@ class XpHelper
             $advancement['proteins'] += $take['cons']->proteins * $take['prop'];
         }
 
-        return abs($user->energy_goal - $advancement['energy']) < 150 
-        && abs($user->fats_goal - $advancement['fats']) < 10
+        return abs($user->energy_goal - $advancement['energy']) < 200 
+        && abs($user->fats_goal - $advancement['fats']) < 12
         && abs($user->carbohydrates_goal - $advancement['carbohydrates']) < 20
         && abs($user->proteins_goal - $advancement['proteins']) < 20;
     }
