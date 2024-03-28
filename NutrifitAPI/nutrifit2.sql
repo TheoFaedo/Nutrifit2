@@ -98,6 +98,16 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Structure de la table `dailygoal`
+--
+
+CREATE TABLE `dailygoal` (
+  `idDailyGoal` int(20) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -133,6 +143,13 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `pseudo` (`pseudo`);
 
 --
+-- Index pour la table `dailygoal`
+--
+ALTER TABLE `dailygoal`
+  ADD PRIMARY KEY (`idDailyGoal`);
+
+
+--
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
@@ -159,6 +176,14 @@ ALTER TABLE `recipecomposition`
 --
 ALTER TABLE `user`
   MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `dailygoal`
+--
+ALTER TABLE `dailygoal`
+  MODIFY `idDailyGoal` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+COMMIT;
+
 
 --
 -- Contraintes pour les tables déchargées
