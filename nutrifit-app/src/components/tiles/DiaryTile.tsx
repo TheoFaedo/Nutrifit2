@@ -70,12 +70,13 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
   };
 
   const handleChangeProportion = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
     setConsumptionList(
       consumptionList.map((cons) => {
         if (cons.idConsumption === Number(e.target.name)) {
           return {
             ...cons,
-            proportion: Number(e.target.value),
+            proportion: isNaN(value) ? 0 : value,
           };
         }
         return cons;
