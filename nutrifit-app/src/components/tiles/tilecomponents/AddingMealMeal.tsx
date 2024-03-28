@@ -20,6 +20,7 @@ import {
 import barcode from "../../../img/barcode.png";
 import BarcodeScannerDialog from "../../dialog/BarcodeScannerDialog";
 import { useTranslation } from "react-i18next";
+import { Checkbox } from "../../Checkbox";
 
 type Field<T> = {
   value: T;
@@ -30,6 +31,7 @@ type Field<T> = {
 type Form = {
   name: Field<string>;
   serving_size: Field<string>;
+  is_public: Field<boolean>;
   energy: Field<Energy>;
   carbos: Field<Weight>;
   fats: Field<Weight>;
@@ -44,6 +46,11 @@ const initialForm = {
   },
   serving_size: {
     value: "",
+    error: "",
+    isValid: true,
+  },
+  is_public: {
+    value: false,
     error: "",
     isValid: true,
   },
@@ -100,6 +107,11 @@ const AddingMealMeal: FunctionComponent<Props> = ({
         error: "",
         isValid: true,
       },
+      is_public: {
+        value: consumable.is_public,
+        error: "",
+        isValid: true,
+      },
       carbos: {
         value: consumable.carbohydrates,
         error: "",
@@ -129,6 +141,11 @@ const AddingMealMeal: FunctionComponent<Props> = ({
           },
           serving_size: {
             value: consumableToEdit ? consumableToEdit.quantity_label : "",
+            error: "",
+            isValid: true,
+          },
+          is_public: {
+            value: consumableToEdit ? consumableToEdit.is_public : true,
             error: "",
             isValid: true,
           },
@@ -205,7 +222,7 @@ const AddingMealMeal: FunctionComponent<Props> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
-    const value = e.target.value;
+    const value = name === "is_public" ? e.target.checked : e.target.value;
 
     setForm({
       ...form,
@@ -329,7 +346,7 @@ const AddingMealMeal: FunctionComponent<Props> = ({
       fats: form.fats.value,
       proteins: form.proteins.value,
       type: "MEAL",
-      is_public: true,
+      is_public: form.is_public.value,
       ingredients: [],
     };
 
@@ -386,14 +403,17 @@ const AddingMealMeal: FunctionComponent<Props> = ({
       >
         {t("ServingSizeFieldTitle")} :
       </label>
-      <TextInput
-        name="serving_size"
-        placeholder={t("ServingSizeFieldPlaceholder")}
-        value={form.serving_size.value}
-        onChange={handleChange}
-        errorBorder={!form.serving_size.isValid}
-        errorMessage={form.serving_size.error}
-      />
+      <div className="flex items-center">
+        <TextInput
+            name="serving_size"
+            placeholder={t("ServingSizeFieldPlaceholder")}
+            value={form.serving_size.value}
+            onChange={handleChange}
+            errorBorder={!form.serving_size.isValid}
+            errorMessage={form.serving_size.error}
+          />
+        <Checkbox name="is_public" label={t("IsPublicFieldTitle")} checked={form.is_public.value} onChange={handleChange} />
+      </div>
       <div className="w-full flex items-center justify-center mt-4">
         <MultipleDoughnutChart
           nutriData={{

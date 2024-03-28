@@ -57,6 +57,14 @@ class AddConsumableController extends Controller{
                     if(isset($params['ingredients'])){
                         $ingredients = $params['ingredients'];
                         foreach ($ingredients as $ingredient) {
+
+                            if(!($ingredient->author == $user) && !$ingredient->is_public){
+                                $res['error'] = "You can't add a private ingredient to a recipe";
+                                $rs= $rs->withStatus(400);
+                                $rs->getBody()->write(json_encode($res));
+                                return $rs->withHeader('Content-Type', 'application/json');
+                            }
+                            
                             $proportion = $ingredient['proportion'];
 
                             $recipeIngredient = new RecipeComposition();

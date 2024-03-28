@@ -42,6 +42,15 @@ class ConsumeController extends Controller{
                     $res['error'] = "Consumable not found";
                     $rs= $rs->withStatus(404);
                     $rs->getBody()->write(json_encode($res));
+
+                    return $rs->withHeader('Content-Type', 'application/json');
+                }
+
+                if($consumable->author != $idUser && !$consumable->is_public){
+                    $res['error'] = "Private consumable cannot be added";
+                    $rs = $rs->withStatus(403);
+                    $rs->getBody()->write(json_encode($res));
+
                     return $rs->withHeader('Content-Type', 'application/json');
                 }
 
@@ -65,7 +74,7 @@ class ConsumeController extends Controller{
 
                 $canConfirm = $this->container->get('xpHelper')->goalCanBeDone($idUser, $user, $params['consumed_on']) && !$this->container->get('xpHelper')->goalIsAlreadyDone($idUser, $params['consumed_on']);
                 $res['canConfirm'] = $canConfirm;
-
+                
                 $res['success'] = true;
                 $res['idConsumption'] = $consumption->idConsumption;
                 $rs= $rs->withStatus(200);

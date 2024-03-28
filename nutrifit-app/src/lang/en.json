@@ -101,7 +101,8 @@
             "MealFailedToEditToast": "Failed to edit",
             "InvalidConsumableNameError": "Invalid consumable name",
             "InvalidServingSizeError": "Invalid serving size",
-            "InformationInvalidFormatToast": "Enter information in the valid format"
+            "InformationInvalidFormatToast": "Enter information in the valid format",
+            "IsPublicFieldTitle": "Is public"
         },
 
         "SearchFoodDialog": {

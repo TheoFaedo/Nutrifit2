@@ -17,16 +17,18 @@ import {
 } from "../../../models/valueObjects/Weight";
 import { ConsumableQuantityCard } from "../../ConsumableQuantityCard";
 import { useTranslation } from "react-i18next";
+import { Checkbox } from "../../Checkbox";
 
-type Field = {
-  value: string;
+type Field<T> = {
+  value: T;
   error?: string;
   isValid?: boolean;
 };
 
 type Form = {
-  name: Field;
-  serving_size: Field;
+  name: Field<string>;
+  serving_size: Field<string>;
+  is_public: Field<boolean>;
 };
 
 const initialForm = {
@@ -40,6 +42,11 @@ const initialForm = {
     error: "",
     isValid: true,
   },
+  is_public: {
+    value: false,
+    error: "",
+    isValid: true,
+  }
 };
 
 type Props = {
@@ -73,6 +80,11 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
           },
           serving_size: {
             value: consumableToEdit?.quantity_label,
+            error: "",
+            isValid: true,
+          },
+          is_public: {
+            value: consumableToEdit?.is_public,
             error: "",
             isValid: true,
           },
@@ -144,10 +156,14 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
+    const name = e.target.name;
+    const value = name === "is_public" ? e.target.checked : e.target.value;
+
     setForm({
       ...form,
-      [e.target.name]: {
-        value: e.target.value,
+      [name]: {
+        value: value,
         error: "",
         isValid: true,
       },
@@ -219,9 +235,7 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
         ...cons,
         proportion: cons.proportion,
       }));
-
-    console.log(ingredientsToSend);
-
+    
     const consumable = {
       name: form.name.value,
       quantity_label: form.serving_size.value,
@@ -230,8 +244,8 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
       fats: WeightInGrams.create(0),
       proteins: WeightInGrams.create(0),
       type: "RECIPE",
-      is_public: true,
-      ingredients: ingredientsToSend,
+      is_public: form.is_public.value,
+      ingredients: ingredientsToSend
     };
 
     if (type === "adding") {
@@ -310,14 +324,17 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
           {t("ServingSizeFieldTitle")} :
         </label>
       </div>
-      <TextInput
-        name="serving_size"
-        placeholder={t("ServingSizeFieldPlaceholder")}
-        value={form.serving_size.value}
-        onChange={handleChange}
-        errorBorder={!form.serving_size.isValid}
-        errorMessage={form.serving_size.error}
-      />
+      <div className="flex items-center">
+        <TextInput
+            name="serving_size"
+            placeholder={t("ServingSizeFieldPlaceholder")}
+            value={form.serving_size.value}
+            onChange={handleChange}
+            errorBorder={!form.serving_size.isValid}
+            errorMessage={form.serving_size.error}
+          />
+        <Checkbox name="is_public" label={t("IsPublicFieldTitle")} checked={form.is_public.value} onChange={handleChange} />
+      </div>
 
       <div className="font-inter font-medium text-white text-lg text-left mt-6">
         {t("IngredientsFieldTitle")}
