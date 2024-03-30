@@ -112,15 +112,15 @@
         10deg,
         #621773 0%,
         #bb00ff 25%,
-        #4000ff 50%,
+        #007bff 50%,
         #bb00ff 75%,
         #621773 100%
     );
     background-size: 400% 400%;
-    animation: rwrdgradient 10s linear infinite;
+    animation: rwrdgradient 9s linear infinite;
 }
 
-/*.mask{
+.mask{
     background-image: repeating-linear-gradient(
         to right,
         #666666 0%,
@@ -129,17 +129,16 @@
         #000000 75%,
         #666666 100%
     );
-    background-size: 400% 400%;
     animation: ngradient 20s linear infinite;
 
     mix-blend-mode: color-dodge;
-}*/
+}
 
 .mask{
     overflow: hidden;
     background-image: url("../../img/stars3.png");
 
-    animation: maskgradient 60s linear infinite;
+    animation: maskgradient 120s linear infinite;
 
     mix-blend-mode: color-dodge;
 }
