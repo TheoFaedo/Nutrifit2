@@ -32,7 +32,7 @@ const LogoutTile: FunctionComponent = () => {
       <div className="w-full flex justify-center items-center mt-2 b-1 font-inter font-medium">
         {account.level}
         <div className="w-28 mx-2">
-          <ProgressBar progress={account.exp / 70} height="h-1.5" />
+          <ProgressBar progress={account.exp / 50} height="h-1.5" />
         </div>
         {account.level+1}
       </div>

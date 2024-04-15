@@ -43,7 +43,7 @@ class PublicConsumablesController extends Controller{
                 $publicConsumables = $staticExecutor->execute('App\Helpers\SearchHelper', 'orderBy', $publicConsumables, $params['orderby']);
             }
 
-            $res['consumables'] = $publicConsumables->get();
+            $res['consumables'] = $publicConsumables->skip(0)->take(10)->get();
 
             $rs->getBody()->write(json_encode($res));
             $rs= $rs->withStatus(200);

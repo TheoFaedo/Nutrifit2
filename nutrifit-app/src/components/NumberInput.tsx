@@ -54,6 +54,7 @@ const NumberInput: FunctionComponent<Props> = (props) => {
             placeholder={inputPlaceholder}
             maxLength={inputMaxLength+(inputDecimalLength + (inputDecimalLength > 0 ? 1 : 0))}
             onBlur={onBlur?.()}
+            
 
             onValueChange={(values, sourceInfo) => {
                 onChangeHandler(sourceInfo);

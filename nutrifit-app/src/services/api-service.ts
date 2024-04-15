@@ -321,16 +321,15 @@ export const confirmdailyconsumption = (data: any): Promise<any> => {
  * Get information from barcode
  */
 
-let lastFetch: Promise<any> | null = null;
+let lastFetchs: {promise: Promise<any>, barcode: string}[] = [];
 
 export const enqueueBarCodeRequest = (barCode: string) => {
-  return lastFetch
-    ? lastFetch
-    : (lastFetch = getInformationFromBarCode(barCode).then((data) => {
-        lastFetch = null;
-        return data;
-      }));
-};
+  if(lastFetchs.some((fetch) => fetch.barcode === barCode)) {
+    return lastFetchs.length > 0 ? lastFetchs[0].promise : null;
+  }
+  lastFetchs.push({promise: getInformationFromBarCode(barCode), barcode: barCode});
+  return lastFetchs[0].promise;
+}; 
 
 const getInformationFromBarCode = (barCode: string): Promise<any> => {
   return fetch(

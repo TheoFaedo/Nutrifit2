@@ -23,8 +23,8 @@ class XpHelper
         if($userObject){
             $userXp = $userObject->xp+$value;
 
-            $userObject->level += intdiv($userXp, 70);
-            $userObject->xp = $userXp%70;
+            $userObject->level += intdiv($userXp, 50);
+            $userObject->xp = $userXp%50;
             $userObject->save();
         }
     }

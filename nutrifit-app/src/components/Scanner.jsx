@@ -125,6 +125,8 @@ const Scanner = ({
             },
             constraints: {
               ...constraints,
+              focusMode: 'auto',
+              flash: false,
               ...(cameraId && { deviceId: cameraId }),
               ...(!cameraId && { facingMode }),
             },
