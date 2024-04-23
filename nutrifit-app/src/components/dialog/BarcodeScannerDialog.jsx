@@ -138,7 +138,7 @@ const BarcodeScannerDialog = ({ quitDialog }) => {
                 }}
                 onDetected={(_scanned) => {
                   enqueueBarCodeRequest(_scanned).then((res) => {
-                    if (res.status === 1) {
+                    if (res) {
                       const product = res.product;
 
                       const name = product.abbreviated_product_name_fr

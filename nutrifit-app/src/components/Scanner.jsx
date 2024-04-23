@@ -72,31 +72,34 @@ const Scanner = ({
           parseInt(drawingCanvas.getAttribute("height"))
         );
 
-        const width = drawingCanvas.getAttribute("width");
-        const height = drawingCanvas.getAttribute("height");
+        const width = parseInt(drawingCanvas.getAttribute("width"));
+        const height = parseInt(drawingCanvas.getAttribute("height"));
         
         drawingCtx.fillStyle = "rgba(0, 0, 0, 0.7)";
         const squareSize = height/2;
-        drawingCtx.fillRect((width-squareSize)/2, (height-squareSize)/2, squareSize, squareSize);
-        drawingCtx.clearRect((width-squareSize)/2+8, (height-squareSize)/2+8, squareSize-16, squareSize-16);
-        drawingCtx.clearRect((width-squareSize)/2+squareSize/4, (height-squareSize)/2, squareSize/2, squareSize);
-        drawingCtx.clearRect((width-squareSize)/2, (height-squareSize)/2+squareSize/4, squareSize, squareSize/2);
+        const diffwidth = width - squareSize
+        const diffheight = height - squareSize
 
+        drawingCtx.fillRect(diffwidth/2, diffheight/2, squareSize, squareSize);
+        drawingCtx.clearRect(diffwidth/2+8, diffheight/2+8, squareSize-16, squareSize-16);
+        drawingCtx.clearRect(diffwidth/2+squareSize/4, diffheight/2, squareSize/2, squareSize);
+        drawingCtx.clearRect(diffwidth/2, diffheight/2+squareSize/4, squareSize, squareSize/2);
+        
+        //.filter((box) => box !== result.box)
         result.boxes
-          .filter((box) => box !== result.box)
           .forEach((box) => {
             Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
-              color: "purple",
+              color: "green",
               lineWidth: 2,
             });
           });
       }
-      if (result.box) {
+      /*if (result.box) {   b 
         Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, {
           color: "blue",
           lineWidth: 2,
         });
-      }
+      }*/
     }
   };
 
@@ -118,15 +121,15 @@ const Scanner = ({
           inputStream: {
             type: "LiveStream",
             area: { // defines rectangle of the detection/localization area
-              top: "25%",    // top offset
-              right: "5%",  // right offset
-              left: "5%",   // left offset
-              bottom: "25%"  // bottom offset
+              top: "30%",    // top offset
+              right: "10%",  // right offset
+              left: "10%",   // left offset
+              bottom: "30%"  // bottom offset
             },
             constraints: {
-              ...constraints,
+              ...constraints, 
               focusMode: 'auto',
-              flash: false,
+              flash: true,
               ...(cameraId && { deviceId: cameraId }),
               ...(!cameraId && { facingMode }),
             },

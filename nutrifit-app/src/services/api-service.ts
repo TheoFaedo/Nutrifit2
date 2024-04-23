@@ -11,6 +11,7 @@ import {
 import { EnergyInKcal } from "../models/valueObjects/Energy";
 import { WeightInGrams } from "../models/valueObjects/Weight";
 import NutritionalGoal from "../models/NutritionalGoal";
+import { error } from "console";
 
 type ErrorResponse = {
   error: {
@@ -321,14 +322,31 @@ export const confirmdailyconsumption = (data: any): Promise<any> => {
  * Get information from barcode
  */
 
-let lastFetchs: {promise: Promise<any>, barcode: string}[] = [];
+const lastFetchs: Promise<any>[] = [];
+const lastBarcodes: string[] = [];
 
 export const enqueueBarCodeRequest = (barCode: string) => {
-  if(lastFetchs.some((fetch) => fetch.barcode === barCode)) {
-    return lastFetchs.length > 0 ? lastFetchs[0].promise : null;
-  }
-  lastFetchs.push({promise: getInformationFromBarCode(barCode), barcode: barCode});
-  return lastFetchs[0].promise;
+  //verify barcode dont already requested and not to many barcodes saved
+  if(lastBarcodes.includes(barCode)) return lastFetchs[0];
+  if(lastBarcodes.length === 100) lastBarcodes.splice(lastBarcodes.length/2, lastBarcodes.length);
+
+  //verify there is no to many requests
+  if(lastFetchs.length === 10) return lastFetchs[0];
+
+  //add new request
+  lastBarcodes.push(barCode);
+  lastFetchs.push(getInformationFromBarCode(barCode).then((data) => {
+    if(data.status !== 1) return Promise.reject("Barcode not found");
+
+    lastBarcodes.splice(0, lastBarcodes.length);
+    lastFetchs.splice(0, lastFetchs.length);
+    return data;
+  }).catch((err) => {
+    console.error(err);
+  }));
+
+  //return last request
+  return Promise.any(lastFetchs);
 }; 
 
 const getInformationFromBarCode = (barCode: string): Promise<any> => {
