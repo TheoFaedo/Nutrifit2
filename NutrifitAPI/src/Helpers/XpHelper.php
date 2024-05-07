@@ -36,7 +36,9 @@ class XpHelper
     }
 
     public function goalCanBeDone($userId, $user, $date){
-        $dailyConsumption = Consumption::whereDate('consumed_on', '=', $date)->get();
+        if(!$user->active_eg && !$user->active_fg && !$user->active_cg && !$user->active_pg) return false;
+
+        $dailyConsumption = Consumption::whereDate('consumed_on', '=', $date)->where('idUser', $userId)->get();
 
         $takes = [];
         foreach ($dailyConsumption as $consu) {
@@ -52,9 +54,9 @@ class XpHelper
             $advancement['proteins'] += $take['cons']->proteins * $take['prop'];
         }
 
-        return abs($user->energy_goal - $advancement['energy']) < 200 
-        && abs($user->fats_goal - $advancement['fats']) < 12
-        && abs($user->carbohydrates_goal - $advancement['carbohydrates']) < 20
-        && abs($user->proteins_goal - $advancement['proteins']) < 20;
+        return (!$user->active_eg || abs($user->energy_goal - $advancement['energy']) < 200)
+        && (!$user->active_fg || abs($user->fats_goal - $advancement['fats']) < 12)
+        && (!$user->active_cg || abs($user->carbohydrates_goal - $advancement['carbohydrates']) < 20)
+        && (!$user->active_pg || abs($user->proteins_goal - $advancement['proteins']) < 20);
     }
 }

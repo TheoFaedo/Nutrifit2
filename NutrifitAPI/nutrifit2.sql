@@ -94,7 +94,11 @@ CREATE TABLE `user` (
   `lang` enum('en','fr') NOT NULL DEFAULT 'en',
   `level` int(11) NOT NULL DEFAULT 1,
   `xp` int(11) NOT NULL DEFAULT 0,
-  `profile_path` varchar(64) DEFAULT NULL
+  `profile_path` varchar(64) DEFAULT NULL,
+  `active_eg` tinyint(1) NOT NULL DEFAULT 1,
+  `active_cg` tinyint(1) NOT NULL DEFAULT 1,
+  `active_fg` tinyint(1) NOT NULL DEFAULT 1,
+  `active_pg` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

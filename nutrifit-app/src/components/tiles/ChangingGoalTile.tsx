@@ -22,6 +22,10 @@ type Form = {
   carbos: Weight;
   fats: Weight;
   proteins: Weight;
+  active_e: boolean;
+  active_p: boolean;
+  active_f: boolean;
+  active_c: boolean;
 };
 
 const ChangingGoalTile: FunctionComponent = () => {
@@ -36,6 +40,10 @@ const ChangingGoalTile: FunctionComponent = () => {
     carbos: WeightInGrams.create(0),
     fats: WeightInGrams.create(0),
     proteins: WeightInGrams.create(0),
+    active_e: true,
+    active_p: true,
+    active_f: true,
+    active_c: true,
   });
 
   useEffect(() => {
@@ -45,6 +53,10 @@ const ChangingGoalTile: FunctionComponent = () => {
         carbos: res.carbohydrates_goal,
         fats: res.fats_goal,
         proteins: res.proteins_goal,
+        active_e: res.active_eg,
+        active_p: res.active_pg,
+        active_f: res.active_fg,
+        active_c: res.active_cg,
       });
       setLoading(false);
     });
@@ -97,6 +109,37 @@ const ChangingGoalTile: FunctionComponent = () => {
     });
   };
 
+  const handleChangeActiveGoal = (goal_id: string) => {
+    switch(goal_id) {
+      case "energy":
+        setForm({
+          ...form,
+          active_e: !form.active_e
+        });
+        break;
+      case "carbos":
+        setForm({
+          ...form,
+          active_c: !form.active_c
+        });
+        break;
+      case "fats":
+        setForm({
+          ...form,
+          active_f: !form.active_f
+        });
+        break;
+      case "proteins":
+        setForm({
+          ...form,
+          active_p: !form.active_p
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     changenutritionalgoal({
@@ -104,6 +147,10 @@ const ChangingGoalTile: FunctionComponent = () => {
       carbohydrates_goal: form.carbos,
       fats_goal: form.fats,
       proteins_goal: form.proteins,
+      active_eg: form.active_e,
+      active_pg: form.active_p,
+      active_fg: form.active_f,
+      active_cg: form.active_c,
     }).then((res) => {
       if (res.success)
         pushToast({ content: t("ProfilePage.GoalSavedSuccessToast") });
@@ -141,7 +188,8 @@ const ChangingGoalTile: FunctionComponent = () => {
                 <div className="flex items-center">
                   <span
                     className="dot"
-                    style={{ backgroundColor: "#FFFFFF" }}
+                    style={{ backgroundColor: form.active_e ? "#FFFFFF" : "#999999" }}
+                    onClick={() => handleChangeActiveGoal("energy")}
                   ></span>
                   <span>{t("Macros.Energy")}</span>
                 </div>
@@ -160,7 +208,8 @@ const ChangingGoalTile: FunctionComponent = () => {
                 <div className="flex items-center">
                   <span
                     className="dot"
-                    style={{ backgroundColor: "#38D386" }}
+                    style={{ backgroundColor: form.active_c ? "#38D386" : "#999999" }}
+                    onClick={() => handleChangeActiveGoal("carbos")}
                   ></span>
                   <span className="overflow-hidden">
                     {t("Macros.Carbohydrates")}
@@ -181,7 +230,8 @@ const ChangingGoalTile: FunctionComponent = () => {
                 <div className="flex items-center">
                   <span
                     className="dot"
-                    style={{ backgroundColor: "#CC57F5" }}
+                    style={{ backgroundColor: form.active_f ? "#CC57F5" : "#999999" }}
+                    onClick={() => handleChangeActiveGoal("fats")}
                   ></span>
                   {t("Macros.Fats")}
                 </div>
@@ -200,7 +250,8 @@ const ChangingGoalTile: FunctionComponent = () => {
                 <div className="flex items-center">
                   <span
                     className="dot"
-                    style={{ backgroundColor: "#EEBD30" }}
+                    style={{ backgroundColor: form.active_p ? "#EEBD30" : "#999999" }}
+                    onClick={() => handleChangeActiveGoal("proteins")}
                   ></span>
                   {t("Macros.Proteins")}
                 </div>

@@ -35,6 +35,10 @@ const TrackingTile: FunctionComponent<Props> = ({consumptionList, canConfirmGoal
     fats_goal: WeightInGrams.create(0),
     proteins_goal: WeightInGrams.create(0),
     energy_goal: EnergyInKcal.create(0),
+    active_cg: true,
+    active_eg: true,
+    active_fg: true,
+    active_pg: true,
   });
 
   const [nutritionalSum, setNutritionalSum] = useState<NutritionalSum>({

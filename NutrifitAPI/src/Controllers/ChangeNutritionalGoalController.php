@@ -33,13 +33,21 @@ class ChangeNutritionalGoalController extends Controller{
 
         if($authhelper->authentified()){
             if(isset($params['energy_goal']) && isset($params['proteins_goal']) 
-            && isset($params['carbohydrates_goal']) && isset($params['fats_goal'])){
+            && isset($params['carbohydrates_goal']) && isset($params['fats_goal'])
+            && isset($params['active_eg']) && isset($params['active_pg']) 
+            && isset($params['active_cg']) && isset($params['active_fg'])){
                 $user = $authhelper->getUserAuthentified();
 
                 $user->energy_goal = $params['energy_goal'];
                 $user->proteins_goal = $params['proteins_goal'];
                 $user->carbohydrates_goal = $params['carbohydrates_goal'];
                 $user->fats_goal = $params['fats_goal'];
+
+                $user->active_eg = $params['active_eg'];
+                $user->active_pg = $params['active_pg'];
+                $user->active_cg = $params['active_cg'];
+                $user->active_fg = $params['active_fg'];
+
                 $user->save();
 
                 $res['success'] = true;

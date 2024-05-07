@@ -29,7 +29,11 @@ beforeEach(() => {
             energy_goal: EnergyInKcal.create(340),
             carbohydrates_goal: WeightInGrams.create(30),
             fats_goal: WeightInGrams.create(20),
-            proteins_goal: WeightInGrams.create(10)
+            proteins_goal: WeightInGrams.create(10),
+            active_cg: true,
+            active_eg: true,
+            active_fg: true,
+            active_pg: true
         })
     }))
 });

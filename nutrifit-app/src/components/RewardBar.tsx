@@ -1,7 +1,6 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import { FunctionComponent, useCallback } from 'react';
 import "./styles/RewardBar.css";
-import { AuthStatus, useAuth } from '../hooks/useAuth';
-import User from '../models/User';
+import { useAuth } from '../hooks/useAuth';
 
 const RewardBar: FunctionComponent = () => {
 
@@ -44,10 +43,10 @@ const RewardBar: FunctionComponent = () => {
 
     return (
         <div className="reward-bar relative">
-            <div className={'h-3/4 w-full absolute ' + bgColor}>
+            <div className={'h-2/3 w-full absolute ' + bgColor}>
                 
             </div>
-            { ((account??{level: 0}).level >= 30) && <div className='h-3/4 z-10 w-full absolute mask'>
+            { ((account??{level: 0}).level >= 30) && <div className='h-2/3 z-10 w-full absolute mask'>
                  
             </div>}
         </div>

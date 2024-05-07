@@ -18,6 +18,8 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { useEffect } from 'react';
 
+const version = require("../package.json").version;
+
 let fr = require("./lang/fr.json");
 let en = require("./lang/en.json");
 const resources = { en, fr }
@@ -69,6 +71,7 @@ function App() {
                         } />
                         <Route path="*" element={<Navigate to="/profile" />}/>
                       </Routes>
+                      <div className='text-neutral-800 text-sm mb-8'>Nutrifit v{version}</div>
                     </div>
                   </div>
                 <NavBar />

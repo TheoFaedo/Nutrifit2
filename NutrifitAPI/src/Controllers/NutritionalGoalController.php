@@ -39,6 +39,11 @@ class NutritionalGoalController extends Controller{
             $res['carbohydrates_goal'] = $user->carbohydrates_goal;
             $res['fats_goal'] = $user->fats_goal;
 
+            $res['active_eg'] = $user->active_eg;
+            $res['active_pg'] = $user->active_pg;
+            $res['active_cg'] = $user->active_cg;
+            $res['active_fg'] = $user->active_fg;
+
             $rs= $rs->withStatus(200);
         }else{
             $res['error'] = "Not authentified";

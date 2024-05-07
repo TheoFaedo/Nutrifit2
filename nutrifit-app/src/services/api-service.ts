@@ -11,7 +11,6 @@ import {
 import { EnergyInKcal } from "../models/valueObjects/Energy";
 import { WeightInGrams } from "../models/valueObjects/Weight";
 import NutritionalGoal from "../models/NutritionalGoal";
-import { error } from "console";
 
 type ErrorResponse = {
   error: {
@@ -115,6 +114,10 @@ export const getnutritionalgoal = (): Promise<NutritionalGoal> => {
       proteins_goal: WeightInGrams.create(response.proteins_goal),
       fats_goal: WeightInGrams.create(response.fats_goal),
       carbohydrates_goal: WeightInGrams.create(response.carbohydrates_goal),
+      active_eg: response.active_eg === 1 ? true : false,
+      active_pg: response.active_pg === 1 ? true : false,
+      active_cg: response.active_cg === 1 ? true : false,
+      active_fg: response.active_fg === 1 ? true : false
     };
   });
 };
@@ -128,6 +131,10 @@ export const changenutritionalgoal = (
       proteins_goal: newGoal.proteins_goal.value,
       fats_goal: newGoal.fats_goal.value,
       carbohydrates_goal: newGoal.carbohydrates_goal.value,
+      active_eg: newGoal.active_eg ? 1 : 0,
+      active_pg: newGoal.active_pg ? 1 : 0,
+      active_cg: newGoal.active_cg ? 1 : 0,
+      active_fg: newGoal.active_fg ? 1 : 0
     }),
   });
 };
