@@ -31,6 +31,7 @@ class ConnectController extends Controller{
         if(!isset($params['pseudo']) || !isset($params['password'])){
             $res = ['error' => "need identifiers"];
             
+            
             $rs->getBody()->write(json_encode($res));
             $rs= $rs->withStatus(400);
             return $rs->withHeader('Content-Type', 'application/json');

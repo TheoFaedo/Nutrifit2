@@ -53,7 +53,11 @@ class User extends \Illuminate\Database\Eloquent\Model{
      */
     public static function authentify($pseudo, $password){
         $user = User::where('pseudo', '=', $pseudo)->first();
-        if(!$user) return false;
+        if(!$user){
+            // Prevent Time Attack
+            password_verify("", "fdsfsfsdfsd");
+            return false;
+        }
         
         if(password_verify($password, $user->pwdhash)){
             return $user;
