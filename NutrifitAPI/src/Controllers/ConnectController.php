@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Helpers\AuthHelper;
+use App\Helpers\ErrorHelper;
 
 use App\Controllers\Controller;
 
@@ -56,9 +57,9 @@ class ConnectController extends Controller{
             $rs = $rs->withStatus(200);
             return $rs->withHeader('Content-Type', 'application/json');
         }else{
-            $res = ['error' => "Invalid username or password"];
+            $res = ErrorHelper::error_to_json_format(401, "Wrong login or password", 2001);
 
-            $rs->getBody()->write(json_encode($res));
+            $rs->getBody()->write(json_encode(["error" => $res], true));
             $rs = $rs->withStatus(401);
             return $rs->withHeader('Content-Type', 'application/json');
         }

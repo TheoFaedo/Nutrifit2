@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Helpers\AuthHelper;
+use App\Helpers\FormatHelper;
+use App\Helpers\ErrorHelper;
 
 use App\Controllers\Controller;
 
@@ -37,6 +39,12 @@ class ChangeConsumableController extends Controller{
             && isset($params['fats']) && isset($params['carbohydrates']) 
             && isset($params['proteins']) && isset($params['quantity_label'])
             && isset($params['is_public']) && isset($params['type'])){
+
+                if(!FormatHelper::verify_ConsumableName($params['name']) || !FormatHelper::verify_ConsumableServingSize($params['quantity_label'])) {
+                    $rs->getBody()->write(json_encode(["error" => ErrorHelper::error_to_json_format(400, 2005, "Invalid name or serving size format")]));
+                    $rs= $rs->withStatus(400);
+                    return $rs->withHeader('Content-Type', 'application/json');
+                }
 
                 $user = $authhelper->getIdUserAuthentified();
 

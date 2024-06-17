@@ -27,7 +27,7 @@ class FormatHelper{
      * @return boolean true if verified, false otherwise
      */
     public static function verify_password($password){
-        return preg_match('/^[\w~`!@#$%^&*()_\-+={[}\]\|\:;\"\'<,>\.\?\/]{3,}$/', $password) ? true : false;
+        return preg_match('/^[\w~`!@#$%^&*()_\-+={[}\]\|\:;\"\'<,>\.\?\/]{8,40}$/', $password) ? true : false;
     }
 
     /**
@@ -44,6 +44,22 @@ class FormatHelper{
      */
     public static function verify_goal($goal){
         return preg_match('/^(1|2|3)$/', $goal) ? true : false;
+    }
+
+    /**
+     * @param $consumableServingSize : Consumable serving size
+     * @return boolean true if verified, false otherwise
+     */
+    public static function verify_ConsumableServingSize($consumableServingSize){
+        return preg_match('/^[1-9]\d*[a-zA-Z]+$/', $consumableServingSize) ? true : false;
+    }
+
+    /**
+     * @param $name : Consumable name
+     * @return boolean true if verified, false otherwise
+     */
+    public static function verify_ConsumableName($name){
+        return preg_match('/^[a-zA-Z\d]{1,40}$/', $name) ? true : false;
     }
 
 }

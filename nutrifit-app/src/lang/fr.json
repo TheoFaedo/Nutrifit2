@@ -139,6 +139,33 @@
             "Proteins": "Protéines",
             "Fats": "Lipides",
             "Energy": "Énergie"
+        },
+
+        "Errors":{
+            "Error1000": "Une erreur est survenue",
+            "Error1001": "Nom de plat doit être entre 3 et 40 caractères",
+            "Error1002": "Nom de plat doit ne pas contenir de caractères spéciaux",
+            "Error1011": "Taille de portion doit être entre 2 et 10 caractères",
+            "Error1012": "Taille de portion doit être au format correct",
+            "Error1021": "Nom d'utilisateur doit être entre 3 et 20 caractères",
+            "Error1022": "Nom d'utilisateur doit ne pas contenir de caractères spéciaux",
+            "Error1031": "Format d'email invalide",
+            "Error1041": "Mot de passe doit être entre 8 et 40 caractères",
+            "Error1042": "Mot de passe doit être au format correct",
+            "Error1043": "Les mots de passe ne sont pas identiques",
+
+            "Error2000": "Une erreur est survenue",
+            "Error2001": "Nom d'utilisateur ou mot de passe incorrect",
+            "Error2002": "Serveur ne repond pas",
+            "Error2003": "Problème avec votre compte",
+            "Error2004": "Problème avec la réponse du serveur",
+            "Error2005": "Nom de plat ou taille de portion invalide",
+            "Error2006": "Ce pseudo est déjà utilisé",
+            "Error2007": "Ce champ doit être au format correct",
+            "Error2008": "Mot de passe doit être au format correct",
+            "Error2009": "Ce mail est déjà utilisé",
+            "Error2010": "Ce champ doit être au format \"name@mail.com\""
+
         }
     }
 }

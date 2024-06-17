@@ -20,7 +20,7 @@ import i18next from "i18next";
 
 type Field = {
   value?: any;
-  error?: string;
+  error?: number;
   isValid?: boolean;
 };
 
@@ -28,7 +28,7 @@ type Form = {
   username: Field;
   password: Field;
   passwordConfirm: Field;
-  email: Field;
+  mail: Field;
   gender: Field;
   goal: Field;
 };
@@ -36,6 +36,7 @@ type Form = {
 const Register: FunctionComponent = () => {
   const { t } = useTranslation("translation", { keyPrefix: "RegisterPage" });
   const { t: t2 } = useTranslation("translation");
+  const { t: errort } = useTranslation("translation", { keyPrefix: "Errors" });
 
   const { pushToast } = useToasts();
 
@@ -44,32 +45,32 @@ const Register: FunctionComponent = () => {
   const [form, setForm] = useState<Form>({
     username: {
       value: "",
-      error: "",
+      error: 0,
       isValid: true,
     },
     password: {
       value: "",
-      error: "",
+      error: 0,
       isValid: true,
     },
     passwordConfirm: {
       value: "",
-      error: "",
+      error: 0,
       isValid: true,
     },
-    email: {
+    mail: {
       value: "",
-      error: "",
+      error: 0,
       isValid: true,
     },
     gender: {
       value: 0,
-      error: "",
+      error: 0,
       isValid: true,
     },
     goal: {
       value: 0,
-      error: "",
+      error: 0,
       isValid: true,
     },
   });
@@ -94,7 +95,7 @@ const Register: FunctionComponent = () => {
       ...form,
       gender: {
         value: index,
-        error: "",
+        error: 0,
         isValid: true,
       },
     });
@@ -108,7 +109,7 @@ const Register: FunctionComponent = () => {
       ...form,
       goal: {
         value: index,
-        error: "",
+        error: 0,
         isValid: true,
       },
     });
@@ -117,49 +118,52 @@ const Register: FunctionComponent = () => {
   const validateForm = (): boolean => {
     let newForm: Form = form;
 
-    if (validUsername(newForm.username.value)) {
+    let status = validUsername(newForm.username.value);
+    if (status.valid) {
       const newField = {
         value: newForm.username.value,
-        error: "",
+        error: 0,
         isValid: true,
       };
       newForm = { ...newForm, username: newField };
     } else {
       const newField = {
         value: newForm.username.value,
-        error: t('InvalidUsernameFieldError'),
+        error: status.message,
         isValid: false,
       };
       newForm = { ...newForm, username: newField };
     }
 
-    if (validGender(newForm.gender.value === 0 ? "M" : "F")) {
+    status = validGender(newForm.gender.value === 0 ? "M" : "F")
+    if (status.valid) {
       const newField = {
         value: newForm.gender.value,
-        error: "",
+        error: 0,
         isValid: true,
       };
       newForm = { ...newForm, gender: newField };
     } else {
       const newField = {
         value: newForm.gender.value,
-        error: t('InvalidGenderFieldError'),
+        error: status.message,
         isValid: false,
       };
       newForm = { ...newForm, gender: newField };
     }
 
-    if (validPassword(newForm.password.value)) {
+    status = validPassword(newForm.password.value);
+    if (status.valid) {
       const newField = {
         value: newForm.password.value,
-        error: "",
+        error: 0,
         isValid: true,
       };
       newForm = { ...newForm, password: newField };
     } else {
       const newField = {
         value: newForm.password.value,
-        error: t('InvalidPasswordFieldError'),
+        error: status.message,
         isValid: false,
       };
       newForm = { ...newForm, password: newField };
@@ -168,38 +172,40 @@ const Register: FunctionComponent = () => {
     if (newForm.password.value === newForm.passwordConfirm.value) {
       const newField = {
         value: newForm.passwordConfirm.value,
-        error: "",
+        error: 0,
         isValid: true,
       };
       newForm = { ...newForm, passwordConfirm: newField };
     } else {
       const newField = {
         value: newForm.passwordConfirm.value,
-        error: t('PasswordDontMatchFieldError'),
+        error: status.message,
         isValid: false,
       };
       newForm = { ...newForm, passwordConfirm: newField };
     }
 
-    if (validEmail(newForm.email.value)) {
-      const newField = { value: newForm.email.value, error: "", isValid: true };
-      newForm = { ...newForm, email: newField };
+    status = validEmail(newForm.mail.value)
+    if (status.valid) {
+      const newField = { value: newForm.mail.value, error: 0, isValid: true };
+      newForm = { ...newForm, mail: newField };
     } else {
       const newField = {
-        value: newForm.email.value,
-        error: t('InvalidEmailFieldError'),
+        value: newForm.mail.value,
+        error: status.message,
         isValid: false,
       };
-      newForm = { ...newForm, email: newField };
+      newForm = { ...newForm, mail: newField };
     }
 
-    if (validGoal(newForm.goal.value + 1)) {
-      const newField = { value: newForm.goal.value, error: "", isValid: true };
+    status = validGoal(newForm.goal.value + 1)
+    if (status.valid) {
+      const newField = { value: newForm.goal.value, error: 0, isValid: true };
       newForm = { ...newForm, goal: newField };
     } else {
       const newField = {
         value: newForm.goal.value,
-        error: t('InvalidGoalFieldError'),
+        error: status.message,
         isValid: false,
       };
       newForm = { ...newForm, goal: newField };
@@ -209,7 +215,7 @@ const Register: FunctionComponent = () => {
     return newForm.username.isValid &&
       newForm.password.isValid &&
       newForm.passwordConfirm.isValid &&
-      newForm.email.isValid &&
+      newForm.mail.isValid &&
       newForm.gender.isValid &&
       newForm.goal.isValid
       ? true
@@ -226,7 +232,7 @@ const Register: FunctionComponent = () => {
     const userToRegister = {
       pseudo: form.username.value,
       password: form.password.value,
-      mail: Mail.create(form.email.value),
+      mail: Mail.create(form.mail.value),
       gender: form.gender.value === 0 ? "M" : "F",
       goal: form.goal.value + 1,
     };
@@ -239,7 +245,17 @@ const Register: FunctionComponent = () => {
         });
         navigate("/login");
       } else if ("errors" in response) {
-        setErrorMessage(response.errors);
+
+        const newForm = structuredClone(form);
+
+        Object.keys(response.errors).forEach((key) => {
+          const formKey = key as keyof Form;
+
+          newForm[formKey].error = response.errors[key].messageId;
+          newForm[formKey].isValid = false;
+        })
+
+        setForm(newForm);
       }
     });
   };
@@ -263,7 +279,7 @@ const Register: FunctionComponent = () => {
             placeholder={t("UsernameFieldPlaceholder")}
             onChange={handleInputChange}
             errorBorder={!form.username.isValid}
-            errorMessage={form.username.error}
+            errorMessage={form.username.isValid ? '' : errort('Error'+form.username.error)}
           />
 
           <label className="mt-2 text-left" htmlFor="password">
@@ -285,7 +301,7 @@ const Register: FunctionComponent = () => {
             placeholder={t("PasswordFieldPlaceholder")}
             onChange={handleInputChange}
             errorBorder={!form.password.isValid}
-            errorMessage={form.password.error}
+            errorMessage={form.password.isValid ? '' : errort('Error'+form.password.error)}
           />
 
           <label className="mt-2 text-left" htmlFor="passwordConfirm">
@@ -298,19 +314,19 @@ const Register: FunctionComponent = () => {
             placeholder={t("RepeatPasswordFieldPlaceholder")}
             onChange={handleInputChange}
             errorBorder={!form.passwordConfirm.isValid}
-            errorMessage={form.passwordConfirm.error}
+            errorMessage={form.passwordConfirm.isValid ? '' : errort('Error'+form.passwordConfirm.error)}
           />
 
-          <label className="mt-2 text-left" htmlFor="email">
+          <label className="mt-2 text-left" htmlFor="mail">
             {t("EmailFieldLabel")} :
           </label>
           <TextInput
-            value={form.email.value}
-            name="email"
+            value={form.mail.value}
+            name="mail"
             placeholder={t("EmailFieldPlaceholder")}
             onChange={handleInputChange}
-            errorBorder={!form.email.isValid}
-            errorMessage={form.email.error}
+            errorBorder={!form.mail.isValid}
+            errorMessage={form.mail.isValid ? '' : errort('Error'+form.mail.error)}
           />
 
           <label className="mt-2 text-left" htmlFor="password">

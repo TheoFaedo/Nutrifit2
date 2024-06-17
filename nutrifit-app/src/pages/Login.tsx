@@ -8,6 +8,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useTranslation } from "react-i18next";
 import Select from "../components/Select";
 import i18next from "i18next";
+import { NutrifitError } from "../errors/Errors";
 
 type Field = {
   value?: any;
@@ -23,6 +24,7 @@ type Form = {
 const Login: FunctionComponent = () => {
   const { t } = useTranslation("translation", { keyPrefix: "LoginPage" });
   const { t: t2 } = useTranslation("translation");
+  const { t: errort } = useTranslation("translation", { keyPrefix: "Errors" });
 
   const { hideNavBar } = useContext(NavBarContext);
   const { login } = useAuth();
@@ -33,7 +35,7 @@ const Login: FunctionComponent = () => {
 
   const navigate = useNavigate();
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<number>(-1);
 
   const [form, setForm] = useState<Form>({
     username: {
@@ -50,7 +52,7 @@ const Login: FunctionComponent = () => {
     const newField: Field = { [fieldName]: { value: fieldValue } };
 
     setForm({ ...form, ...newField });
-    setErrorMessage("");
+    setErrorMessage(-1);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -58,14 +60,13 @@ const Login: FunctionComponent = () => {
     login(form.username.value, form.password.value)
       .then((data: any) => {
         if (data && data.error) {
-          setErrorMessage(data.error);
+          setErrorMessage(data.error.messageId);
         } else {
           navigate("/profile");
         }
       })
-      .catch((err: Error) => {
-        console.error(err.message);
-        setErrorMessage(err.message);
+      .catch((err: NutrifitError) => {
+        setErrorMessage(err.messageId);
       });
   };
 
@@ -100,7 +101,7 @@ const Login: FunctionComponent = () => {
             onChange={handleInputChange}
             errorBorder={form.password.isValid}
           />
-          <div className="error-message">{errorMessage}</div>
+          <div className="error-message">{errorMessage == -1 ? '' : errort('Error'+errorMessage)}</div>
           <Button name={t('LoginButton')} submit />
           <div className="mt-4 font-normal">
             {t("NoAccount?")}{" "}

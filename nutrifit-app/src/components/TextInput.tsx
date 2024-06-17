@@ -10,11 +10,12 @@ type Props = {
     errorBorder?: boolean;
     className?: string;
     rightAlign?: boolean;
+    maxLength?: number;
 }
 
 const TextInput: FunctionComponent<Props> = (props) => {
 
-    const {value, name, password, onChange, placeholder, errorMessage, errorBorder, className, rightAlign} = props;
+    const {value, name, password, onChange, placeholder, errorMessage, errorBorder, className, rightAlign, maxLength} = props;
 
     const type = password ? "password" : "text";
     const inputPlaceholder = placeholder ? placeholder : "";
@@ -28,7 +29,15 @@ const TextInput: FunctionComponent<Props> = (props) => {
 
     return (
         <div className={'w-full mx-0 ' + className}>
-            <input className={'text-input ' + errorB + ' ' + rightAl} type={type} name={name} value={value} placeholder={inputPlaceholder} onChange={onChangeHandler}/>
+            <input 
+                className={'text-input ' + errorB + ' ' + rightAl} 
+                type={type} 
+                name={name} 
+                value={value} 
+                placeholder={inputPlaceholder} 
+                onChange={onChangeHandler}
+                maxLength={maxLength}
+            />
             <div className='error-message'>{errorM}</div>
         </div>
         

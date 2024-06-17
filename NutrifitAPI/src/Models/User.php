@@ -5,6 +5,7 @@ namespace App\Models;
 require __DIR__ . '/../../vendor/autoload.php';
 
 use App\Helpers\FormatHelper;
+use App\Helpers\ErrorHelper;
 
 class User extends \Illuminate\Database\Eloquent\Model{
 
@@ -77,18 +78,23 @@ class User extends \Illuminate\Database\Eloquent\Model{
         //Pseudo
         if(isset($information['pseudo'])){
             $pseudo = $information['pseudo'];
+
+            $user = User::where('pseudo', '=', $pseudo)->first();
+            if($user){
+                $errorResponse['username'] = ErrorHelper::error_to_json_format(400, 'This pseudo is already used.', 2006);
+            }
             if(!FormatHelper::verify_pseudo($pseudo)){
-                $errorResponse['pseudo'] = 'This field must be between 3 and 20 characters long.';
+                $errorResponse['username'] = ErrorHelper::error_to_json_format(400, 'This field must be in the correct format', 2007);
             }
         }else{
-            $errorResponse['pseudo'] = 'This field is required.';
+            $errorResponse['username'] = 'This field is required.';
         }
 
         //Password
         if(isset($information['password'])){
             $password = $information['password'];
             if(!FormatHelper::verify_password($password)){
-                $errorResponse['password'] = 'This field must be between 3 and 20 characters long.';
+                $errorResponse['password'] = ErrorHelper::error_to_json_format(400, 'Password must be in the correct format', 2008);
             }
         }else{
             $errorResponse['password'] = 'This field is required.';
@@ -97,8 +103,14 @@ class User extends \Illuminate\Database\Eloquent\Model{
         //Mail
         if(isset($information['mail'])){
             $mail = $information['mail'];
+
+            $user = User::where('mail', '=', $mail)->first();
+            if($user){
+                $errorResponse['mail'] = ErrorHelper::error_to_json_format(400, 'This mail is already used', 2009);
+            }
+
             if(!FormatHelper::verify_mail($mail)){
-                $errorResponse['mail'] = 'This field must be in the format "name@mail.com".';
+                $errorResponse['mail'] = ErrorHelper::error_to_json_format(400, 'This field must be in the format "name@mail.com"', 2010);
             }
         }else{
             $errorResponse['mail'] = 'This field is required.';

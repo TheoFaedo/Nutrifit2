@@ -4,9 +4,7 @@ import Consumption from "../models/Consumption";
 import Mail from "../models/valueObjects/Mail";
 import User from "../models/User";
 import {
-  AccountProblemError,
-  ServerDontRespondError,
-  ServerResponseError,
+  NutrifitError
 } from "../errors/Errors";
 import { EnergyInKcal } from "../models/valueObjects/Energy";
 import { WeightInGrams } from "../models/valueObjects/Weight";
@@ -45,7 +43,7 @@ function executeQuery(
       return response.json();
     })
     .catch(() => {
-      throw new ServerDontRespondError();
+      throw new NutrifitError(2002);
     });
 }
 
@@ -56,7 +54,7 @@ export const connect = (
   return executeQuery(`/connect?pseudo=${username}&password=${password}`).then(
     (response) => {
       if (response.error) {
-        throw new Error(typeof response.error == "string" ? response.error : "Server error");
+        throw response.error.messageId ? new NutrifitError(response.error.messageId) : new NutrifitError(2000);
       }
       if (
         response.username &&
@@ -76,10 +74,10 @@ export const connect = (
             response.pp
           );
         } catch (err) {
-          throw new AccountProblemError();
+          throw new NutrifitError(2003);
         }
       }
-      throw new ServerResponseError();
+      throw new NutrifitError(2004);
     }
   );
 };

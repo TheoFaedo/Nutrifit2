@@ -187,7 +187,7 @@ const ChangingGoalTile: FunctionComponent = () => {
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center">
                   <span
-                    className="dot"
+                    className="dot dot-grow"
                     style={{ backgroundColor: form.active_e ? "#FFFFFF" : "#999999" }}
                     onClick={() => handleChangeActiveGoal("energy")}
                   ></span>
@@ -207,7 +207,7 @@ const ChangingGoalTile: FunctionComponent = () => {
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center">
                   <span
-                    className="dot"
+                    className="dot dot-grow"
                     style={{ backgroundColor: form.active_c ? "#38D386" : "#999999" }}
                     onClick={() => handleChangeActiveGoal("carbos")}
                   ></span>
@@ -229,7 +229,7 @@ const ChangingGoalTile: FunctionComponent = () => {
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center">
                   <span
-                    className="dot"
+                    className="dot dot-grow"
                     style={{ backgroundColor: form.active_f ? "#CC57F5" : "#999999" }}
                     onClick={() => handleChangeActiveGoal("fats")}
                   ></span>
@@ -249,7 +249,7 @@ const ChangingGoalTile: FunctionComponent = () => {
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center">
                   <span
-                    className="dot"
+                    className="dot dot-grow"
                     style={{ backgroundColor: form.active_p ? "#EEBD30" : "#999999" }}
                     onClick={() => handleChangeActiveGoal("proteins")}
                   ></span>

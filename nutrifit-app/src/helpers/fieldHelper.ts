@@ -1,30 +1,74 @@
+export class FieldStatus {
+  constructor(public valid: boolean, public messageId?: number) {
+    this.valid = valid;
+    this.messageId = messageId;
+  }
+
+  get message() {
+    return this.messageId || 1000;
+  }
+}
+
 /* eslint-disable no-useless-escape */
-export function validConsumableName(name: string): boolean {
-  return name.length > 0 && name.length <= 30;
+export function validConsumableName(name: string): FieldStatus {
+  if(name.length < 3 || name.length > 40){
+    return new FieldStatus(false, 1001);
+  }else if(!(/^[a-zA-Z\d]{1,40}$/.test(name))){
+    return new FieldStatus(false, 1002);
+  }
+  return new FieldStatus(true, 0);
 }
 
-export function validConsumableServingSize(serving_size: string): boolean {
-  return serving_size.length > 0 && serving_size.length <= 10;
+/*
+ * Format of serving size : {number}{unit}
+ */
+export function validConsumableServingSize(serving_size: string): FieldStatus {
+  if(serving_size.length <= 0 || serving_size.length > 10){
+    return new FieldStatus(false, 1011);
+  }else if(!(/^[1-9]\d*[a-zA-Z]+$/.test(serving_size))){
+    return new FieldStatus(false, 1012);
+  }
+  return new FieldStatus(true, 0);
 }
 
-export function validUsername(username: string): boolean {
-  return /^[a-zA-Z0-9_]{3,20}$/.test(username);
+export function validUsername(username: string): FieldStatus {
+  if(username.length < 3 || username.length > 20){
+    return new FieldStatus(false, 1021);
+  }else if(!(/^[a-zA-Z0-9_]{3,20}$/.test(username))){
+    return new FieldStatus(false, 1022);
+  }
+  return new FieldStatus(true, 0);
 }
 
-export function validEmail(email: string): boolean {
-  return /^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+export function validEmail(email: string): FieldStatus {
+  return /^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) ?
+    new FieldStatus(true, 0)
+    :
+    new FieldStatus(false, 1031);
 }
 
-export function validPassword(password: string): boolean {
-  return /^[\w~`!@#$%^&*()_\-+={[}\]\|\:;\"\'<,>\.\?\/]{3,}$/.test(password);
+export function validPassword(password: string): FieldStatus {
+  if(password.length < 8 || password.length > 40){
+    return new FieldStatus(false, 1041);
+  }
+  return /^[\w~`!@#$%^&*()_\-+={[}\]\|\:;\"\'<,>\.\?\/]{8,40}$/.test(password) ?
+    new FieldStatus(true, 0)
+    :
+    new FieldStatus(false, 1042);
 }
 
-export function validGender(gender: string): boolean {
-  return /^(M|F)$/.test(gender);
+export function validGender(gender: string): FieldStatus {
+  return /^(M|F)$/.test(gender) ?
+    new FieldStatus(true, 0)
+    :
+    new FieldStatus(false, 1000);
 }
 
-export function validGoal(goal: string): boolean {
-  return /^(1|2|3)$/.test(goal);
+export function validGoal(goal: string): FieldStatus {
+  return /^(1|2|3)$/.test(goal) ?
+    new FieldStatus(true, 0)
+    :
+    new FieldStatus(false, 1000);
 }
 
 export function numberFieldFormat(fieldValue: number, exponent: number = 3): string {

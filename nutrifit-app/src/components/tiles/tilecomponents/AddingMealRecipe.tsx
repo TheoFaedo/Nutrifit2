@@ -60,6 +60,7 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation("translation", { keyPrefix: "MealsPage" });
   const mt = useTranslation("translation", { keyPrefix: "Macros" }).t;
+  const errort = useTranslation("translation", { keyPrefix: "Errors" }).t;
 
   const { pushToast } = useToasts();
 
@@ -187,19 +188,21 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
   const validateForm = () => {
     let newForm: Form = form;
 
-    if (validConsumableName(newForm.name.value)) {
+    let status = validConsumableName(newForm.name.value)
+    if (status.valid) {
       const newField = { value: newForm.name.value, error: "", isValid: true };
       newForm = { ...newForm, name: newField };
     } else {
       const newField = {
         value: newForm.name.value,
-        error: t("InvalidNameFieldError"),
+        error: errort("Error"+status.messageId),
         isValid: false,
       };
       newForm = { ...newForm, name: newField };
     }
 
-    if (validConsumableServingSize(newForm.serving_size.value)) {
+    status = validConsumableServingSize(newForm.serving_size.value);
+    if (status.valid) {
       const newField = {
         value: newForm.serving_size.value,
         error: "",
@@ -209,7 +212,7 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
     } else {
       const newField = {
         value: newForm.serving_size.value,
-        error: t("InvalidServingSizeFieldError"),
+        error: errort("Error"+status.messageId),
         isValid: false,
       };
       newForm = { ...newForm, serving_size: newField };
@@ -324,7 +327,7 @@ const AddingMealRecipe: FunctionComponent<Props> = ({
           {t("ServingSizeFieldTitle")} :
         </label>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-start">
         <TextInput
             name="serving_size"
             placeholder={t("ServingSizeFieldPlaceholder")}

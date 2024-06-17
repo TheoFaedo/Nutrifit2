@@ -138,6 +138,33 @@
             "Proteins": "Proteins",
             "Fats": "Fats",
             "Energy": "Energy"
+        },
+
+        "Errors":{
+            "Error1000": "An error occured",
+            "Error1001": "Meal name must be between 3 and 40 characters",
+            "Error1002": "Meal name must don't contain special characters",
+            "Error1011": "Serving size must be between 2 and 10 characters",
+            "Error1012": "Serving size must be in the correct format",
+            "Error1021": "Username must be between 3 and 20 characters",
+            "Error1022": "Username must don't contain special characters",
+            "Error1031": "Invalid mail format",
+            "Error1041": "Password must be between 8 and 40 characters",
+            "Error1042": "Invalid password format",
+            "Error1043": "Passwords don't match",
+
+            "Error2000": "An error occured",
+            "Error2001": "Invalid username or password",
+            "Error2002": "Server doesn't respond",
+            "Error2003": "Problem with your account",
+            "Error2004": "Problem with the server response",
+            "Error2005": "Invalid food name or serving size format",
+            "Error2006": "This pseudo is already used",
+            "Error2007": "This field must be in the correct format",
+            "Error2008": "Password must be in the correct format",
+            "Error2009": "This mail is already used",
+            "Error2010": "This field must be in the format \"name@mail.com\""
+
         }
     }
 }
