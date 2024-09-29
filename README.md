@@ -150,7 +150,7 @@ This project is so far away from perfection. It has begun 8 month ago at the day
 
 Create-react-app is a package who allow us to create React.js application faster. The reason why I used this package is used in training I followed. The problem here is that create-react-app is no longer recommended since 2023. So it is really a problem for security and maintainability of the app.
 
-For another project, I will be utilizing Vite for the development of a front-end single-page web application.
+For another project, I will be using Vite to develop a front-end single-page web application.
 
 ### Testing
 
