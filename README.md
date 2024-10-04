@@ -2,25 +2,45 @@
   
 # Nutrifit
 
-  
-
-## Presentation
+## Introduction
 
 Nutrifit is a progressive web application for managing nutrition. It offers various features that assist in tracking daily intake. This application is largest inspired by myfitnesspall who have the same purpose.
 
+![Alt Text](./demo.gif)
+
 The objective of this project was to apply the knowledge I have acquired in different technologies such as ReactJS and Tailwind.
+
+### Why a Progressive Web App ?
+
+Due to a limited number of devices and the unfortunate diversity of ecosystems (iPhone, PC, etc.), developing for iOS requires a MacOS machine, which I do not possess. Consequently, I opted for a progressive web app to ensure compatibility with my iPhone.
+
+## Table of Contents
+
+ 1. [Introduction](#introduction)
+    - [Why a Progressive Web App ?](#why-a-progressive-web-app)
+ 2. [Demo](#demo)
+ 3. [Features](#features)
+ 4. [Technologies](#technologies)
+ 5. [Installation](#installation)
+    - [Requirements](#requirements)
+    - [Front-end and backend installation](#front-and-back-end-installation)
+        - [Configure API acess](#configure-api-access)
+    - [Database installation](#database-installation)
+    - [Launch](#launch)
+ 6. [Installation](#installation)
+ 7. [Reflections and improvements](#reflections-and-improvements)
+    - [The problem of create-react-app](#the-problem-of-create-react-app)
+    - [Testing](#testing)
+    - [Good react Practice](#good-react-practice)
+ 
+
+## Demo
 
 The application is hosted on [nutrifitapp.fr](https://www.nutrifitapp.fr), and a testing account has been set up for your convenience. You can log in using the following credentials: 
 - Username: JohnDoe
 - Password: johndoe20
 
 Please note that creating new accounts with your personal passwords is not recommended. This application is a student self-project and is not actively maintained, so security measures are not guaranteed.
-
-### Why a Progressive Web App instead of a traditional mobile application?
-
-Due to a limited number of devices and the unfortunate diversity of ecosystems (iPhone, PC, etc.), developing for iOS requires a MacOS machine, which I do not possess. Consequently, I opted for a progressive web app to ensure compatibility with my iPhone.
-
-  
 
 ## Features
 
@@ -84,8 +104,6 @@ Theses following paragraphs will show us how we can install the application in d
   
 
 ### Requirements
-
-  
 
 Before begin the installation you need different requirements.
 
