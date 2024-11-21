@@ -101,7 +101,7 @@ const Login: FunctionComponent = () => {
             onChange={handleInputChange}
             errorBorder={form.password.isValid}
           />
-          <div className="error-message">{errorMessage == -1 ? '' : errort('Error'+errorMessage)}</div>
+          <div className="error-message">{errorMessage === -1 ? '' : errort('Error'+errorMessage)}</div>
           <Button name={t('LoginButton')} submit />
           <div className="mt-4 font-normal">
             {t("NoAccount?")}{" "}

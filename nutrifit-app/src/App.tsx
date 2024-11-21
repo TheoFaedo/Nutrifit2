@@ -17,6 +17,7 @@ import "./fonts/Britannic.ttf";
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { useEffect } from 'react';
+import { Banner } from './components/Banner';
 
 const version = require("../package.json").version;
 
@@ -52,6 +53,7 @@ function App() {
               <NavBarContextProvider>
                 <Header />
                 <RewardBar />
+                <Banner isWarning><span>Cette application est un projet personnel. Veuillez ne pas utiliser de mots de passe ou de données sensibles.</span></Banner>
                   <div id="content" className='overflow-y-hidden flex flex-grow relative'>
                     <div className='overflow-y-scroll scrollbar-hide flex-grow'>
                       <Routes>

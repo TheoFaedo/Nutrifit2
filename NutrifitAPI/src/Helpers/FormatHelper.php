@@ -51,7 +51,7 @@ class FormatHelper{
      * @return boolean true if verified, false otherwise
      */
     public static function verify_ConsumableServingSize($consumableServingSize){
-        return preg_match('/^[1-9]\d*[a-zA-Z]+$/', $consumableServingSize) ? true : false;
+        return preg_match('/^[1-9]\d* ?[a-zA-Z]+$/', $consumableServingSize) ? true : false;
     }
 
     /**

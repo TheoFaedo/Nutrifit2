@@ -1,6 +1,7 @@
 import i18next from "i18next";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
+import ArrowSVG from "../../svg/ArrowSVG";
 
 type Props = {
   date: Date;
@@ -54,10 +55,10 @@ const CalendarTile: FunctionComponent<Props> = ({date, prevHandler, nextHandler}
   return (
     <div className="calendar_tile">
       <button
-        className="rounded-full text-2xl gradient-bg font-medium mx-4 w-8 h-8 pr-[2px]"
+        className="rounded-full text-2xl gradient-bg font-medium mx-4 w-8 h-8 flex items-center justify-center"
         onClick={prevHandler}
       >
-        &lt;
+        <ArrowSVG inverted/>
       </button>
       <div className="text-base font-medium w-40">
         {formatDate(
@@ -69,10 +70,10 @@ const CalendarTile: FunctionComponent<Props> = ({date, prevHandler, nextHandler}
         )}
       </div>
       <button
-        className="rounded-full text-2xl gradient-bg font-medium mx-4 w-8 h-8 pl-[2px]"
+        className="rounded-full text-2xl gradient-bg font-medium mx-4 w-8 h-8 flex items-center justify-center"
         onClick={nextHandler}
       >
-        &gt;
+        <ArrowSVG/>
       </button>
     </div>
   );

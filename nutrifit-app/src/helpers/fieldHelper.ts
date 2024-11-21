@@ -25,7 +25,7 @@ export function validConsumableName(name: string): FieldStatus {
 export function validConsumableServingSize(serving_size: string): FieldStatus {
   if(serving_size.length <= 0 || serving_size.length > 10){
     return new FieldStatus(false, 1011);
-  }else if(!(/^[1-9]\d*[a-zA-Z]+$/.test(serving_size))){
+  }else if(!(/^[1-9]\d* ?[a-zA-Z]+$/.test(serving_size))){
     return new FieldStatus(false, 1012);
   }
   return new FieldStatus(true, 0);

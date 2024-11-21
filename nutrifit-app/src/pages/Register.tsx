@@ -75,7 +75,7 @@ const Register: FunctionComponent = () => {
     },
   });
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const fieldName: string = e.target.name;

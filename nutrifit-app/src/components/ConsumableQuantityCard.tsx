@@ -28,7 +28,7 @@ export const ConsumableQuantityCard: FunctionComponent<Props> = ({ idCons, name,
                 <NumberInput value={proportion} name={idCons+""} decimalLength={1} onChange={handleChangeProportion} onBlur={handleBlurSaveConsumption} backgroundColor="bg-neutral-600" textColor="text-white" />
                 }
 
-                {!locked && <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl text-white" onClick={(handleRemoveConsumption)}>-</button>}
+                {!locked && <button className="rounded-full flex items-center justify-center h-10 w-10 p-2 gradient-bg text-3xl text-white" onClick={(handleRemoveConsumption)}><span className="-translate-y-[1px]">-</span></button>}
             </div>
         </div>
 }

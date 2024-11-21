@@ -228,10 +228,10 @@ button:active {
 
 @keyframes button_clicked {
   from {
-    transform: scale(1);
+    transform: scale(100%);
   }
   to {
-    transform: scaleX(0.9) scaleY(0.95);
+    transform: scaleX(90%) scaleY(90%);
   }
 }
 
