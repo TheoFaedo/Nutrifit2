@@ -22,7 +22,7 @@ const Select: FunctionComponent<Props> = (props) => {
     }
 
     return (     
-        <select className={"bg-neutral-700 text-white w-full px-2 py-1 " + fitcontent??""} onChange={onChangeHandler} value={selectedValue} name={selectName ?? ""}>
+        <select className={"bg-neutral-700 text-white w-full px-2 py-1 " + (fitcontent ?? "")} onChange={onChangeHandler} value={selectedValue} name={selectName ?? ""}>
             {values.map((value) => (
                 <option key={value.value} value={value.value}>{value.label}</option>
             ))}

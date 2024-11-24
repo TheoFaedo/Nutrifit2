@@ -16,7 +16,7 @@ import "./fonts/Britannic.ttf";
 
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Banner } from './components/Banner';
 
 const version = require("../package.json").version;
@@ -37,6 +37,8 @@ i18next.use(initReactI18next).init({
 
 function App() {
 
+  const advertMessageHidded: boolean = localStorage.getItem("advertMessageHidded") === "true";
+
   useEffect(() => {
     const userLanguage = navigator.language;
     if(userLanguage.indexOf("fr") !== -1) {
@@ -53,8 +55,10 @@ function App() {
               <NavBarContextProvider>
                 <Header />
                 <RewardBar />
-                <Banner isWarning><span>Cette application est un projet personnel. Veuillez ne pas utiliser de mots de passe ou de données sensibles.</span></Banner>
                   <div id="content" className='overflow-y-hidden flex flex-grow relative'>
+                    <Banner isWarning hiddedProp={advertMessageHidded} quitHandler={() => {localStorage.setItem("advertMessageHidded", "true");}}>
+                      <span>Cette application est un projet personnel. Veuillez ne pas utiliser de mots de passe ou de données sensibles.</span>
+                    </Banner>
                     <div className='overflow-y-scroll scrollbar-hide flex-grow'>
                       <Routes>
                         <Route path="/" element={
