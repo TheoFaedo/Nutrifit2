@@ -19,7 +19,9 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "display": "fullscreen",
+  "orientation": "portrait-primary",
+  "theme_color": "#8DF0C0",
+  "background_color": "#000000",
+  "categories": ["food", "health", "lifestyle"]
 }

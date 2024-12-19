@@ -59,7 +59,7 @@ class FormatHelper{
      * @return boolean true if verified, false otherwise
      */
     public static function verify_ConsumableName($name){
-        return preg_match('/^[a-zA-Z\d]{1,40}$/', $name) ? true : false;
+        return preg_match('/^[a-zA-Z\d éèàŒœ]{1,40}$/', $name) ? true : false;
     }
 
 }

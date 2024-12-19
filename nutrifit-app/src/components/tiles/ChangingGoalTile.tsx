@@ -185,11 +185,10 @@ const ChangingGoalTile: FunctionComponent = () => {
           <div className="ml-2 text-white">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center">
+                <div className="flex items-center" onClick={() => handleChangeActiveGoal("energy")}>
                   <span
                     className="dot dot-grow"
                     style={{ backgroundColor: form.active_e ? "#FFFFFF" : "#999999" }}
-                    onClick={() => handleChangeActiveGoal("energy")}
                   ></span>
                   <span>{t("Macros.Energy")}</span>
                 </div>
@@ -205,11 +204,10 @@ const ChangingGoalTile: FunctionComponent = () => {
                 </div>
               </div>
               <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center">
+                <div className="flex items-center" onClick={() => handleChangeActiveGoal("carbos")}>
                   <span
                     className="dot dot-grow"
                     style={{ backgroundColor: form.active_c ? "#38D386" : "#999999" }}
-                    onClick={() => handleChangeActiveGoal("carbos")}
                   ></span>
                   <span className="overflow-hidden">
                     {t("Macros.Carbohydrates")}
@@ -227,11 +225,10 @@ const ChangingGoalTile: FunctionComponent = () => {
                 </div>
               </div>
               <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center">
+                <div className="flex items-center" onClick={() => handleChangeActiveGoal("fats")}>
                   <span
                     className="dot dot-grow"
                     style={{ backgroundColor: form.active_f ? "#CC57F5" : "#999999" }}
-                    onClick={() => handleChangeActiveGoal("fats")}
                   ></span>
                   {t("Macros.Fats")}
                 </div>
@@ -247,11 +244,10 @@ const ChangingGoalTile: FunctionComponent = () => {
                 </div>
               </div>
               <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center">
+                <div className="flex items-center" onClick={() => handleChangeActiveGoal("proteins")}>
                   <span
                     className="dot dot-grow"
                     style={{ backgroundColor: form.active_p ? "#EEBD30" : "#999999" }}
-                    onClick={() => handleChangeActiveGoal("proteins")}
                   ></span>
                   {t("Macros.Proteins")}
                 </div>

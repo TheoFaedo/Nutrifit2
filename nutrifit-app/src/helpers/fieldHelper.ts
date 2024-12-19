@@ -13,7 +13,7 @@ export class FieldStatus {
 export function validConsumableName(name: string): FieldStatus {
   if(name.length < 3 || name.length > 40){
     return new FieldStatus(false, 1001);
-  }else if(!(/^[a-zA-Z\d]{1,40}$/.test(name))){
+  }else if(!(/^[a-zA-Z\d éèàŒœ]{1,40}$/.test(name))){
     return new FieldStatus(false, 1002);
   }
   return new FieldStatus(true, 0);
@@ -23,7 +23,7 @@ export function validConsumableName(name: string): FieldStatus {
  * Format of serving size : {number}{unit}
  */
 export function validConsumableServingSize(serving_size: string): FieldStatus {
-  if(serving_size.length <= 0 || serving_size.length > 10){
+  if(serving_size.length <= 0 || serving_size.length > 16){
     return new FieldStatus(false, 1011);
   }else if(!(/^[1-9]\d* ?[a-zA-Z]+$/.test(serving_size))){
     return new FieldStatus(false, 1012);
