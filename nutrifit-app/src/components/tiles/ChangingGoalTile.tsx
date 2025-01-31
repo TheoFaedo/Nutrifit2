@@ -62,7 +62,7 @@ const ChangingGoalTile: FunctionComponent = () => {
     });
   }, []);
 
-  const handleChangeGoal = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeGoal = (e: any) => {
     const name = e.target.name;
     const value = stringToNumberFormat(e.target.value);
 

@@ -29,6 +29,7 @@ const NumberInput: FunctionComponent<Props> = (props) => {
     const inputWidth = styleWidth ?? "w-[4rem]";
 
     const onChangeHandler = (e: any) => {
+        if (e === undefined || e.event === undefined) return;
         onChange?.(e.event);
     }
 
@@ -56,7 +57,7 @@ const NumberInput: FunctionComponent<Props> = (props) => {
             onBlur={onBlur?.()}
             
 
-            onValueChange={(values, sourceInfo) => {
+            onValueChange={(_, sourceInfo) => {
                 onChangeHandler(sourceInfo);
             }}
         />
