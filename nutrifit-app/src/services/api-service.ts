@@ -323,38 +323,7 @@ export const confirmdailyconsumption = (data: any): Promise<any> => {
   });
 };
 
-/**
- * Get information from barcode
- */
-
-const lastFetchs: Promise<any>[] = [];
-const lastBarcodes: string[] = [];
-
-export const enqueueBarCodeRequest = (barCode: string) => {
-  //verify barcode dont already requested and not to many barcodes saved
-  if(lastBarcodes.includes(barCode)) return lastFetchs[0];
-  if(lastBarcodes.length === 100) lastBarcodes.splice(lastBarcodes.length/2, lastBarcodes.length);
-
-  //verify there is no to many requests
-  if(lastFetchs.length === 10) return lastFetchs[0];
-
-  //add new request
-  lastBarcodes.push(barCode);
-  lastFetchs.push(getInformationFromBarCode(barCode).then((data) => {
-    if(data.status !== 1) return Promise.reject("Barcode not found");
-
-    lastBarcodes.splice(0, lastBarcodes.length);
-    lastFetchs.splice(0, lastFetchs.length);
-    return data;
-  }).catch((err) => {
-    console.error(err);
-  }));
-
-  //return last request
-  return Promise.any(lastFetchs);
-}; 
-
-const getInformationFromBarCode = (barCode: string): Promise<any> => {
+export const getInformationFromBarCode = (barCode: string): Promise<any> => {
   return fetch(
     `https://world.openfoodfacts.org/api/v0/product/${barCode}.json`
   ).then((response) => {

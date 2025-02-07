@@ -5,15 +5,13 @@ type Props = {
     onClick?: Function;
     submit?: boolean;
     inverted?: boolean;
-    textSize?: string
+    textSize?: string;
+    className?: string;
 }
 
-const Button: FunctionComponent<Props> = (props) => {
-
-    const {name, onClick, submit, inverted, textSize} = props;
-
+const Button: FunctionComponent<Props> = ({name, onClick, submit, inverted, textSize, className}: Props) => {
     const inputType = submit ? "submit" : "button";
-    const className = inverted ? "button-inverted" : "button";
+    const classNameStr = (inverted ? "button-inverted" : "button") + (className ?? "");
     const textSizeClass = textSize ?? "text-md";
 
     const onClickHandler = () => {
@@ -21,7 +19,7 @@ const Button: FunctionComponent<Props> = (props) => {
     }
 
     return (
-        <input className={className + " " + textSizeClass} onClick={onClickHandler} type={inputType} value={name}/>
+        <input className={classNameStr + " " + textSizeClass} onClick={onClickHandler} type={inputType} value={name}/>
     );
 }
 

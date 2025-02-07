@@ -3,7 +3,6 @@
   "version": "1.1.2",
   "private": true,
   "dependencies": {
-    "@ericblade/quagga2": "^1.8.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
@@ -11,6 +10,7 @@
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-dom": "^5.3.3",
+    "@zxing/library": "^0.21.3",
     "chart.js": "^4.3.2",
     "framer-motion": "^10.16.4",
     "i18next": "^23.7.18",
@@ -49,8 +49,8 @@
     ]
   },
   "devDependencies": {
-    "react-scripts": "^5.0.1",
     "@testing-library/react": "^14.0.0",
+    "react-scripts": "^5.0.1",
     "tailwindcss": "^3.3.3"
   }
 }
