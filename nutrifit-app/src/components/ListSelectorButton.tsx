@@ -22,7 +22,11 @@ const ListSelectorButton: FunctionComponent<Props> = (props) => {
     return (
         <div className="w-full flex">
             {tabNames.map((name, index) => {
-                return <button key={index} className={"w-1/2 border-main text-center px-6 py-2" + (tabActive === index ? " border-b-4" : "")} onClick={(e) => handleClick(e, index)}>{name}</button> 
+                return <button 
+                    key={index} 
+                    className={"w-1/2 border-main text-center px-6 py-2" + (tabActive === index ? " border-b-4" : "")} 
+                    onClick={(e) => handleClick(e, index)}>{name}
+                </button> 
             })}
         </div>
     )

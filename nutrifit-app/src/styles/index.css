@@ -216,12 +216,7 @@
 
 .button:active,
 .button-inverted:active {
-  @apply shadow-lg bg-green-400 transform transition-all duration-300 ease-in-out;
-  animation: 0.1s ease-in button_clicked;
-  animation-fill-mode: forwards;
-}
-
-button:active {
+  @apply shadow-lg bg-green-400 transform transition-colors duration-300 ease-in-out;
   animation: 0.1s ease-in button_clicked;
   animation-fill-mode: forwards;
 }
@@ -231,7 +226,7 @@ button:active {
     transform: scale(100%);
   }
   to {
-    transform: scaleX(90%) scaleY(90%);
+    transform: scale(90%);
   }
 }
 

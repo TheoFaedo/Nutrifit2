@@ -14,6 +14,8 @@ const Button: FunctionComponent<Props> = ({name, onClick, submit, inverted, text
     const classNameStr = (inverted ? "button-inverted" : "button") + (className ?? "");
     const textSizeClass = textSize ?? "text-md";
 
+    console.log("Button rendered");
+
     const onClickHandler = () => {
         onClick?.();
     }
