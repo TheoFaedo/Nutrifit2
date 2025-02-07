@@ -1,4 +1,3 @@
-import { BrowserMultiFormatReader, HTMLVisualMediaElement, Result } from "@zxing/library";
 import { useEffect, useRef } from "react";
 import { drawPhotoSquare } from "../helpers/canvasHelper";
 import { CustomBrowserCodeReader } from "./dialog/BarcodeScannerDialog";
@@ -13,31 +12,31 @@ export function Scanner({ onCapture, readerRef, cameraId }: ScannerProps) {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const reader = readerRef.current;
+
   useEffect(() => {
-    if(readerRef){
-      if(readerRef.current){
+    if(reader){
 
-        let videoConstraints: MediaTrackConstraints;
-        if (!cameraId) {
-          videoConstraints = { facingMode: 'environment' };
-        } else {
-          videoConstraints = { deviceId: { exact: cameraId } };
-        }
-
-        videoConstraints = { ...videoConstraints, 
-          width: { ideal: 1280 },
-          height: { ideal: 720 }, 
-          facingMode: 'environment',
-        };
-
-        const constraints: MediaStreamConstraints = { video: videoConstraints };
-
-        readerRef.current.decodeFromConstraints(constraints, 'video', (result, error) => {
-          if (result) {
-            onCapture?.(result.getText());
-          }
-        });
+      let videoConstraints: MediaTrackConstraints;
+      if (!cameraId) {
+        videoConstraints = { facingMode: 'environment' };
+      } else {
+        videoConstraints = { deviceId: { exact: cameraId } };
       }
+
+      videoConstraints = { ...videoConstraints, 
+        width: { ideal: 1280 },
+        height: { ideal: 720 }, 
+        facingMode: 'environment',
+      };
+
+      const constraints: MediaStreamConstraints = { video: videoConstraints };
+
+      reader.decodeFromConstraints(constraints, 'video', (result, error) => {
+        if (result) {
+          onCapture?.(result.getText());
+        }
+      });
 
       if(canvasRef && canvasRef.current){
         const context = canvasRef.current.getContext('2d');
@@ -48,12 +47,12 @@ export function Scanner({ onCapture, readerRef, cameraId }: ScannerProps) {
       }
 
       return () => {
-        if (readerRef.current) {
-          readerRef.current.reset();
+        if (reader) {
+          reader.reset();
         }
       };
     }
-  }, [cameraId]);
+  }, [reader, cameraId, onCapture]);
 
   return (
     <>

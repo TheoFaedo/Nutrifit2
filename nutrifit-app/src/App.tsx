@@ -7,7 +7,6 @@ import PrivateRoute from './PrivateRoute';
 import Profile from './pages/Profile';
 import Diary from './pages/Diary';
 import CreateMeal from './pages/CreateMeal';
-import { NavBarContextProvider } from './context/NavBarContext';
 import { AuthContextProvider } from './context/AuthContext';
 import Register from './pages/Register';
 import { ToastContextProvider } from './context/ToastContext';
@@ -52,36 +51,34 @@ function App() {
         <ToastContextProvider>
           <div className="containerr" id="container">
             <AuthContextProvider defaultValue={{account: undefined, setAccount: () => {}}}>
-              <NavBarContextProvider>
-                <Header />
-                <RewardBar />
-                  <div id="content" className='overflow-y-hidden flex flex-grow relative'>
-                    <Banner isWarning hiddedProp={advertMessageHidded} quitHandler={() => {localStorage.setItem("advertMessageHidded", "true");}}>
-                      <span>Cette application est un projet personnel. Veuillez ne pas utiliser de mots de passe ou de données sensibles.</span>
-                    </Banner>
-                    <div className='overflow-y-scroll scrollbar-hide flex-grow'>
-                      <Routes>
-                        <Route path="/" element={
-                          <Navigate to="/profile" />
-                        }/>
-                        <Route path="/login" element={<Login/>} />
-                        <Route path="/register" element={<Register/>} />
-                        <Route path="/profile" element={
-                          <PrivateRoute children={<Profile/>} />
-                        } />
-                        <Route path="/diary" element={
-                          <PrivateRoute children={<Diary/>} />
-                        } />
-                        <Route path="/createmeal" element={
-                          <PrivateRoute children={<CreateMeal/>} />
-                        } />
-                        <Route path="*" element={<Navigate to="/profile" />}/>
-                      </Routes>
-                      <div className='text-neutral-800 text-sm mb-8'>Nutrifit v{version}</div>
-                    </div>
+              <Header />
+              <RewardBar />
+                <div id="content" className='overflow-y-hidden flex flex-grow relative'>
+                  <Banner isWarning hiddedProp={advertMessageHidded} quitHandler={() => {localStorage.setItem("advertMessageHidded", "true");}}>
+                    <span>Cette application est un projet personnel. Veuillez ne pas utiliser de mots de passe ou de données sensibles.</span>
+                  </Banner>
+                  <div className='overflow-y-scroll scrollbar-hide flex-grow'>
+                    <Routes>
+                      <Route path="/" element={
+                        <Navigate to="/profile" />
+                      }/>
+                      <Route path="/login" element={<Login/>} />
+                      <Route path="/register" element={<Register/>} />
+                      <Route path="/profile" element={
+                        <PrivateRoute children={<Profile/>} />
+                      } />
+                      <Route path="/diary" element={
+                        <PrivateRoute children={<Diary/>} />
+                      } />
+                      <Route path="/createmeal" element={
+                        <PrivateRoute children={<CreateMeal/>} />
+                      } />
+                      <Route path="*" element={<Navigate to="/profile" />}/>
+                    </Routes>
+                    <div className='text-neutral-800 text-sm mb-8'>Nutrifit v{version}</div>
                   </div>
-                <NavBar />
-              </NavBarContextProvider>
+                </div>
+              <NavBar />
             </AuthContextProvider>
           </div>
         </ToastContextProvider>

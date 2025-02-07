@@ -1,11 +1,10 @@
 import Scanner from "../Scanner";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Button from "../Button";
 import { getInformationFromBarCode } from "../../services/api-service";
-import CameraSwitchButton from "../CameraSwitchButton";
 import LeftArrowButton from "../LeftArrowButton";
 import { useTranslation } from "react-i18next";
-import { BrowserMultiFormatReader, HTMLVisualMediaElement, MultiFormatReader, Result } from "@zxing/library";
+import { BrowserMultiFormatReader, HTMLVisualMediaElement, Result } from "@zxing/library";
 
 type BarcodeScannerDialogProps = {
   quitDialog: Function;
@@ -18,7 +17,7 @@ const BarcodeScannerDialog = ({ quitDialog }: BarcodeScannerDialogProps) => {
 
   const scannerRef = useRef<CustomBrowserCodeReader | null>(null); // reference to the scanner element in the DOM
 
-  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [cameraError] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
   const [inCameraChoosing, setInCameraChoosing] = useState(true);
   const [result, setResult] = useState<any | null>(null);

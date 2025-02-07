@@ -1,13 +1,10 @@
-import { FunctionComponent, useContext, useEffect, useState } from "react";
-import { NavBarContext } from '../context/NavBarContext';
+import { FunctionComponent, useState } from "react";
 import CalendarTile from "../components/tiles/CalendarTile";
 import DiaryTile from "../components/tiles/DiaryTile";
 import TrackingTile from "../components/tiles/TrackingTile";
 import Consumption from "../models/Consumption";
 
 const Diary: FunctionComponent = () => {
-
-    const { showNavBar, setActiveTab } = useContext(NavBarContext);
 
     const [date, setDate] = useState(new Date());
     const [consumptionList, setconsumptionList] = useState<Consumption[]>([]);
@@ -25,11 +22,6 @@ const Diary: FunctionComponent = () => {
         nextDate.setDate(nextDate.getDate() + 1);
         setDate(nextDate);
     }
-
-    useEffect(() => {
-        showNavBar();
-        setActiveTab(0);
-    }, [showNavBar, setActiveTab])
 
     return (
         <>

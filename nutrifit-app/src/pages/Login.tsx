@@ -1,9 +1,8 @@
-import { FunctionComponent, useContext, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import Button from "./../components/Button";
 import TextInput from "../components/TextInput";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { NavBarContext } from "../context/NavBarContext";
 import { useAuth } from "../hooks/useAuth";
 import { useTranslation } from "react-i18next";
 import Select from "../components/Select";
@@ -26,12 +25,7 @@ const Login: FunctionComponent = () => {
   const { t: t2 } = useTranslation("translation");
   const { t: errort } = useTranslation("translation", { keyPrefix: "Errors" });
 
-  const { hideNavBar } = useContext(NavBarContext);
   const { login } = useAuth();
-
-  useEffect(() => {
-    hideNavBar();
-  }, [hideNavBar]);
 
   const navigate = useNavigate();
 
