@@ -36,7 +36,7 @@ Due to a limited number of devices and the unfortunate diversity of ecosystems (
 
 ## Demo
 
-The application is hosted on [nutrifitapp.fr](https://www.nutrifitapp.fr), and a testing account has been set up for your convenience. You can log in using the following credentials: 
+The application is hosted on [nutrifitapp.theofdo.fr](https://nutrifitapp.theofdo.fr), and a testing account has been set up for your convenience. You can log in using the following credentials: 
 - Username: JohnDoe
 - Password: johndoe20
 
