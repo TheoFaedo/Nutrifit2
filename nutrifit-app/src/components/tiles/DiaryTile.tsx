@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import Consumption, { Meal } from "../../models/Consumption";
 import {
   addConsumption,
@@ -27,7 +27,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
   const { t } = useTranslation("translation", { keyPrefix: "DiaryPage" });
 
   const { account } = useAccount();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [dialogActive, setDialogActive] = useState({
     active: false,
@@ -114,6 +114,7 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
         })
         .map((cons) => {
           return <ConsumableQuantityCard
+            key={cons.idConsumption}
             idCons={cons.idConsumption ?? -1}
             name={cons.consumable.name}
             proportion={cons.proportion}
@@ -131,14 +132,15 @@ const DiaryTile: FunctionComponent<Props> = ({ date, setConsumptionList, consump
   };
 
   useEffect(() => {
-    setLoading(true);
-    consumptionListAtDate(date).then((res) => {
-      setCanConfirmGoal(res.canConfirmGoal);
-      setConsumptionList(res.consumptionList);
-      setLocked(res.locked);
-      setLoading(false);
-    });
+    consumptionListAtDate(date).then(handleChangeList);
   }, [date, setConsumptionList, setCanConfirmGoal, setLocked]);
+
+  const handleChangeList = useCallback((res: any) => {
+    setCanConfirmGoal(res.canConfirmGoal);
+    setConsumptionList(res.consumptionList);
+    setLocked(res.locked);
+    setLoading(false);
+  }, [setCanConfirmGoal, setConsumptionList, setLocked]); 
 
   return (
     <div className="diary_tile">

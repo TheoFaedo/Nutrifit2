@@ -1,12 +1,14 @@
 import { FunctionComponent, useState } from 'react';
 import NavBarIcon from './NavBarIcon';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const NavBar: FunctionComponent = () => {
 
     const { pathname } = useLocation();
     const { t } = useTranslation();
+
+    const navigate = useNavigate();
     
     const [sizeEllipse, setSizeEllipse] = useState(3);
 

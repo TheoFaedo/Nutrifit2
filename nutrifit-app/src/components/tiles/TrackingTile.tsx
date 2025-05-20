@@ -1,10 +1,10 @@
-import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import DoughnutChart from "../DoughnutChart";
 import { confirmdailyconsumption, getnutritionalgoal } from "../../services/api-service";
 import { consumptionsValNutSum } from "../../helpers/diaryHelper";
 import NutritionalGoal from "../../models/NutritionalGoal";
-import { Weight, WeightInGrams } from "../../models/valueObjects/Weight";
-import { Energy, EnergyInKcal } from "../../models/valueObjects/Energy";
+import { WeightInGrams } from "../../models/valueObjects/Weight";
+import { EnergyInKcal } from "../../models/valueObjects/Energy";
 import { useTranslation } from "react-i18next";
 import { ProgressBar } from "../ProgressBar";
 import { formatDate } from "../../helpers/dateHelper";
@@ -19,13 +19,6 @@ type Props = {
   setLocked: Function;
 }
 
-type NutritionalSum = {
-  carbohydrates: Weight;
-  fats: Weight;
-  proteins: Weight;
-  energy: Energy;
-};
-
 const TrackingTile: FunctionComponent<Props> = ({consumptionList, canConfirmGoal, setCanConfirmGoal, date, setLocked}) => {
   const { t } = useTranslation();
   const { setLevelAndExp } = useAuth();
@@ -39,13 +32,6 @@ const TrackingTile: FunctionComponent<Props> = ({consumptionList, canConfirmGoal
     active_eg: true,
     active_fg: true,
     active_pg: true,
-  });
-
-  const [nutritionalSum, setNutritionalSum] = useState<NutritionalSum>({
-    carbohydrates: WeightInGrams.create(0),
-    fats: WeightInGrams.create(0),
-    proteins: WeightInGrams.create(0),
-    energy: EnergyInKcal.create(0),
   });
 
   const handleConfirmGoal = useCallback(() => {
@@ -64,9 +50,10 @@ const TrackingTile: FunctionComponent<Props> = ({consumptionList, canConfirmGoal
     });
   }, []);
 
-  useEffect(() => {
-    setNutritionalSum(consumptionsValNutSum(consumptionList));
-  }, [consumptionList]);
+  const nutritionalSum = useMemo(() => 
+    consumptionsValNutSum(consumptionList), 
+    [consumptionList]
+  );
 
   const difTest = useCallback((difference: number) => {
     return difference >= 0 ? t("DiaryPage.left") : t("DiaryPage.over");
