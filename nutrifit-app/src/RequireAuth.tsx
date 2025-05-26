@@ -7,27 +7,21 @@ type Props = {
     children: ReactNode;
 }
 
-const PrivateRoute: FunctionComponent<Props> = (props) => {
+const RequireAuth: FunctionComponent<Props> = ({ children }) => {
 
   const { status } = useAuth();
 
   if(status === AuthStatus.LOGGED_OUT){
-    return <Navigate to="/login" />;
+    return <Navigate to={"/login"} />;
   }else if(status === AuthStatus.LOADING){
     return (
-      <>
         <div className="flex justify-center w-full h-full items-center">
           <Loader />
         </div>
-      </>
     );
   }else{
-    return (
-      <>
-        {props.children}
-      </>
-    );
+    return ( <>{children} </>);
   } 
 }
 
-export default PrivateRoute;
+export default RequireAuth;

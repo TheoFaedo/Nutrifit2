@@ -2,70 +2,74 @@ import { useCallback, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { connect, logout as logoutApi } from "../services/api-service";
 import { useNavigate } from "react-router-dom";
+import User from "../models/User";
 
 export enum AuthStatus {
-    LOGGED_IN = 0,
-    LOGGED_OUT = 1,
-    LOADING = 2
+  LOGGED_IN = 0,
+  LOGGED_OUT = 1,
+  LOADING = 2,
 }
 
-export function useAuth(){
-    const { account, setAccount } = useContext(AuthContext);
-    const navigate = useNavigate();
-    
-    let status = AuthStatus.LOADING;
-    switch (account) {
-        case null:
-            status = AuthStatus.LOGGED_OUT;
-            break;
-        case undefined:
-            status = AuthStatus.LOADING;
-            break;
-        default:
-            status = AuthStatus.LOGGED_IN;
-            break;
+type AuthHook =
+  | {
+      status: AuthStatus.LOADING;
     }
+  | {
+      status: AuthStatus.LOGGED_OUT;
+      login: (username: string, password: string) => Promise<User | undefined>;
+    }
+  | {
+      status: AuthStatus.LOGGED_IN;
+      account: User;
+      logout: () => void;
+      setLevelAndExp: (level: number, xp: number) => void;
+    };
 
-    const login = useCallback(async (username: string, password: string) => {
-        return connect(username, password).then((data) => {
-                if("error" in data){
-                    setAccount(null);
-                }else{
-                    setAccount(data);
-                    navigate("/profile");
-                }
-                return data;
-            }
-        ).catch((err) => {
-            setAccount(null);
-            throw err;
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+export function useAuth(): AuthHook {
+  const authState = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const logout = useCallback(() => {
-        logoutApi().then((data) => {
-            if(data.success) setAccount(null);
-        });
+  const login = useCallback(async (username: string, password: string) => {
+    if (authState.isLoading || authState.isAuthenticated) return;
+    return connect(username, password)
+      .catch()
+      .then((user) => {
+        if (!user) return;
+        navigate("/");
+        return authState.logUser(user);
+      });
+  }, [authState, navigate]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+  const logout = useCallback(() => {
+    if (authState.isLoading || !authState.isAuthenticated) return;
+    logoutApi()
+      .catch()
+      .then(() => {
+        authState.logoutUser();
+        navigate("/login");
+      });
+  }, [authState, navigate]);
 
-    const setLevelAndExp = useCallback(async (level: number, xp: number) => {
-        if(account){
-           setAccount({
-                ...account,
-                exp: xp ?? 0,
-                level: level ?? 1
-            });
-        }
-    }, [account, setAccount]);
+  const setLevelAndExp = useCallback(async (level: number, xp: number) => {
+    if (authState.isLoading || !authState.isAuthenticated) return;
+    authState.setLevelAndExp(level, xp);
+  }, [authState]);
 
+  if (authState.isLoading) {
     return {
-        account,
-        status,
-        login,
-        logout,
-        setLevelAndExp
-    }
+      status: AuthStatus.LOADING,
+    };
+  } else if (!authState.isAuthenticated) {
+    return {
+      status: AuthStatus.LOGGED_OUT,
+      login,
+    };
+  } else {
+    return {
+      status: AuthStatus.LOGGED_IN,
+      account: authState.account,
+      logout,
+      setLevelAndExp,
+    };
+  }
 }

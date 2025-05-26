@@ -1,7 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import Button from "./../components/Button";
 import TextInput from "../components/TextInput";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useTranslation } from "react-i18next";
@@ -25,9 +24,7 @@ const Login: FunctionComponent = () => {
   const { t: t2 } = useTranslation("translation");
   const { t: errort } = useTranslation("translation", { keyPrefix: "Errors" });
 
-  const { login } = useAuth();
-
-  const navigate = useNavigate();
+  const authState = useAuth();
 
   const [errorMessage, setErrorMessage] = useState<number>(-1);
 
@@ -51,12 +48,15 @@ const Login: FunctionComponent = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    login(form.username.value, form.password.value)
+    if (authState.status !== 1) {
+      return;
+    }
+    authState
+      .login(form.username.value, form.password.value)
       .then((data: any) => {
         if (data && data.error) {
           setErrorMessage(data.error.messageId);
         } else {
-          navigate("/profile");
         }
       })
       .catch((err: NutrifitError) => {
@@ -95,8 +95,10 @@ const Login: FunctionComponent = () => {
             onChange={handleInputChange}
             errorBorder={form.password.isValid}
           />
-          <div className="error-message">{errorMessage === -1 ? '' : errort('Error'+errorMessage)}</div>
-          <Button name={t('LoginButton')} submit />
+          <div className="error-message">
+            {errorMessage === -1 ? "" : errort("Error" + errorMessage)}
+          </div>
+          <Button name={t("LoginButton")} submit />
           <div className="mt-4 font-normal">
             {t("NoAccount?")}{" "}
             <Link className="text-secondary underline" to="/register">
@@ -107,10 +109,18 @@ const Login: FunctionComponent = () => {
       </div>
       <div className="w-full my-2 flex flex-col items-center">
         <div className="w-1/2">
-          <label className="text-white font-inter font-sm font-medium" htmlFor='languageSelector'>{t2('ProfilePage.SelectLanguage')}</label>
-          <Select 
-            values={[{label: 'English', value: 'en'}, {label: 'Français', value: 'fr'}]}
-            selectedValue={i18next.language} 
+          <label
+            className="text-white font-inter font-sm font-medium"
+            htmlFor="languageSelector"
+          >
+            {t2("ProfilePage.SelectLanguage")}
+          </label>
+          <Select
+            values={[
+              { label: "English", value: "en" },
+              { label: "Français", value: "fr" },
+            ]}
+            selectedValue={i18next.language}
             onChange={(e: any) => {
               i18next.changeLanguage(e.target.value);
             }}

@@ -3,18 +3,9 @@ import { formatDate } from "../helpers/dateHelper";
 import Consumption from "../models/Consumption";
 import Mail from "../models/valueObjects/Mail";
 import User from "../models/User";
-import {
-  NutrifitError
-} from "../errors/Errors";
 import { EnergyInKcal } from "../models/valueObjects/Energy";
 import { WeightInGrams } from "../models/valueObjects/Weight";
 import NutritionalGoal from "../models/NutritionalGoal";
-
-type ErrorResponse = {
-  error: {
-    message: string;
-  };
-};
 
 type ErrorsResponse = {
   errors: any;
@@ -26,58 +17,39 @@ type SuccessResponse = {
 
 const api_url = process.env.REACT_APP_API_URI;
 
-function executeQuery(
+async function executeQuery(
   url: string,
   method: string = "GET",
   { ...options }: any = {}
 ) {
-  return fetch(api_url + url, {
-    ...options,
-    method: method,
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .catch(() => {
-      throw new NutrifitError(2002);
+  try {
+    const response = await fetch(api_url + url, {
+      ...options,
+      method: method,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+    return await response.json();
+  } catch (err) {
+    throw err;
+  }
 }
 
-export const connect = (
-  username: string,
-  password: string
-): Promise<User | ErrorResponse> => {
+export const connect = (username: string, password: string): Promise<User> => {
   return executeQuery(`/connect?pseudo=${username}&password=${password}`).then(
     (response) => {
-      if (response.error) {
-        throw response.error.messageId ? new NutrifitError(response.error.messageId) : new NutrifitError(2000);
-      }
-      if (
-        response.username &&
-        response.mail &&
-        response.gender &&
-        response.token
-      ) {
-        try {
-          const mail: Mail = Mail.create(response.mail);
-          return new User(
-            response.username,
-            response.gender,
-            response.token,
-            mail,
-            response.exp,
-            response.level,
-            response.pp
-          );
-        } catch (err) {
-          throw new NutrifitError(2003);
-        }
-      }
-      throw new NutrifitError(2004);
+      const mail: Mail = Mail.create(response.mail);
+      return new User(
+        response.username,
+        response.gender,
+        response.token,
+        mail,
+        response.exp,
+        response.level,
+        response.pp
+      );
     }
   );
 };
@@ -115,7 +87,7 @@ export const getnutritionalgoal = (): Promise<NutritionalGoal> => {
       active_eg: response.active_eg === 1 ? true : false,
       active_pg: response.active_pg === 1 ? true : false,
       active_cg: response.active_cg === 1 ? true : false,
-      active_fg: response.active_fg === 1 ? true : false
+      active_fg: response.active_fg === 1 ? true : false,
     };
   });
 };
@@ -132,7 +104,7 @@ export const changenutritionalgoal = (
       active_eg: newGoal.active_eg ? 1 : 0,
       active_pg: newGoal.active_pg ? 1 : 0,
       active_cg: newGoal.active_cg ? 1 : 0,
-      active_fg: newGoal.active_fg ? 1 : 0
+      active_fg: newGoal.active_fg ? 1 : 0,
     }),
   });
 };
@@ -153,8 +125,13 @@ export const addConsumable = (consumable: Consumable): Promise<any> => {
   });
 };
 
-export const consumables = (keyword: string, orderBy?: string): Promise<Consumable[]> => {
-  return executeQuery("/consumables/?q=" + keyword + (orderBy ? "&orderby=" + orderBy : ""))
+export const consumables = (
+  keyword: string,
+  orderBy?: string
+): Promise<Consumable[]> => {
+  return executeQuery(
+    "/consumables/?q=" + keyword + (orderBy ? "&orderby=" + orderBy : "")
+  )
     .then((response) => {
       return response.consumables.map((consumable: any) => {
         return new Consumable(
@@ -181,7 +158,11 @@ export const consumablesOfAuthor = (
   idToken: string,
   orderBy?: string
 ): Promise<Consumable[]> => {
-  return executeQuery(`/consumables/${idToken}/?q=${keyword}${orderBy ? "&orderby=" + orderBy : ""}`)
+  return executeQuery(
+    `/consumables/${idToken}/?q=${keyword}${
+      orderBy ? "&orderby=" + orderBy : ""
+    }`
+  )
     .then((response) => {
       return response.consumables.map((consumable: any) => {
         // eslint-disable-next-line array-callback-return
@@ -225,27 +206,28 @@ export const consumptionListAtDate = (date: Date): Promise<any> => {
   const formatedDate = formatDate(date);
   return executeQuery(`/consumptionatdate/?date=${formatedDate}`).then(
     (response) => {
-
-      const consumptionList = response["consumableList"].map((consumption: any) => {
-        return {
-          ...consumption,
-          consumable: {
-            ...consumption.consumable,
-            energy: EnergyInKcal.create(consumption.consumable.energy),
-            fats: WeightInGrams.create(consumption.consumable.fats),
-            proteins: WeightInGrams.create(consumption.consumable.proteins),
-            carbohydrates: WeightInGrams.create(
-              consumption.consumable.carbohydrates
-            ),
-          },
-        };
-      });
+      const consumptionList = response["consumableList"].map(
+        (consumption: any) => {
+          return {
+            ...consumption,
+            consumable: {
+              ...consumption.consumable,
+              energy: EnergyInKcal.create(consumption.consumable.energy),
+              fats: WeightInGrams.create(consumption.consumable.fats),
+              proteins: WeightInGrams.create(consumption.consumable.proteins),
+              carbohydrates: WeightInGrams.create(
+                consumption.consumable.carbohydrates
+              ),
+            },
+          };
+        }
+      );
 
       return {
         consumptionList: consumptionList,
         canConfirmGoal: response["canConfirm"],
         locked: response["locked"],
-      }
+      };
     }
   );
 };
@@ -254,16 +236,15 @@ export const removeConsumption = (idConsumption: number): Promise<any> => {
   return executeQuery(`/removeconsumption/${idConsumption}`, "DELETE");
 };
 
-export const changeConsumption = (idConsumption: number, proportion: number): Promise<any> => {
-  return executeQuery(
-    `/changeconsumption/${idConsumption}`,
-    "PUT",
-    {
-      body: JSON.stringify({
-        proportion: proportion
-      }),
-    }
-  );
+export const changeConsumption = (
+  idConsumption: number,
+  proportion: number
+): Promise<any> => {
+  return executeQuery(`/changeconsumption/${idConsumption}`, "PUT", {
+    body: JSON.stringify({
+      proportion: proportion,
+    }),
+  });
 };
 
 export const addConsumption = (consumption: Consumption): Promise<any> => {
@@ -272,7 +253,7 @@ export const addConsumption = (consumption: Consumption): Promise<any> => {
       idConsumable: consumption.consumable.idConsumable,
       proportion: consumption.proportion,
       consumed_on: formatDate(consumption.consumed_on),
-      meal: consumption.meal
+      meal: consumption.meal,
     }),
   });
 };
@@ -301,10 +282,8 @@ export const changeConsumable = (consumable: Consumable): Promise<any> => {
   });
 };
 
-export const isAuthenticated = (): Promise<any> => {
-  return executeQuery("/me").then((response) => {
-    return response;
-  });
+export const isAuthenticated = (): Promise<Response> => {
+  return fetch(api_url + "/me");
 };
 
 export const updateProfile = (data: any): Promise<any> => {
@@ -325,7 +304,7 @@ export const confirmdailyconsumption = (data: any): Promise<any> => {
 
 export const getInformationFromBarCode = (barCode: string): Promise<any> => {
   return fetch(
-    `https://world.openfoodfacts.org/api/v0/product/${barCode}.json`
+    `https://world.openfoodfacts.org/api/v0/product/${barCode}.json?fields=nutriments,abbreviated_product_name_fr,product_name_fr,product_name`
   ).then((response) => {
     return response.json();
   });

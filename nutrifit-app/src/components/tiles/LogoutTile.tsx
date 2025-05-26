@@ -12,11 +12,12 @@ import { ProgressBar } from "../ProgressBar";
 
 const LogoutTile: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const authState = useAuth();
   const { account } = useAccount();
 
   const logoutHandler = () => {
-    logout();
+    if(authState.status !== 0) return;
+    authState.logout();
     navigate("/login");
   };
 

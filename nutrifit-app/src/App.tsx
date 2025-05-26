@@ -8,7 +8,6 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import PrivateRoute from "./PrivateRoute";
 import Profile from "./pages/Profile";
 import Diary from "./pages/Diary";
 import CreateMeal from "./pages/CreateMeal";
@@ -22,6 +21,7 @@ import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import { useEffect } from "react";
 import { Banner } from "./components/Banner";
+import RequireAuth from "./RequireAuth";
 
 const version = require("../package.json").version;
 
@@ -54,9 +54,7 @@ function App() {
     <ErrorBoundary>
       <ToastContextProvider>
         <div className="containerr" id="container">
-          <AuthContextProvider
-            defaultValue={{ account: undefined, setAccount: () => {} }}
-          >
+          <AuthContextProvider defaultValue={{ isLoading: true }}>
             <Header />
             <Router>
               <RewardBar />
@@ -83,15 +81,27 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route
                       path="/profile"
-                      element={<PrivateRoute children={<Profile />} />}
+                      element={
+                        <RequireAuth>
+                          <Profile />
+                        </RequireAuth>
+                      }
                     />
                     <Route
                       path="/diary"
-                      element={<PrivateRoute children={<Diary />} />}
+                      element={
+                        <RequireAuth>
+                          <Diary />
+                        </RequireAuth>
+                      }
                     />
                     <Route
                       path="/createmeal"
-                      element={<PrivateRoute children={<CreateMeal />} />}
+                      element={
+                        <RequireAuth>
+                          <CreateMeal />
+                        </RequireAuth>
+                      }
                     />
                     <Route path="*" element={<Navigate to="/profile" />} />
                   </Routes>
